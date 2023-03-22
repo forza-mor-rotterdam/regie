@@ -1,3 +1,4 @@
+from apps.regie.mock import meldingen
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -24,5 +25,7 @@ def melding_lijst(request):
     return render(
         request,
         "melding/index.html",
-        {},
+        {
+            "meldingen": meldingen,
+        },
     )

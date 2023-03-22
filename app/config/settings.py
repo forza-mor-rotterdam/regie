@@ -28,9 +28,6 @@ LANGUAGES = [("nl", "Dutch")]
 DEFAULT_ALLOWED_HOSTS = ".forzamor.nl,localhost,127.0.0.1"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", DEFAULT_ALLOWED_HOSTS).split(",")
 
-FRONTEND_URL = os.environ.get("FRONTEND_URL")
-PROJECT_URL = os.environ.get("PROJECT_URL", FRONTEND_URL)
-
 INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.sessions",
@@ -92,7 +89,9 @@ WEBPACK_LOADER = {
         "POLL_INTERVAL": 0.1,
         "IGNORE": [r".+\.hot-update.js", r".+\.map"],
         "LOADER_CLASS": "webpack_loader.loader.WebpackLoader",
-        "STATS_FILE": "/static/webpack-stats.json",
+        "STATS_FILE": "/static/webpack-stats.json"
+        if not DEBUG
+        else "/app/frontend/public/build/webpack-stats.json",
     }
 }
 
@@ -117,31 +116,12 @@ SESSION_COOKIE_SAMESITE = "Strict" if not DEBUG else "Lax"
 CSRF_COOKIE_SAMESITE = "Strict" if not DEBUG else "Lax"
 
 # Settings for Content-Security-Policy header
-CSP_DEFAULT_SRC = ("'self'",) if not DEBUG else ("'self'", PROJECT_URL)
+CSP_DEFAULT_SRC = ("'self'",)
 CSP_FRAME_ANCESTORS = ("'self'",)
-CSP_SCRIPT_SRC = (
-    ("'self'", "'unsafe-eval'", "unpkg.com")
-    if not DEBUG
-    else ("'self'", "'unsafe-eval'", "unpkg.com", PROJECT_URL)
-)
-CSP_IMG_SRC = (
-    ("'self'", "blob:", "data:", "unpkg.com", "tile.openstreetmap.org")
-    if not DEBUG
-    else (
-        "'self'",
-        "blob:",
-        "data:",
-        "unpkg.com",
-        "tile.openstreetmap.org",
-        PROJECT_URL,
-    )
-)
-CSP_STYLE_SRC = (
-    ("'self'", "'unsafe-inline'", "unpkg.com")
-    if not DEBUG
-    else ("'self'", "'unsafe-inline'", "unpkg.com", PROJECT_URL)
-)
-CSP_CONNECT_SRC = ("'self'",) if not DEBUG else ("'self'", "ws:")
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'", "unpkg.com")
+CSP_IMG_SRC = ("'self'", "blob:", "data:", "unpkg.com", "tile.openstreetmap.org")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "unpkg.com")
+CSP_CONNECT_SRC = ("'self'", "ws:")
 
 TEMPLATES = [
     {

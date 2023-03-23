@@ -11,4 +11,11 @@
             margin: 0 auto;
         }
     }
+
+    .btn-textlink {
+        svg {
+            padding-right: 4px;
+        }
+        display: flex;
+    }
 }

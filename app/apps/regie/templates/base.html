@@ -10,6 +10,26 @@
             {% render_bundle 'app' 'css' %}
         {% endblock %}
 
+        {% if DEBUG %}
+        <script>
+            const chatSocket = new WebSocket(
+                "ws://localhost:"
+                + {{DEV_SOCKET_PORT}}
+            );
+
+            chatSocket.onmessage = function(e) {
+                if (e.data === "reload"){
+                    location.reload()
+                }
+            };
+
+            chatSocket.onclose = function(e) {
+                console.error("socket closed unexpectedly");
+            };
+        </script>
+        {% endif %}
+
+
         {% block javascripts %}
             {% render_bundle 'app' 'js' %}
         {% endblock %}

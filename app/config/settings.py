@@ -73,9 +73,13 @@ PERMISSIONS_POLICY = {
     "usb": [],
 }
 
-STATICFILES_DIRS = [
-    "/app/frontend/public/build/",
-]
+STATICFILES_DIRS = (
+    [
+        "/app/frontend/public/build/",
+    ]
+    if DEBUG
+    else []
+)
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), "static"))
@@ -94,6 +98,8 @@ WEBPACK_LOADER = {
         else "/app/frontend/public/build/webpack-stats.json",
     }
 }
+DEV_SOCKET_PORT = os.getenv("DEV_SOCKET_PORT", "9000")
+
 
 # Django security settings
 SECURE_BROWSER_XSS_FILTER = True
@@ -118,7 +124,11 @@ CSRF_COOKIE_SAMESITE = "Strict" if not DEBUG else "Lax"
 # Settings for Content-Security-Policy header
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_FRAME_ANCESTORS = ("'self'",)
-CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'", "unpkg.com")
+CSP_SCRIPT_SRC = (
+    ("'self'", "'unsafe-eval'", "unpkg.com")
+    if not DEBUG
+    else ("'self'", "'unsafe-eval'", "unpkg.com", "'unsafe-inline'")
+)
 CSP_IMG_SRC = ("'self'", "blob:", "data:", "unpkg.com", "tile.openstreetmap.org")
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "unpkg.com")
 CSP_CONNECT_SRC = ("'self'", "ws:")

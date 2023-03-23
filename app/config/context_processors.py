@@ -1,3 +1,8 @@
-def general_settings(context):
+from django.conf import settings
 
-    return {}
+
+def general_settings(context):
+    return {
+        "DEBUG": settings.DEBUG,
+        "DEV_SOCKET_PORT": settings.DEV_SOCKET_PORT,
+    }

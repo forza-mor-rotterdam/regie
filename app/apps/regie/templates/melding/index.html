@@ -1,6 +1,51 @@
 {% extends "base.html" %}
 {% load is_list from list_tags %}
+{% load to_date from date_tags %}
 {% block body %}
+
+<span class="help-text">{{ meldingen|length }} resultaten</span>
+<table class="table--overview">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Verzoek</th>
+            <th>Grafnummer</th>
+            <th>Vak</th>
+            <th>Categorie</th>
+            <th>Datum</th>
+            <th>Status</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for melding in meldingen %}
+        <tr>
+            <td>
+                <div class="container__thumbnail"><img src="{{melding.bijlagen.0.bestand}}" alt="" class="thumbnail"></div>
+            </td>
+            <td>{{melding.id}}</td>
+            <td>{{melding.graven.0.grafnummer}}</td>
+            <td>{{melding.graven.0.vak}}</td>
+            <td>
+                {% for category in melding.meta.categorie %}
+                    {{category}}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
+            <td>--</td>
+            <td>
+                <ul class="list-horizontal">
+                    <li><button class="btn btn-icon btn-textlink">Afhandelen</button></li>
+                    <li><button class="btn btn-icon btn-textlink">Niet opgelost</button></li>
+                    <li><button class="btn btn-icon btn-textlink">print pdf</button></li>
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 <ul>
 {% for melding in meldingen %}
     <li>

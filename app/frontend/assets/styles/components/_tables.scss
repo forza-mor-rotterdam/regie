@@ -1,0 +1,14 @@
+.table--overview {
+    margin-top: 60px;
+    .container__thumbnail {
+        background-color: $gray-tint01;
+        min-height: 48px;
+        width: 64px;
+
+        .thumbnail {
+            min-height: 48px;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+}

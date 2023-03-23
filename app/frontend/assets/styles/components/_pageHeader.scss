@@ -1,8 +1,16 @@
 header {
-    height: 64px;
+    
+    .container {
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem auto 0;
 
-    img {
-        max-height: 40px;
-        margin: 10px 0 0 10px;
+        h1 {
+            margin: 0;
+        }
+        img {
+            max-height: 40px;
+            margin: 10px 0 0 10px;
+        }
     }
 }

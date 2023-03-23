@@ -214,9 +214,12 @@ button[class="icon"] {
         margin: 0;
         text-decoration: underline;
         max-width: none;
+        min-height: 0;
+        line-height: inherit;
         color: $primary;
         font-weight: 300;
         font-size: inherit;
+        white-space: nowrap;
     }
 
 

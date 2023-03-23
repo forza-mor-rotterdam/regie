@@ -1,45 +1,116 @@
 {% extends "base.html" %}
 {% load is_list from list_tags %}
+{% load to_date from date_tags %}
 {% block body %}
-<ul>
-{% for melding in meldingen %}
-    <li>
-        <dl>
-        {% for k, v in melding.items %}
-        <dt>
-            <strong>{{k}}</strong>:
-        </dt>
-        <dd>
-            {% if v.items %}
-            <ul>
-            {% for kk, vv in v.items %}
-            <li><strong>{{kk}}: </strong>{{vv}}</li>
-            {% endfor %}
-            </ul>
-            {% elif v|is_list %}
-            <ul>
-            {% for vv in v %}
-                <li>
-                {% if vv.items %}
+
+<span class="help-text">{{ meldingen|length }} resultaten</span>
+<table class="table--overview">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Verzoek</th>
+            <th>Grafnummer</th>
+            <th>Vak</th>
+            <th>Categorie</th>
+            <th>Datum</th>
+            <th>Status</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for melding in meldingen %}
+        <tr>
+            <td>
+                <div class="container__thumbnail"><img src="{{melding.bijlagen.0.bestand}}" alt="" class="thumbnail"></div>
+            </td>
+            <td>{{melding.id}}</td>
+            <td>{{melding.graven.0.grafnummer}}</td>
+            <td>{{melding.graven.0.vak}}</td>
+            <td>
+                {% for category in melding.meta.categorie %}
+                    {{category}}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
+            <td>--</td>
+            <td>
+                <ul class="list-horizontal">
+                    <li>
+                        <button class="btn btn-icon btn-textlink">
+                            <svg width="16" height="16" viewBox="0 0 55 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M49.6439 0.0427246L23.0468 33.2845L4.96397 11.2844L0.317383 15.0798L23.0965 42.8261L54.3288 3.79295L49.6439 0.0427246Z" fill="#00811F"/>
+                            </svg>
+                            Afhandelen
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-icon btn-textlink">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M14.8942 15.955L15.9548 14.8943L9.06053 8L15.9548 1.10571L14.8942 0.0450525L7.99987 6.93934L1.10558 0.0450516L0.0449234 1.10571L6.93921 8L0.0449219 14.8943L1.10558 15.955L7.99987 9.06066L14.8942 15.955Z" fill="#00811F"/>
+                            </svg>
+                            Niet opgelost
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-icon btn-textlink">
+                            <svg width="16" height="16" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M37.0008 9.99962V-0.000244141H7.00118V9.99962H0.00195312V34.0002H7.00118V44H38.001V34.0002H44V9.99962H37.0008ZM35.0003 40.9994H9.99956V23.0001H35.0003V40.9994ZM9.99956 3.00039H34.0001V9.99962H9.99956V3.00039Z" fill="#00811F"/>
+                                <path d="M31.9997 36.0006H13.0002V39.0012H31.9997V36.0006Z" fill="#00811F"/>
+                                <path d="M31.9997 30.0016H13.0002V33.0022H31.9997V30.0016Z" fill="#00811F"/>
+                            </svg>
+                            print pdf
+                        </button>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<details>
+    <summary>Ruwe data</summary>
+    <ul>
+    {% for melding in meldingen %}
+        <li>
+            <dl>
+            {% for k, v in melding.items %}
+            <dt>
+                <strong>{{k}}</strong>:
+            </dt>
+            <dd>
+                {% if v.items %}
                 <ul>
-                {% for kkk, vvv in vv.items %}
-                <li><strong>{{kkk}}: </strong>{{vvv}}
+                {% for kk, vv in v.items %}
+                <li><strong>{{kk}}: </strong>{{vv}}</li>
+                {% endfor %}
+                </ul>
+                {% elif v|is_list %}
+                <ul>
+                {% for vv in v %}
+                    <li>
+                    {% if vv.items %}
+                    <ul>
+                    {% for kkk, vvv in vv.items %}
+                    <li><strong>{{kkk}}: </strong>{{vvv}}
+                    {% endfor %}
+                    </ul>
+                    {% else %}
+                    {{vv}}
+                    {%endif%}
+                    </li>
                 {% endfor %}
                 </ul>
                 {% else %}
-                {{vv}}
+                {{v}}
                 {%endif%}
-                </li>
-            {% endfor %}
-            </ul>
-            {% else %}
-            {{v}}
-            {%endif%}
 
-        </dd>
-        {% endfor %}
-        </dl>
-    </li>
-{% endfor %}
-</ul>
+            </dd>
+            {% endfor %}
+            </dl>
+        </li>
+    {% endfor %}
+    </ul>
+    </details>
 {% endblock%}

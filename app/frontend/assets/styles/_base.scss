@@ -23,7 +23,7 @@ header {
 
     > .container {
         display: block;
-        max-width: map-get($container-max-widths , sm );
+        max-width: map-get($container-max-widths , xxl );
         margin: 0 auto;
     }
 }
@@ -66,6 +66,35 @@ h6, .h6 {
 
         path {
             fill: $primary;
+        }
+    }
+}
+
+table {
+    font-size: 16px;
+    border-collapse: collapse;
+    width: 100%;
+
+    tr:nth-child(even) {
+        background-color: $gray-tint01;
+    }
+    th, td {
+        padding: 10px 0;
+    }
+    thead {
+        border-bottom: 2px solid $gray-tint11;
+        th {
+            text-align: left;
+        }
+    }
+    tbody {
+
+        td {
+            vertical-align: middle;
+
+            &:first-child {
+                padding: 0;
+            }
         }
     }
 }
@@ -162,6 +191,16 @@ ul {
         @include list-clean();
     }
 
+    &.list-horizontal {
+        @include list-clean();
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+        li {
+            flex: 1;
+
+        }
+    }
     &.list-flex {
         @media (min-width: map-get($grid-breakpoints, sm)) {
             display: flex;
@@ -241,6 +280,11 @@ section {
     }
 }
 
+.help-text {
+    font-size: 16px;
+    color: $gray-tint09;
+}
+
 .hidden-vertical {
     // display: none;
     padding-top: 0;
@@ -271,4 +315,12 @@ section {
 
 .invalid-text {
     color: $invalid-color !important;
+}
+
+.bar {
+    background-color: $gray-tint01;
+    &--top {
+        height: 48px;
+        width: 100%;
+    }
 }

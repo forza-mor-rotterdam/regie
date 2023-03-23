@@ -129,7 +129,16 @@ CSP_SCRIPT_SRC = (
     if not DEBUG
     else ("'self'", "'unsafe-eval'", "unpkg.com", "'unsafe-inline'")
 )
-CSP_IMG_SRC = ("'self'", "blob:", "data:", "unpkg.com", "tile.openstreetmap.org", "placehold.it", "www.placeholder.com", "via.placeholder.com" )
+CSP_IMG_SRC = (
+    "'self'",
+    "blob:",
+    "data:",
+    "unpkg.com",
+    "tile.openstreetmap.org",
+    "placehold.it",
+    "www.placeholder.com",
+    "via.placeholder.com",
+)
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "unpkg.com")
 CSP_CONNECT_SRC = ("'self'", "ws:")
 

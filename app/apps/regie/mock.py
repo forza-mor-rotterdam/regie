@@ -4,6 +4,7 @@ meldingen = [
         "uuid": "567be434-991d-40db-8452-759182e7433b",
         "aangemaakt_op": "2014-01-16T04:20:17",
         "aangepast_op": "2020-06-08T12:59:07",
+        "afgesloten_op": "2023-06-08T13:00:00",
         "origineel_aangemaakt": "2017-01-16T07:04:51",
         "tekst": "Cupidatat esse do sunt in. Officia sunt voluptate excepteur fugiat elit sint id est. Eu veniam amet enim esse voluptate aute labore magna aute eiusmod. Minim nisi ipsum est dolore dolore labore do. Nisi et do laboris consectetur proident nostrud quis in culpa aliquip culpa minim consequat qui. Aute eiusmod adipisicing consequat dolor enim laboris consequat dolore cillum dolor dolore. Veniam ipsum pariatur pariatur do culpa occaecat pariatur excepteur.\r\n",
         "meta": {
@@ -47,7 +48,7 @@ meldingen = [
         "id": 253,
         "uuid": "21e5ec23-ef1f-4bee-90c5-8e0834c39c58",
         "aangemaakt_op": "2020-03-02T08:42:48",
-        "aangepast_op": "2022-08-03T04:48:43",
+        "afgesloten_op": "2023-06-08T13:00:00",
         "origineel_aangemaakt": "2019-08-16T07:22:42",
         "tekst": "Qui dolor labore qui commodo nostrud. Et consequat officia adipisicing ea sint est proident dolor. Fugiat cillum nostrud non enim. Pariatur ad reprehenderit non cillum aliquip cupidatat ea eiusmod adipisicing laboris et. Ex laborum ullamco commodo ipsum cillum. Sint occaecat voluptate commodo ea exercitation ullamco tempor nisi in cupidatat laboris dolore ullamco incididunt.\r\n",
         "meta": {

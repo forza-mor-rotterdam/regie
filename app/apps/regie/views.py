@@ -23,8 +23,12 @@ def root(request):
 
 
 def melding_lijst(request):
+    ordering = request.GET.get("ordering", "aangemaakt_op")
     try:
-        alle_meldingen = service_instance.get_melding_lijst().get("results", [])
+        alle_meldingen = service_instance.get_melding_lijst(
+            query_string=f"ordering={ordering}"
+        ).get("results", [])
+        # alle_meldingen_gesorteerd = sort_function.get(sort_by, sort_function[DAYS])[0]
     except Exception as e:
         print(e)
         alle_meldingen = meldingen

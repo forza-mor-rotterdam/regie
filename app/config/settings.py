@@ -138,6 +138,8 @@ CSP_IMG_SRC = (
     "placehold.it",
     "www.placeholder.com",
     "via.placeholder.com",
+    "mor-core-acc.forzamor.nl",
+    "mor-core.forzamor.nl",
 )
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "unpkg.com")
 CSP_CONNECT_SRC = ("'self'", "ws:")
@@ -181,9 +183,10 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "0") in TRUE_VALUES
 EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "0") in TRUE_VALUES
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@forzamor.nl")
 
-MELDINGEN_API = os.getenv("MELDINGEN_API", "https://mor-core-acc.forzamor.nl/v1/")
+MELDINGEN_URL = os.getenv("MELDINGEN_URL", "https://mor-core-acc.forzamor.nl")
+MELDINGEN_API_URL = os.getenv("MELDINGEN_API_URL", f"{MELDINGEN_URL}/v1")
 MELDINGEN_API_HEALTH_CHECK_URL = os.getenv(
-    "MELDINGEN_API", "https://mor-core-acc.forzamor.nl/health/"
+    "MELDINGEN_API_HEALTH_CHECK_URL", f"{MELDINGEN_URL}/health/"
 )
 
 

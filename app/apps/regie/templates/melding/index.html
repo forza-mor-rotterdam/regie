@@ -22,11 +22,11 @@
             {% for melding in meldingen %}
             <tr>
                 <td>
-                    <div class="container__thumbnail"><img src="{{melding.bijlagen.0.bestand}}" alt="" class="thumbnail"></div>
+                    <div class="container__thumbnail"><img src="{{MELDINGEN_URL}}{{melding.bijlagen.0.bestand}}" alt="" class="thumbnail"></div>
                 </td>
                 <td>{{melding.id}}</td>
-                <td>{{melding.graven.0.grafnummer}}</td>
-                <td>{{melding.graven.0.vak}}</td>
+                <td>{{melding.locaties.0.grafnummer}}</td>
+                <td>{{melding.locaties.0.vak}}</td>
                 <td>
                     {% for category in melding.meta.categorie %}
                         {{category}}{% if not forloop.last %}, {% endif %}

@@ -1,5 +1,16 @@
+.container__table {
+
+    @media (max-width: map-get($grid-breakpoints, lg)) {
+        overflow-x: scroll;
+    }
+}
+
 .table--overview {
     margin-top: 60px;
+    position: relative;
+    border-collapse: separate;
+    border-spacing: 0;
+
     .container__thumbnail {
         background-color: $gray-tint01;
         min-height: 48px;
@@ -10,6 +21,13 @@
             display: block;
             margin: 0 auto;
         }
+    }
+
+    th {
+        position: sticky;
+        top: 0;
+        background: $white;
+        border-bottom: 2px solid $gray-tint11;
     }
 
     .btn-textlink {

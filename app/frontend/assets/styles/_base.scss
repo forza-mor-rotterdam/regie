@@ -69,7 +69,7 @@ h6, .h6 {
         }
     }
 }
-
+// TABLES
 table {
     font-size: 16px;
     border-collapse: collapse;
@@ -79,10 +79,10 @@ table {
         background-color: $gray-tint01;
     }
     th, td {
-        padding: 10px 0;
+        padding: 10px 5px 10px 0;
     }
     thead {
-        border-bottom: 2px solid $gray-tint11;
+
         th {
             text-align: left;
         }
@@ -195,10 +195,8 @@ ul {
         @include list-clean();
         margin: 0;
         display: flex;
-        justify-content: space-between;
-        li {
-            flex: 1;
-
+        li:not(:last-child) {
+            margin-right: 12px;
         }
     }
     &.list-flex {
@@ -307,6 +305,10 @@ section {
     padding: 0;
     border: 0;
     pointer-events: none;
+}
+
+.nowrap {
+    white-space: nowrap;
 }
 
 .wrapper-horizontal {

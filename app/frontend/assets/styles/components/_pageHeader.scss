@@ -2,7 +2,7 @@ header {
 
     .container {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         margin: 1rem auto 0;
 
         h1 {
@@ -11,6 +11,17 @@ header {
         img {
             max-height: 40px;
             margin: 10px 0 0 10px;
+        }
+
+        @media (min-width: map-get($grid-breakpoints, md)) {
+            flex-direction: row;
+            justify-content: space-between;
+            h1 {
+                order: 1;
+            }
+            >a {
+                order: 2;
+            }
         }
     }
 }

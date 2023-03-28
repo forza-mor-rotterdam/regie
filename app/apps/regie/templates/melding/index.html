@@ -5,16 +5,16 @@
 
 <span class="help-text">{{ meldingen|length }} resultaten</span>
 <div class="container__table">
-    <table class="table--overview">
+    <table class="table--overview" data-controller="overview">
         <thead>
             <tr>
                 <th></th>
-                <th>Verzoek</th>
-                <th>Grafnummer</th>
-                <th>Vak</th>
-                <th>Categorie</th>
-                <th>Datum</th>
-                <th>Status</th>
+                <th class="sorting" data-action="click->overview#sortTable" data-overview-sort-param="request">Verzoek</th>
+                <th class="sorting" data-action="click->overview#sortTable" data-overview-sort-param="number">Grafnummer</th>
+                <th class="sorting" data-action="click->overview#sortTable" data-overview-sort-param="section">Vak</th>
+                <th class="sorting sorting--down" data-action="click->overview#sortTable" data-overview-sort-param="category">Categorie</th>
+                <th class="sorting sorting--up" data-action="click->overview#sortTable" data-overview-sort-param="date">Datum</th>
+                <th class="sorting" data-action="click->overview#sortTable" data-overview-sort-param="status">Status</th>
                 <th>Acties</th>
             </tr>
         </thead>

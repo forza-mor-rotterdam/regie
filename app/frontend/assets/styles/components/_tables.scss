@@ -5,6 +5,29 @@
     }
 }
 
+.sorting {
+    cursor: pointer;
+    &::after {
+        content: url(../icons/arrow-long.svg);
+        display: inline-block;
+        transform: rotate(90deg);
+    }
+
+    &.sorting--up {
+        &::after {
+            content: url(../icons/arrow-long.svg);
+            transform: rotate(90deg);
+        }
+    }
+    &.sorting--down {
+        &::after {
+            content: url(../icons/arrow-long.svg);
+            transform: rotate(-90deg);
+        }
+    }
+
+}
+
 .table--overview {
     margin-top: 60px;
     position: relative;

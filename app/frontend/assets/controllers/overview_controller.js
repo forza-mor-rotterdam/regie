@@ -8,5 +8,9 @@ export default class extends Controller {
 
     sortTable(e) {
         console.log(e.params)
+        const frame = document.getElementById('overview');
+        const url = `${frame.dataset.src}?ordering=${e.params.sort}`
+        frame.setAttribute('src', url);
+
     }
 }

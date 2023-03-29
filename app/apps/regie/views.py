@@ -25,10 +25,10 @@ def overview(request):
             query_string=f"ordering={ordering}"
         ).get("results", [])
         # alle_meldingen_gesorteerd = sort_function.get(sort_by, sort_function[DAYS])[0]
-    except Exception as e:
-        print(e)
+    except Exception:
+        # print(e)
         alle_meldingen = meldingen
-    print(alle_meldingen)
+    # print(alle_meldingen)
 
     return render(
         request,
@@ -50,10 +50,10 @@ def melding_lijst(request):
             query_string=f"ordering={ordering}"
         ).get("results", [])
         # alle_meldingen_gesorteerd = sort_function.get(sort_by, sort_function[DAYS])[0]
-    except Exception as e:
-        print(e)
+    except Exception:
+        # print(e)
         alle_meldingen = meldingen
-    print(alle_meldingen)
+    # print(alle_meldingen)
 
     return render(
         request,

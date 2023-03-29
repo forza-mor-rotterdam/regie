@@ -4,83 +4,10 @@
 {% block body %}
 
 <span class="help-text">{{ meldingen|length }} resultaten</span>
-<div class="container__table">
-    <table class="table--overview">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Verzoek</th>
-                <th>Grafnummer</th>
-                <th>Vak</th>
-                <th>Categorie</th>
-                <th>Datum</th>
-                <th>Status</th>
-                <th>Acties</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for melding in meldingen %}
-            <tr>
-                <td>
-                    <div class="container__thumbnail"><img src="{{MELDINGEN_URL}}{{melding.bijlagen.0.bestand}}" alt="" class="thumbnail"></div>
-                </td>
-                <td>{{melding.id}}</td>
-                <td>{{melding.locaties.0.grafnummer}}</td>
-                <td>{{melding.locaties.0.vak}}</td>
-                <td>
-                    {% for category in melding.meta.categorie %}
-                        {{category}}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </td>
-                <td class="nowrap">{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
-                <td>{% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}</td>
-                <td>
-                    <ul class="list-horizontal">
-                        {% if melding.afgesloten_op %}
-                        <li>
-                            <button class="btn btn-icon btn-textlink">
-                                <svg width="16" height="18" viewBox="0 0 20 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M17.7871 13.17C17.7871 17.5579 14.2171 21.1273 9.82979 21.1273C5.44149 21.1273 1.87242 17.5576 1.87242 13.17C1.87242 8.782 5.6117 5 10 5V8L14 4L10 0V3C4.57957 3 0 7.75029 0 13.1702C0 18.5901 4.40953 23 9.82979 23C15.2499 23 19.6596 18.5901 19.6596 13.1702L17.7871 13.17Z" fill="#00811F"/>
-                                </svg>
 
-                                Heropenen
-                            </button>
-                        </li>
-                        {% else %}
-                        <li>
-                            <button class="btn btn-icon btn-textlink">
-                                <svg width="16" height="16" viewBox="0 0 55 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M49.6439 0.0427246L23.0468 33.2845L4.96397 11.2844L0.317383 15.0798L23.0965 42.8261L54.3288 3.79295L49.6439 0.0427246Z" fill="#00811F"/>
-                                </svg>
-                                Afhandelen
-                            </button>
-                        </li>
-                        <li>
-                            <button class="btn btn-icon btn-textlink">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.8942 15.955L15.9548 14.8943L9.06053 8L15.9548 1.10571L14.8942 0.0450525L7.99987 6.93934L1.10558 0.0450516L0.0449234 1.10571L6.93921 8L0.0449219 14.8943L1.10558 15.955L7.99987 9.06066L14.8942 15.955Z" fill="#00811F"/>
-                                </svg>
-                                Niet opgelost
-                            </button>
-                        </li>
-                        {% endif %}
-                        <li>
-                            <button class="btn btn-icon btn-textlink">
-                                <svg width="16" height="16" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M37.0008 9.99962V-0.000244141H7.00118V9.99962H0.00195312V34.0002H7.00118V44H38.001V34.0002H44V9.99962H37.0008ZM35.0003 40.9994H9.99956V23.0001H35.0003V40.9994ZM9.99956 3.00039H34.0001V9.99962H9.99956V3.00039Z" fill="#00811F"/>
-                                    <path d="M31.9997 36.0006H13.0002V39.0012H31.9997V36.0006Z" fill="#00811F"/>
-                                    <path d="M31.9997 30.0016H13.0002V33.0022H31.9997V30.0016Z" fill="#00811F"/>
-                                </svg>
-                                print pdf
-                            </button>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+<turbo-frame id="overview" data-src="{% url 'overview_part' %}" src="{% url 'overview_part' %}">
+
+</turbo-frame>
 
 
 <details>

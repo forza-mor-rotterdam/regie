@@ -25,5 +25,5 @@ class MeldingenService:
         response: Response = action(**action_params)
         return response.json()
 
-    def get_melding_lijst(self):
-        return self.do_request("/melding/")
+    def get_melding_lijst(self, query_string):
+        return self.do_request(f"/melding/?{query_string}")

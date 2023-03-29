@@ -10,7 +10,7 @@
                     <th class="sorting {{ GET|heeft_orden_oplopend:'id' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'id' }}" role="button">Verzoek</a></th>
                     <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__grafnummer' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'locaties__grafnummer' }}" role="button">Grafnummer</a></th>
                     <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__vak' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'locaties__vak' }}" role="button">Vak</a></th>
-                    <th class="sorting {{ GET|heeft_orden_oplopend:'categorie' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'categorie' }}" role="button">Categorie</a></th>
+                    <th class="sorting {{ GET|heeft_orden_oplopend:'meta__categorie' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'meta__categorie' }}" role="button">Categorie</a></th>
                     <th class="sorting {{ GET|heeft_orden_oplopend:'origineel_aangemaakt' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'origineel_aangemaakt' }}" role="button">Datum</a></th>
                     <th class="sorting {{ GET|heeft_orden_oplopend:'afgesloten_op' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'afgesloten_op' }}" role="button">Status</a></th>
                     <th>Print pdf</th>

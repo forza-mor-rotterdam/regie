@@ -29,7 +29,7 @@
                         <div class="background-image"></div>
                         {% endif %}
                     </td>
-                    <td>{{melding.id}}</td>
+                    <td><a href="{% url 'detail_part' melding.id %}" data-turbo-frame="detail_modal" data-action="overview#openModal">{{melding.id}}</a></td>
                     <td>{% if melding.locaties.0.grafnummer %}{{ melding.locaties.0.grafnummer }} {% else %}n.v.t.{% endif %}</td>
                     <td>{% if melding.locaties.0.vak %}{{melding.locaties.0.vak}} {% else %}n.v.t.{% endif %}</td>
                     <td>

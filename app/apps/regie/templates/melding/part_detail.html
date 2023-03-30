@@ -1,0 +1,50 @@
+
+<turbo-frame id="detail_modal">
+    <div data-controller="detail">
+            <section class="section--seperated" data-testid="detailPhotoviewer" {% if melding.bijlagen|length < 2 %}style="border: 0;"{% endif %}>
+                <div class="full-width">
+                {% if melding.bijlagen|length > 0 %}
+                    <div class="container__imageslider" data-detail-target="imageSliderContainer" data-action="scroll->detail#onScrollSlider">
+                        <ul
+                            class="list-clean imageslider"
+                            style="width: calc(100% * {{ incident.fotos|length }})"
+                        >
+                            {% for bijlage in melding.bijlagen %}
+                            <li class="container__image" id="{{ bijlage.bestand }}">
+                                <img src="{{MELDINGEN_URL}}{{bijlage.bestand}}" alt="" data-detail-target="selectedImage" />
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if melding.bijlagen|length > 1 %}
+                        <div class="container__thumbs">
+                            <ul data-detail-target="thumbList">
+                                {% for bijlage in melding.bijlagen %}
+                                <li data-action="click->detail#selectImage"
+                                    data-detail-image-index-param="1">
+                                    <div class="container__image">
+                                        <img src="{{ MELDINGEN_URL}}{{bijlage.afbeelding_verkleind}}" alt="" />
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="background-image"></div>
+                {% endif %}
+                </div>
+            </section>
+
+    {{ melding }}
+
+</turbo-frame>
+
+
+
+
+{% comment %}
+
+{'id': 10, 'aangemaakt_op': '2023-03-29T17:22:36.032075+02:00', 'aangepast_op': '2023-03-29T17:22:36.032101+02:00', 'origineel_aangemaakt': '2023-03-29T15:22:35.770000+02:00', 'afgesloten_op': None, 'omschrijving': 'Het graf van mijn moeder is verzakt', 'omschrijving_kort': 'Het graf van mijn moeder is verzakt', 'meta': {'vak': 'M', 'aannemer': 'a._van_de_graaf', 'categorie': ['categorie_verzakking_eigen_graf'], 'grafnummer': '37', 'naam_melder': 'Doe', 'toelichting': 'Het graf van mijn moeder is verzakt', 'email_melder': 'maurice@mgui.nl', 'begraafplaats': 'de_zuiderbegraafplaats', 'rechthebbende': '2', 'specifiek_graf': '1', 'naam_overledene': 'John', 'telefoon_melder': '0612345678', 'terugkoppeling_gewenst': '1', 'omschrijving_andere_oorzaken': ''}, 'meta_uitgebreid': {'vak': {'label': 'Vak', 'choices': None}, 'fotos': {'label': "Foto's", 'choices': None}, 'aannemer': {'label': 'Wie heeft het verzoek aangenomen?', 'choices': {'': 'Selecteer een medewerker', 'onbekend': 'Onbekend', 'i._addicks': 'I. Addicks', 'm._van_berkum': 'M. van Berkum', 'c._m._hendriks': 'C.M. Hendriks', 'a._j._verhoeven': 'A.J. Verhoeven', 'a._van_de_graaf': 'A. van de Graaf'}}, 'categorie': {'label': 'Categorie', 'choices': {'categorie_gaten': 'Gaten', 'categorie_muizen': 'Muizen', 'categorie_snoeien': 'Snoeien', 'categorie_konijnen': 'Konijnen', 'categorie_beplanting': 'Beplanting', 'categorie_wespennest': 'Wespennest', 'categorie_schoonmaken': 'Schoonmaken', 'categorie_zerk_reinigen': 'Zerk reinigen', 'categorie_andere_oorzaken': 'Andere oorzaken', 'categorie_verdwenen_materiaal': 'Verdwenen materiaal', 'categorie_verzakking_algemeen': 'Verzakking algemeen', 'categorie_verzakking_eigen_graf': 'Verzakking eigen graf'}}, 'grafnummer': {'label': 'Grafnummer', 'choices': None}, 'naam_melder': {'label': 'Naam', 'choices': None}, 'toelichting': {'label': 'Toelichting', 'choices': None}, 'email_melder': {'label': 'E-mailadres', 'choices': None}, 'begraafplaats': {'label': 'Begraafplaats', 'choices': {'': 'Selecteer een begraafplaats', 'begraafplaats_pernis': 'Begraafplaats Pernis', 'de_zuiderbegraafplaats': 'De Zuiderbegraafplaats', 'begraafplaats_crooswijk': 'Begraafplaats Crooswijk', 'begraafplaats_rozenburg': 'Begraafplaats Rozenburg', 'begraafplaats_oud_pernis': 'Begraafplaats Oud-Pernis', 'begraafplaats_oud_hoogvliet': 'Begraafplaats Oud-Hoogvliet', 'begraafplaats_oud_overschie': 'Begraafplaats Oud-Overschie', 'begraafplaats_oud_schiebroek': 'Begraafplaats Oud-Schiebroek', 'begraafplaats_hoek_van_holland': 'Begraafplaats Hoek van Holland', 'begraafplaats_oudeland,_hoogvliet': 'Begraafplaats Oudeland, Hoogvliet', 'begraafplaats_en_crematorium_hofwijk': 'Begraafplaats en crematorium Hofwijk'}}, 'rechthebbende': {'label': 'Is deze persoon de rechthebbende?', 'choices': {'0': 'Nee', '1': 'Ja', '2': 'Onbekend'}}, 'specifiek_graf': {'label': 'Betreft het verzoek een specifiek graf?', 'choices': {'0': 'Nee', '1': 'Ja'}}, 'naam_overledene': {'label': 'Naam overledene', 'choices': None}, 'telefoon_melder': {'label': 'Telefoonnummer', 'choices': None}, 'terugkoppeling_gewenst': {'label': 'Is terugkoppeling gewenst?', 'choices': {'0': 'Nee', '1': 'Ja'}}, 'omschrijving_andere_oorzaken': {'label': 'Omschrijving andere oorzaken', 'choices': None}}, 'onderwerp': 'Begraven & cremeren', 'bijlagen': [{'bestand': '/media/bestanden/2023/03/29/37d85f4a-2459-453b-aa8e-42d7ac53edf1.jpg', 'afbeelding_verkleind': '/media/afbeeldingen-verkleind/2023/03/29/37d85f4a-2459-453b-aa8e-42d7ac53edf1_96x128..jpg', 'mimetype': 'image/jpeg', 'is_afbeelding': True}], 'locaties': [{'id': 10, 'uuid': '7849532b-2abf-4b15-a454-a390fa5b616d', 'aangemaakt_op': '2023-03-29T17:22:36.040770+02:00', 'aangepast_op': '2023-03-29T17:22:36.040790+02:00', 'object_id': 10, 'locatie_type': 'graf', 'geometrie': None, 'bron': None, 'naam': None, 'straatnaam': None, 'huisnummer': None, 'huisletter': None, 'toevoeging': None, 'postcode': None, 'lichtmast_id': None, 'plaatsnaam': 'Rotterdam', 'begraafplaats': 'de_zuiderbegraafplaats', 'grafnummer': '37', 'vak': 'M', 'content_type': 11}]}
+
+ {% endcomment %}

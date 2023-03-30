@@ -5,12 +5,40 @@
 
 <span class="help-text">{{ meldingen|length }} resultaten</span>
 
-<turbo-frame id="overview" data-src="{% url 'overview_part' %}" src="{% url 'overview_part' %}">
+<div data-controller="overview">
 
-</turbo-frame>
+    <turbo-frame id="overview" data-src="{% url 'overview_part' %}" src="{% url 'overview_part' %}">
+
+    </turbo-frame>
 
 
-<details>
+    <div class="modal modal-right" >
+        {% comment %} <div class="modal"> {% endcomment %}
+            <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->overview#closeModal"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Sluit"
+                    data-action="overview#closeModal">
+                </button>
+                </div>
+                <div class="modal-body">
+                <turbo-frame
+                    id="detail_modal"
+                    data-src=""
+                    src=""
+                    laoding="lazy"
+                >
+                </turbo-frame>
+                </div>
+            {% comment %} </div> {% endcomment %}
+        </div>
+    </div>
+
+    <details>
+
     <summary>Ruwe data</summary>
     <ul>
     {% for melding in meldingen %}
@@ -54,4 +82,5 @@
     {% endfor %}
     </ul>
     </details>
+</div>
 {% endblock%}

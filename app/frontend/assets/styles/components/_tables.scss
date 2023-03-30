@@ -26,6 +26,7 @@
             transform: rotate(-90deg);
         }
     }
+
     &.sorting--down {
         &::after {
             background-image: url(../icons/arrow-long.svg);
@@ -59,9 +60,11 @@
 
 
     .background-image {
+        background-color: $gray-tint01;
         background-image: url(../icons/noimage.svg);
         background-size: 40%;
         height: 48px;
+        width: 64px;
         background-repeat: no-repeat;
         background-position: 16px center;
     }

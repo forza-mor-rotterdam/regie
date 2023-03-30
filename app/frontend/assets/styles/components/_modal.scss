@@ -81,11 +81,13 @@ body.show-modal--first-filter {
         display: flex;
         flex-direction: column;
         width: 100%;
+        min-height: 100%;
         z-index: 20;
     }
 
     &-header {
         position: relative;
+        height: 48px;
         padding-left: $container-padding-x;
         padding-bottom: 4px;
 

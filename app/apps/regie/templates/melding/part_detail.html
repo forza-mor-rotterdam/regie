@@ -1,3 +1,5 @@
+{% load vind_in_dict from querystring_tags %}
+{% load to_date from date_tags %}
 
 <turbo-frame id="detail_modal">
     <div data-controller="detail">
@@ -36,7 +38,56 @@
                 </div>
             </section>
 
-    {{ melding }}
+            <section class="section--seperated" data-testid="detailReporter">
+                <div class="container__details">
+                    <h2>Verzoek</h2>
+                    <h2 class="h5">Ingediend</h2>
+                    <p>
+                        {% if melding.origineel_aangemaakt %}
+                            {{ melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i" }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </p>
+                    <h2 class="h5">Status</h2>
+                    <p>
+                        {% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}
+                    </p>
+                    <h2 class="h5">Categorie</h2>
+                    <p>
+                        {% for category in melding.meta.categorie %}
+                            {% vind_in_dict melding.meta_uitgebreid.categorie.choices category %}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <h2 class="h5">Toelichting</h2>
+                    <p>
+                        {% if melding.omschrijving %}
+                            {{ melding.omschrijving }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </p>
+                    <h2 class="h5">Wie heeft het verzoek aangenomen?</h2>
+                    <p>
+                        {% if melding.meta.aannemer %}
+                            {{ melding.meta.aannemer }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </p>
+
+
+
+
+
+
+
+
+                </div>
+            </section>
+
+
+    {% comment %} {{ melding }} {% endcomment %}
 
 </turbo-frame>
 

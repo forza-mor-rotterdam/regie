@@ -14,11 +14,17 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app/
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python-dev \
-    git \
-    locales \
+RUN apt-get update \
+    && apt-get dist-upgrade -y \
+    && apt-get install -y \
+        libgdk-pixbuf2.0-0 \
+        libmagic1 \
+        libcairo2 \
+        libpango-1.0-0 \
+        gcc \
+        graphviz \
+        git \
+        locales \
     && pip install --upgrade pip \
     && sed -i '/nl_NL.UTF-8/s/^# //g' /etc/locale.gen && \
         locale-gen

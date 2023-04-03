@@ -1,0 +1,10 @@
+{% extends "pdf/base.html" %}
+
+
+{% block body %}
+<span class="help-text">{{ meldingen|length }} resultaten</span>
+
+<div data-controller="overview">
+    {% include "melding/part_overview_table.html" %}
+</div>
+{% endblock%}

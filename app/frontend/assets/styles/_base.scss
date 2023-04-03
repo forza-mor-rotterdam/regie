@@ -119,11 +119,14 @@ a,
         @include has-icon();
     }
 
-    &.link--email {
-        @include has-icon();
-    }
+    &.link--email,
     &.link--phone {
-        @include has-icon();
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin-right: 4px;
+        }
     }
 
     &.link--next {
@@ -234,7 +237,6 @@ dl {
 section {
     &.section--seperated {
         padding: 1rem 0 0.75rem;
-        border-bottom: 1px solid $gray-tint04;
 
         &__no-border-bottom {
             border-bottom: 0;

@@ -10,10 +10,15 @@
         margin-bottom: 0;
         display: flex;
         align-items: center;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid $gray-tint04;
 
         svg {
             margin-right: 8px;
         }
+    }
+    h3 {
+        margin-bottom: 0.25rem;
     }
     p {
         margin-top: 0;

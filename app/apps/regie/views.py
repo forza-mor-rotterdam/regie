@@ -3,9 +3,13 @@ import math
 
 import requests
 import weasyprint
+from apps.auth.backends import authenticate
+from apps.auth.decorators import login_required
 from apps.meldingen import service_instance
 from apps.meldingen.utils import get_meldingen_token
 from apps.regie.forms import FilterForm
+from apps.regie.forms import LoginForm
+from apps.regie.mock import meldingen
 from config.context_processors import general_settings
 from django.conf import settings
 from django.http import HttpResponse, QueryDict, StreamingHttpResponse
@@ -25,6 +29,37 @@ def http_500(request):
     return render(
         request,
         "500.html",
+    )
+
+
+def login(request):
+    if request.user and request.user.is_authenticated:
+        return redirect(reverse("melding_lijst"))
+
+    error = None
+    form = LoginForm()
+    if request.POST:
+        form = LoginForm(request.POST)
+        is_valid = form.is_valid()
+        if is_valid:
+            data = form.cleaned_data
+            success, result = authenticate(
+                request=request,
+                username=data.get("username"),
+                password=data.get("_password"),
+            )
+            if success:
+                return redirect(reverse("melding_lijst"))
+            else:
+                error = result
+
+    return render(
+        request,
+        "login/index.html",
+        {
+            "form": form,
+            "error": error,
+        },
     )
 
 
@@ -114,6 +149,7 @@ def root(request):
     return redirect(reverse("melding_lijst"))
 
 
+@login_required
 def melding_lijst(request):
 
     return render(

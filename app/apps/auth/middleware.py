@@ -1,4 +1,4 @@
-from apps.auth.backends import IncidentUser
+from apps.auth.backends import User
 from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
 from django.utils.functional import SimpleLazyObject
@@ -12,4 +12,4 @@ class AuthenticationMiddleware(MiddlewareMixin):
             "'django.contrib.sessions.middleware.SessionMiddleware' before "
             "'django.contrib.auth.middleware.AuthenticationMiddleware'."
         ) % ("_CLASSES" if settings.MIDDLEWARE is None else "")
-        request.user = SimpleLazyObject(lambda: IncidentUser(request))
+        request.user = SimpleLazyObject(lambda: User(request))

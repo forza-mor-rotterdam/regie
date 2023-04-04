@@ -8,8 +8,8 @@ locale.setlocale(locale.LC_ALL, "nl_NL.UTF-8")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TRUE_VALUES = [True, "True", "true", "1"]
 
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY", os.environ.get("SECRET_KEY", os.environ.get("APP_SECRET"))
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY", os.getenv("SECRET_KEY", os.getenv("APP_SECRET"))
 )
 
 ENVIRONMENT = os.getenv("ENVIRONMENT")
@@ -58,7 +58,7 @@ MIDDLEWARE = (
     "django_permissions_policy.PermissionsPolicyMiddleware",
     "csp.middleware.CSPMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    # "apps.auth.middleware.AuthenticationMiddleware",
+    "apps.auth.middleware.AuthenticationMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -239,6 +239,9 @@ MELDINGEN_TOKEN_API = os.getenv(
 MELDINGEN_TOKEN_TIMEOUT = 60 * 60
 MELDINGEN_USERNAME = os.getenv("MELDINGEN_USERNAME")
 MELDINGEN_PASSWORD = os.getenv("MELDINGEN_PASSWORD")
+
+MSB_AUTHORIZATION_ENDPOINT = os.getenv("MSB_AUTHORIZATION_ENDPOINT", "not_set")
+LOGIN_URL = "/login/"
 
 LOGGING = {
     "version": 1,

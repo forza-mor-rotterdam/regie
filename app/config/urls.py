@@ -2,6 +2,7 @@ from apps.regie.views import (
     detail,
     http_404,
     http_500,
+    login,
     melding_lijst,
     melding_pdf_download,
     meldingen_bestand,
@@ -15,6 +16,7 @@ from django.urls import include, path, re_path
 
 urlpatterns = [
     path("", root, name="root"),
+    path("login/", login, name="login"),
     path("melding/", melding_lijst, name="melding_lijst"),
     path("health/", include("health_check.urls")),
     path("part/melding/", overview, name="overview_part"),

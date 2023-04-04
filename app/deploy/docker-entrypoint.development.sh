@@ -3,7 +3,7 @@ set -u   # crash on missing env variables
 set -e   # stop on any error
 set -x
 
-rm -rf /static
+rm -rf /static/*
 
 echo Test cache
 python manage.py test_cache

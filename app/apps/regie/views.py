@@ -75,19 +75,38 @@ def melding_lijst(request):
 
 
 def melding_pdf_download(request, id):
-    meldingen = service_instance.get_melding_lijst(query_string="").get("results", [])
+    melding = service_instance.get_melding(id)
 
     path_to_css_file = (
         "/app/frontend/public/build/app.css" if settings.DEBUG else "/static/app.css"
     )
 
-    html = render_to_string("pdf/melding.html", context={"meldingen": meldingen})
+    html = render_to_string("pdf/melding.html", context={"melding": melding})
 
     pdf = weasyprint.HTML(string=html).write_pdf(stylesheets=[path_to_css_file])
-    pdf_filename = "melding.pdf"
+    pdf_filename = f"serviceverzoek_{id}.pdf"
 
     return HttpResponse(
         pdf,
         content_type="application/pdf",
         headers={"Content-Disposition": f'attachment;filename="{pdf_filename}"'},
     )
+
+
+# def melding_pdf_download(request, id):
+#     meldingen = service_instance.get_melding_lijst(query_string="").get("results", [])
+
+#     path_to_css_file = (
+#         "/app/frontend/public/build/app.css" if settings.DEBUG else "/static/app.css"
+#     )
+
+#     html = render_to_string("pdf/melding.html", context={"meldingen": meldingen})
+
+#     pdf = weasyprint.HTML(string=html).write_pdf(stylesheets=[path_to_css_file])
+#     pdf_filename = "melding.pdf"
+
+#     return HttpResponse(
+#         pdf,
+#         content_type="application/pdf",
+#         headers={"Content-Disposition": f'attachment;filename="{pdf_filename}"'},
+#     )

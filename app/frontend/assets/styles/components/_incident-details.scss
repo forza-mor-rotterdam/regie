@@ -190,3 +190,19 @@
         display: inline-block;
     }
 }
+
+
+@media print {
+    .container__details {
+        >div {
+            display: flex;
+            .h5,
+            .h5+p {
+                flex: 1 0 50%;
+                margin: 0;
+                line-height: 175%;
+            }
+        }
+
+    }
+ }

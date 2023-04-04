@@ -133,6 +133,41 @@
                     </p>
 
 
+                            {% else %}
+                                -
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <h2 class="h5">Grafnummer</h2>
+                        <p>
+                            {% if melding.locaties.0.grafnummer %}
+                                {{ melding.locaties.0.grafnummer }}
+                            {% else %}
+                                n.v.t.
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <h2 class="h5">Vak</h2>
+                        <p>
+                            {% if melding.locaties.0.vak %}
+                                {{ melding.locaties.0.vak }}
+                            {% else %}
+                                n.v.t.
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <h2 class="h5">Naam overledene</h2>
+                        <p>
+                            {% if melding.meta.naam_overledene %}
+                                {{ melding.meta.naam_overledene }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </p>
+                    </div>
                 </div>
             </section>
 

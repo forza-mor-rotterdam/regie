@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     "apps.health",
     "apps.rotterdam_formulier_html",
     "apps.regie",
+    "apps.auth",
 )
 
 MIDDLEWARE = (
@@ -57,6 +58,7 @@ MIDDLEWARE = (
     "django_permissions_policy.PermissionsPolicyMiddleware",
     "csp.middleware.CSPMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # "apps.auth.middleware.AuthenticationMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

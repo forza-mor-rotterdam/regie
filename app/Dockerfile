@@ -17,6 +17,8 @@ WORKDIR /app/
 RUN apt-get update \
     && apt-get dist-upgrade -y \
     && apt-get install -y \
+        build-essential \
+        python-dev \
         libgdk-pixbuf2.0-0 \
         libmagic1 \
         libcairo2 \

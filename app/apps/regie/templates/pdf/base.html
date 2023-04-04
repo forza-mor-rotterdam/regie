@@ -6,7 +6,7 @@
         <title>{% block title %}Regie{% endblock %}</title>
     </head>
     <body>
-    {% include 'snippets/pageheader.html' %}
+    {% include 'snippets/pageheader.html' with title="Serviceverzoek" %}
         <main>
             <div class="container">
                 {% block body %}{% endblock %}

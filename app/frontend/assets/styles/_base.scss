@@ -164,7 +164,12 @@ button {
 
 p {
     &.text--person {
-        @include has-icon();
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin-right: 4px;
+        }
     }
 
     &.text--close {

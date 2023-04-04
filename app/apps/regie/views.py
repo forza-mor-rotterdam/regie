@@ -1,6 +1,10 @@
+import weasyprint
 from apps.meldingen import service_instance
 from apps.regie.mock import meldingen
+from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 
@@ -67,4 +71,26 @@ def melding_lijst(request):
         {
             "meldingen": alle_meldingen,
         },
+    )
+
+
+def melding_pdf_download(request, id):
+    melding = service_instance.get_melding(id)
+
+    path_to_css_file = (
+        "/app/frontend/public/build/app.css" if settings.DEBUG else "/static/app.css"
+    )
+
+    html = render_to_string("pdf/melding.html", context={"melding": melding})
+    # html = weasyprint.HTML(string=html_string, base_url=request.build_absolute_uri())
+
+    pdf = weasyprint.HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(
+        stylesheets=[path_to_css_file]
+    )
+    pdf_filename = f"serviceverzoek_{id}.pdf"
+
+    return HttpResponse(
+        pdf,
+        content_type="application/pdf",
+        headers={"Content-Disposition": f'attachment;filename="{pdf_filename}"'},
     )

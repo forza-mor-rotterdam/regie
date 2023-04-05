@@ -45,16 +45,23 @@ class AuthService:
         action: Request = getattr(requests, method)
         url = self.get_url(url)
         print(url)
+        print(headers)
+        print(data)
         action_params: dict = {
-            "url": self.get_url(url),
+            "url": url,
             "headers": headers,
             "data": data,
-            "timeout": self._timeout,
+            # "timeout": self._timeout,
         }
-        response: Response = action(**action_params)
-        print(response.status_code)
-        print(response.text)
-        return response.json()
+
+        # print(response.status_code)
+        # print(response.text)
+        try:
+            response: Response = action(**action_params)
+            return response.json()
+        except Exception as e:
+            print(e)
+            return {"success": False, "result": []}
 
     def get_user_info(self, user_token):
         return self.do_request("/gebruikerinfo", user_token)

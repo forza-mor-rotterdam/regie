@@ -46,7 +46,7 @@ def login(request):
             success, result = authenticate(
                 request=request,
                 username=data.get("username"),
-                password=data.get("_password"),
+                password=data.get("password"),
             )
             if success:
                 return redirect(reverse("melding_lijst"))

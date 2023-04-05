@@ -4,7 +4,6 @@ import math
 import requests
 import weasyprint
 from apps.auth.backends import authenticate
-from apps.auth.decorators import login_required
 from apps.meldingen import service_instance
 from apps.meldingen.utils import get_meldingen_token
 from apps.regie.forms import FilterForm
@@ -149,7 +148,6 @@ def root(request):
     return redirect(reverse("melding_lijst"))
 
 
-@login_required
 def melding_lijst(request):
 
     return render(

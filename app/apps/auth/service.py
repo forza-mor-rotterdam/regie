@@ -44,18 +44,12 @@ class AuthService:
 
         action: Request = getattr(requests, method)
         url = self.get_url(url)
-        print(url)
-        print(headers)
-        print(data)
         action_params: dict = {
             "url": url,
             "headers": headers,
             "data": data,
-            # "timeout": self._timeout,
+            "timeout": self._timeout,
         }
-
-        # print(response.status_code)
-        # print(response.text)
         try:
             response: Response = action(**action_params)
             return response.json()
@@ -77,5 +71,4 @@ class AuthService:
             method="post",
             data=data,
         )
-        print(response_data)
         return bool(response_data.get("success")), response_data.get("result")

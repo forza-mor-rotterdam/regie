@@ -218,8 +218,6 @@ CACHES = {
 }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-# SESSION_COOKIE_AGE = 1 * 60
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.getenv("EMAIL_HOST")

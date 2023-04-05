@@ -246,7 +246,7 @@
                 </div>
             </div>
         </section>
-        {% comment %} {% if melding.bijlagen|length > 0 %} {% endcomment %}
+        {% if melding.bijlagen|length > 0 %}
         <section class="section--seperated section--imagelist">
             <div>
                 <ul class="list-clean">
@@ -258,6 +258,6 @@
                 </ul>
             </div>
         </section>
-        {% comment %} {% endif %} {% endcomment %}
+        {% endif %}
     </div>
 </turbo-frame>

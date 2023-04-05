@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    static targets = ['area', 'district', 'selectedImage', 'thumbList', 'imageSliderContainer']
+    static targets = ['selectedImage', 'thumbList', 'imageSliderContainer']
 
     initialize() {
         if(this.hasThumbListTarget) {

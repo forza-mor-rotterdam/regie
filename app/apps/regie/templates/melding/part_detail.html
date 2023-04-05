@@ -3,7 +3,7 @@
 
 <turbo-frame id="detail_modal">
     <div data-controller="detail">
-        <section class="section--seperated" data-testid="detailPhotoviewer" {% if melding.bijlagen|length < 2 %}style="border: 0;"{% endif %}>
+        <section class="section--seperated section--imageslider" data-testid="detailPhotoviewer" {% if melding.bijlagen|length < 2 %}style="border: 0;"{% endif %}>
             <div class="full-width">
             {% if melding.bijlagen|length > 0 %}
                 <div class="container__imageslider" data-detail-target="imageSliderContainer" data-action="scroll->detail#onScrollSlider">
@@ -246,5 +246,18 @@
                 </div>
             </div>
         </section>
+        {% comment %} {% if melding.bijlagen|length > 0 %} {% endcomment %}
+        <section class="section--seperated section--imagelist">
+            <div>
+                <ul class="list-clean">
+                    {% for bijlage in melding.bijlagen %}
+                    <li class="container__image">
+                        <img src="{{MELDINGEN_URL}}{{bijlage.bestand}}" alt=""/>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        {% comment %} {% endif %} {% endcomment %}
     </div>
 </turbo-frame>

@@ -1,4 +1,4 @@
-{% load qs_ordenen heeft_orden_oplopend vind_in_dict from querystring_tags %}
+{% load qs_ordenen heeft_orden_oplopend vind_in_dict qs_offset from querystring_tags %}
 {% load to_date from date_tags %}
 
 <turbo-frame id="overview">
@@ -62,5 +62,33 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        {% if totaal > meldingen|length %}
+        <div class="container__pagination">
+            <div class="pagination">
+                <ul class="list-horizontal">
+                    {% if vorige %}
+                        <li>
+                            <a href="{% url 'overview_part' %}?offset={{ offsetVorige }}" role="button" data-action="overview#setUrl"><</a>
+                        </li>
+                    {% endif %}
+                    {% for page in pages %}
+                        <li>
+                            <a href="{% url 'overview_part' %}?{{page}}" role="button" data-action="overview#setUrl">{{ forloop.counter }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if volgende %}
+                        <li>
+                            <a href="{% url 'overview_part' %}?offset={{ offsetVolgende }}" data-action="overview#setUrl">></a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <ul class="list-horizontal">
+
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
     </div>
 </turbo-frame>

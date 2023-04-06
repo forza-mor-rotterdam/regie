@@ -246,9 +246,15 @@
                 </div>
             </div>
         </section>
+        <section class="section--seperated print-only">
+            <div class="container__details">
+                <h2>Opmerkingen</h2>
+            </div>
+        </section>
         {% if melding.bijlagen|length > 0 %}
         <section class="section--seperated section--imagelist">
-            <div>
+            <div class="container__details">
+                <h2>Afbeeldingen</h2>
                 <ul class="list-clean">
                     {% for bijlage in melding.bijlagen %}
                     <li class="container__image">

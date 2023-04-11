@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load is_list from list_tags %}
 {% load to_date from date_tags %}
+
 {% block body %}
 
-<span class="help-text">{{ meldingen|length }} resultaten</span>
 
 <div data-controller="overview">
 
-    <turbo-frame id="overview" data-src="{% url 'overview_part' %}" src="{% url 'overview_part' %}">
+    <turbo-frame id="overview" data-turbo-action="advance" src="{% url 'overview_part' %}?{{request.META.QUERY_STRING}}">
 
     </turbo-frame>
 
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <details>
+    {% comment %} <details>
 
     <summary>Ruwe data</summary>
     <ul>
@@ -81,6 +81,6 @@
         </li>
     {% endfor %}
     </ul>
-    </details>
+    </details> {% endcomment %}
 </div>
 {% endblock%}

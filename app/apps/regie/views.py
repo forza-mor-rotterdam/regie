@@ -25,22 +25,51 @@ def http_500(request):
 
 def overview(request):
     ordering = request.GET.get("ordering", "aangemaakt_op")
-    meldingen = service_instance.get_melding_lijst(
-        query_string=f"ordering={ordering}"
-    ).get("results", [])
+    offset = request.GET.get("offset", "0")
+    limit = request.GET.get("limit", "5")
+    data = service_instance.get_melding_lijst(
+        query_string=f"limit={limit}&offset={offset}&ordering={ordering}"
+    )
+    meldingen = data.get("results", [])
+    totaal = data.get("count", 0)
+    offset = int(offset)
+    limit = int(limit)
+    pageNumTotal = int(
+        (totaal - (totaal % limit)) / limit + (1 if totaal % limit > 0 else 0)
+    )
+    pages = []
+    for pageNum in range(pageNumTotal):
+        pages.append(f"limit={limit}&offset={pageNum * limit}&ordering={ordering}")
+    currentPage = offset / limit + 1
+    volgende = data.get("next")
+    vorige = data.get("previous")
+    offsetVolgende = offset + limit
+    offsetVorige = offset - limit
+    startNum = int((currentPage - 1) * limit)
+    endNum = int(min([currentPage * limit, totaal]))
 
     return render(
         request,
         "melding/part_overview_table.html",
         {
             "meldingen": meldingen,
+            "totaal": totaal,
+            "volgende": volgende,
+            "vorige": vorige,
+            "offsetVolgende": offsetVolgende,
+            "offsetVorige": offsetVorige,
+            "offset": offset,
+            "limit": limit,
+            "pages": pages,
+            "currentPage": currentPage,
+            "startNum": startNum,
+            "endNum": endNum,
         },
     )
 
 
 def detail(request, id):
     melding = service_instance.get_melding(id)
-    print(melding)
     return render(
         request,
         "melding/part_detail.html",
@@ -57,14 +86,11 @@ def root(request):
 def melding_lijst(request):
     ordering = request.GET.get("ordering", "aangemaakt_op")
     try:
-        alle_meldingen = service_instance.get_melding_lijst(
-            query_string=f"ordering={ordering}"
-        ).get("results", [])
-        # alle_meldingen_gesorteerd = sort_function.get(sort_by, sort_function[DAYS])[0]
+        data = service_instance.get_melding_lijst(query_string=f"ordering={ordering}")
+        alle_meldingen = data.get("results", [])
+
     except Exception:
-        # print(e)
         alle_meldingen = meldingen
-    # print(alle_meldingen)
 
     return render(
         request,

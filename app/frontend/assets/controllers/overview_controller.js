@@ -6,7 +6,7 @@ export default class extends Controller {
 
     }
 
-    openModal(e) {
+    openModal() {
         const modal = this.element.querySelector('.modal');
         const modalBackdrop = this.element.querySelector('.modal-backdrop');
 

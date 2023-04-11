@@ -29,6 +29,14 @@ def heeft_orden_oplopend(request_get, orden_param):
     return ""
 
 
+@register.filter
+def qs_offset(request_get, offset_param):
+    qs_huidige_dict = dict(request_get)
+    qs_huidige_dict.update({"offset": [offset_param]})
+
+    return dict_to_querystring(qs_huidige_dict)
+
+
 @register.simple_tag
 def vind_in_dict(op_zoek_dict, key):
     if type(op_zoek_dict) != dict:

@@ -1,4 +1,42 @@
 .container__pagination {
     display: flex;
     justify-content: flex-end;
+
+    ul.list-horizontal {
+
+        li {
+            margin-right: 0;
+            width: 32px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+
+            a,
+            span {
+                display: block;
+                text-decoration: none;
+                color: inherit;
+                &:hover {
+                    color: $green-tint01;
+                    background-color: #E0EEE2;
+                }
+
+                &.btn--next {
+                    path{
+                        fill: $gray-tint11;
+                    }
+                }
+                &.btn--previous {
+                    transform: rotate(180deg);
+                    svg{
+                        fill: $gray-tint11;
+                    }
+                }
+            }
+            span {
+                color: $green-tint01;
+                background-color: #E0EEE2;
+            }
+        }
+    }
 }

@@ -3,6 +3,10 @@
     @media (max-width: map-get($grid-breakpoints, lg)) {
         overflow-x: scroll;
     }
+
+    &--overview {
+        min-height: calc(100vh - 250px);
+    }
 }
 
 .sorting {

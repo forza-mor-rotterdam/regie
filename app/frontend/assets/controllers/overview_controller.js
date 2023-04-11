@@ -6,7 +6,7 @@ export default class extends Controller {
 
     }
 
-    openModal(e) {
+    openModal() {
         const modal = this.element.querySelector('.modal');
         const modalBackdrop = this.element.querySelector('.modal-backdrop');
 
@@ -21,14 +21,5 @@ export default class extends Controller {
         modal.classList.remove('show');
         modalBackdrop.classList.remove('show');
         document.body.classList.remove('show-modal');
-    }
-
-    setUrl(e) {
-        const nextURL = `${window.location.href.split('?')[0]}${e.target.href.substring(e.target.href.indexOf("?"))}`;
-        const nextTitle = document.title;
-        const nextState = { additionalInformation: 'Updated the URL with JS' };
-
-        // This will create a new entry in the browser's history, without reloading
-        window.history.pushState(nextState, nextTitle, nextURL);
     }
 }

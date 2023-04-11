@@ -1,8 +1,13 @@
+{% extends "base.html" %}
 {% load qs_ordenen heeft_orden_oplopend vind_in_dict qs_offset from querystring_tags %}
 {% load to_date from date_tags %}
 
-<turbo-frame id="overview">
-    <div class="container__table">
+{% block body %}
+
+<turbo-frame id="overview" data-turbo-action="advance" >
+    <span class="help-text">{{ startNum }} - {{ endNum }} van {{ totaal }} resultaten</span>
+
+    <div class="container__table container__table--overview">
         <table class="table--overview">
             <thead>
                 <tr>
@@ -62,33 +67,41 @@
                 {% endfor %}
             </tbody>
         </table>
-
-        {% if totaal > meldingen|length %}
+    </div>
+    {% if totaal > meldingen|length %}
         <div class="container__pagination">
             <div class="pagination">
                 <ul class="list-horizontal">
-                    {% if vorige %}
                         <li>
-                            <a href="{% url 'overview_part' %}?offset={{ offsetVorige }}" role="button" data-action="overview#setUrl"><</a>
+                        {% if vorige %}
+                            <a href="{% url 'overview_part' %}?offset={{ offsetVorige }}" role="button" rel="next" class="btn--previous">
+                                <svg width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99275 6.99995L0.689453 1.69665L1.75011 0.635986L8.11407 6.99995L1.75011 13.3639L0.689453 12.3032L5.99275 6.99995Z" />
+                                </svg>
+                            </a>
+                        {% endif %}
                         </li>
-                    {% endif %}
-                    {% for page in pages %}
+                        {% for page in pages %}
                         <li>
-                            <a href="{% url 'overview_part' %}?{{page}}" role="button" data-action="overview#setUrl">{{ forloop.counter }}</a>
+                            {% if currentPage == forloop.counter %}
+                            <span>{{ forloop.counter }}</span>
+                            {% else %}
+                            <a href="{% url 'overview_part' %}?{{page}}" role="button" rel="next">{{ forloop.counter }}</a>
+                            {% endif %}
                         </li>
-                    {% endfor %}
-                    {% if volgende %}
+                        {% endfor %}
                         <li>
-                            <a href="{% url 'overview_part' %}?offset={{ offsetVolgende }}" data-action="overview#setUrl">></a>
+                            {% if volgende %}
+                            <a href="{% url 'overview_part' %}?offset={{ offsetVolgende }}" role="button" rel="next" class="btn--next">
+                                <svg width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99275 6.99995L0.689453 1.69665L1.75011 0.635986L8.11407 6.99995L1.75011 13.3639L0.689453 12.3032L5.99275 6.99995Z" />
+                                </svg>
+                            </a>
+                            {% endif %}
                         </li>
-                    {% endif %}
-                </ul>
-                <ul class="list-horizontal">
-
                 </ul>
             </div>
         </div>
         {% endif %}
-
-    </div>
 </turbo-frame>
+{% endblock%}

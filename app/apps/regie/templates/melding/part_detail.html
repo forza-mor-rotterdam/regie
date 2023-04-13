@@ -120,16 +120,6 @@
                     </p>
                 </div>
                 <div>
-                    <h3 class="h5">Grafnummer</h3>
-                    <p>
-                        {% if melding.locaties.0.grafnummer %}
-                            {{ melding.locaties.0.grafnummer }}
-                        {% else %}
-                            n.v.t.
-                        {% endif %}
-                    </p>
-                </div>
-                <div>
                     <h3 class="h5">Vak</h3>
                     <p>
                         {% if melding.locaties.0.vak %}
@@ -140,30 +130,10 @@
                     </p>
                 </div>
                 <div>
-                    <h3 class="h5">Naam overledene</h3>
-                    <p>
-                        {% if melding.meta.naam_overledene %}
-                            {{ melding.meta.naam_overledene }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </p>
-                </div>
-                <div>
                     <h3 class="h5">Grafnummer</h3>
                     <p>
                         {% if melding.locaties.0.grafnummer %}
                             {{ melding.locaties.0.grafnummer }}
-                        {% else %}
-                            n.v.t.
-                        {% endif %}
-                    </p>
-                </div>
-                <div>
-                    <h3 class="h5">Vak</h3>
-                    <p>
-                        {% if melding.locaties.0.vak %}
-                            {{ melding.locaties.0.vak }}
                         {% else %}
                             n.v.t.
                         {% endif %}

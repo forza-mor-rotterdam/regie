@@ -3,11 +3,12 @@
 {% load to_date from date_tags %}
 
 {% block body %}
+<div data-controller="overview">
 
 <turbo-frame id="overview" data-turbo-action="advance" >
     <span class="help-text">{{ startNum }} - {{ endNum }} van {{ totaal }} resultaten</span>
 
-    <div class="container__table container__table--overview">
+    <div class="container__table">
         <table class="table--overview">
             <thead>
                 <tr>
@@ -104,4 +105,31 @@
         </div>
         {% endif %}
 </turbo-frame>
+
+
+    <div class="modal modal-right" >
+        {% comment %} <div class="modal"> {% endcomment %}
+            <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->overview#closeModal"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Sluit"
+                    data-action="overview#closeModal">
+                </button>
+                </div>
+                <div class="modal-body">
+                <turbo-frame
+                    id="detail_modal"
+                    data-src=""
+                    src=""
+                    laoding="lazy"
+                >
+                </turbo-frame>
+                </div>
+            {% comment %} </div> {% endcomment %}
+        </div>
+    </div>
+</div>
 {% endblock%}

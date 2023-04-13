@@ -26,7 +26,7 @@ def http_500(request):
 def overview(request):
     ordering = request.GET.get("ordering", "aangemaakt_op")
     offset = request.GET.get("offset", "0")
-    limit = request.GET.get("limit", "5")
+    limit = request.GET.get("limit", "10")
     data = service_instance.get_melding_lijst(
         query_string=f"limit={limit}&offset={offset}&ordering={ordering}"
     )

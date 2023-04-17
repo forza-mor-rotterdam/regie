@@ -100,7 +100,6 @@ WEBPACK_LOADER = {
 }
 DEV_SOCKET_PORT = os.getenv("DEV_SOCKET_PORT", "9000")
 
-
 # Django security settings
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_REFERRER_POLICY = "strict-origin"
@@ -188,7 +187,12 @@ MELDINGEN_API_URL = os.getenv("MELDINGEN_API_URL", f"{MELDINGEN_URL}/v1")
 MELDINGEN_API_HEALTH_CHECK_URL = os.getenv(
     "MELDINGEN_API_HEALTH_CHECK_URL", f"{MELDINGEN_URL}/health/"
 )
-
+MELDINGEN_TOKEN_API = os.getenv(
+    "MELDINGEN_TOKEN_API", "https://mor-core-acc.forzamor.nl/api-token-auth/"
+)
+MELDINGEN_TOKEN_TIMEOUT = 60 * 60
+MELDINGEN_USERNAME = os.getenv("MELDINGEN_USERNAME")
+MELDINGEN_PASSWORD = os.getenv("MELDINGEN_PASSWORD")
 
 LOGGING = {
     "version": 1,

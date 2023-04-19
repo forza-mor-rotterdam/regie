@@ -9,6 +9,7 @@ from apps.regie.views import (
 )
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
@@ -22,6 +23,7 @@ urlpatterns = [
         melding_pdf_download,
         name="melding_pdf_download",
     ),
+    path("admin/", admin.site.urls),
 ]
 
 

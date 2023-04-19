@@ -29,8 +29,15 @@ DEFAULT_ALLOWED_HOSTS = ".forzamor.nl,localhost,127.0.0.1"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", DEFAULT_ALLOWED_HOSTS).split(",")
 
 INSTALLED_APPS = (
+    "django.contrib.contenttypes",
     "django.contrib.staticfiles",
+    "django.contrib.messages",
     "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.auth",
+    "django.contrib.admin",
+    "django.contrib.gis",
+    "django.contrib.postgres",
     "rest_framework",
     "webpack_loader",
     "corsheaders",
@@ -53,6 +60,8 @@ MIDDLEWARE = (
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 )
 
@@ -117,6 +126,10 @@ DATABASES.update(
     else {}
 )
 
+SITE_ID = 1
+SITE_NAME = os.getenv("SITE_NAME", "Regie")
+SITE_DOMAIN = os.getenv("SITE_DOMAIN", "localhost")
+
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
@@ -170,7 +183,7 @@ CSP_IMG_SRC = (
     "mor-core-acc.forzamor.nl",
     "mor-core.forzamor.nl",
 )
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "unpkg.com")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "data:", "unpkg.com")
 CSP_CONNECT_SRC = ("'self'", "ws:")
 
 TEMPLATES = [
@@ -180,6 +193,8 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "django.contrib.messages.context_processors.messages",
+                "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "config.context_processors.general_settings",

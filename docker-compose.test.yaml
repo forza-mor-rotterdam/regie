@@ -3,24 +3,39 @@ services:
   app:
     build: ./app
     ports:
-      - "8000:8000"
+      - "8010:8000"
     env_file:
       - .env.test
     volumes:
       - ./app:/app
     depends_on:
-      - redis
+      database:
+        condition: service_healthy
     networks:
-      - mor_network
-    command: ["bash", "/app/deploy/docker-entrypoint.development.sh"]
+      - regie_network
 
   redis:
     image: redis
     networks:
-      - mor_network
+      - regie_network
     ports:
-      - "6379:6379"
+      - "7379:6379"
+
+  database:
+    image: postgis/postgis:11-3.3
+    shm_size: '1024m'
+    ports:
+      - "6432:5432"
+    env_file:
+      - .env.test
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - regie_network
 
 networks:
-  mor_network:
+  regie_network:
     external: true

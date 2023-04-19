@@ -20,7 +20,7 @@ jobs:
     - name: Build Docker images
       run: docker compose -f docker-compose.test.yaml build
     - name: Create Docker network
-      run: docker network create mor_network
+      run: docker network create regie_network
     - name: Start images
       run: docker compose -f docker-compose.test.yaml up -d
     - name: Run Tests

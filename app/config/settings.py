@@ -35,6 +35,9 @@ INSTALLED_APPS = (
     "webpack_loader",
     "corsheaders",
     "health_check",
+    "health_check.cache",
+    "health_check.db",
+    "health_check.contrib.migrations",
     # Apps
     "apps.health",
     "apps.rotterdam_formulier_html",
@@ -86,6 +89,33 @@ STATIC_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), "static"))
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), "media"))
+
+# Database settings
+DATABASE_NAME = os.getenv("DATABASE_NAME")
+DATABASE_USER = os.getenv("DATABASE_USER")
+DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
+DATABASE_HOST = os.getenv("DATABASE_HOST_OVERRIDE")
+DATABASE_PORT = os.getenv("DATABASE_PORT_OVERRIDE")
+
+DEFAULT_DATABASE = {
+    "ENGINE": "django.contrib.gis.db.backends.postgis",
+    "NAME": DATABASE_NAME,  # noqa:
+    "USER": DATABASE_USER,  # noqa
+    "PASSWORD": DATABASE_PASSWORD,  # noqa
+    "HOST": DATABASE_HOST,  # noqa
+    "PORT": DATABASE_PORT,  # noqa
+}
+
+DATABASES = {
+    "default": DEFAULT_DATABASE,
+}
+DATABASES.update(
+    {
+        "alternate": DEFAULT_DATABASE,
+    }
+    if ENVIRONMENT == "test"
+    else {}
+)
 
 WEBPACK_LOADER = {
     "DEFAULT": {

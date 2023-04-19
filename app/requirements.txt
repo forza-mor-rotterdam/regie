@@ -10,3 +10,4 @@ django-permissions-policy==4.14.0
 django-cors-headers==3.13.0
 django-csp==3.6
 weasyprint==52.5
+psycopg2-binary==2.9.5

@@ -3,7 +3,7 @@ services:
   app:
     build: ./app
     ports:
-      - "8000:8000"
+      - "8010:8000"
     env_file:
       - .env.test
     volumes:
@@ -19,13 +19,13 @@ services:
     networks:
       - regie_network
     ports:
-      - "6379:6379"
+      - "7379:6379"
 
   database:
     image: postgis/postgis:11-3.3
     shm_size: '1024m'
     ports:
-      - "5432:5432"
+      - "6432:5432"
     env_file:
       - .env.test
     healthcheck:

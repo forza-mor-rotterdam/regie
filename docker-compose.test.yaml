@@ -8,8 +8,9 @@ services:
       - .env.test
     volumes:
       - ./app:/app
-    database:
-      condition: service_healthy
+    depends_on:
+      database:
+        condition: service_healthy
     networks:
       - regie_network
 

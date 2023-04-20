@@ -6,6 +6,12 @@ export default class extends Controller {
 
     }
 
+    navigateNext(e) {
+        e.target.closest('.pagination').querySelector('[checked]').closest('li').nextElementSibling.querySelector('input').click();
+    }
+    navigatePrevious(e) {
+        e.target.closest('.pagination').querySelector('[checked]').closest('li').previousElementSibling.querySelector('input').click();
+    }
     openModal() {
         const modal = this.element.querySelector('.modal');
         const modalBackdrop = this.element.querySelector('.modal-backdrop');

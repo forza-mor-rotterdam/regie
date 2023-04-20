@@ -1,110 +1,117 @@
 {% extends "base.html" %}
 {% load qs_ordenen heeft_orden_oplopend vind_in_dict qs_offset from querystring_tags %}
+{% load rotterdam_formulier_html %}
+
 {% load to_date from date_tags %}
 
 {% block body %}
 <div data-controller="overview">
 
-<turbo-frame id="overview" data-turbo-action="advance" >
-    <span class="help-text">{{ startNum }} - {{ endNum }} van {{ totaal }} resultaten</span>
-
-    <div class="container__table">
-        <table class="table--overview">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th class="sorting {{ GET|heeft_orden_oplopend:'id' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'id' }}" role="button">Verzoek</a></th>
-                    <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__grafnummer' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'locaties__grafnummer' }}" role="button">Grafnummer</a></th>
-                    <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__vak' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'locaties__vak' }}" role="button">Vak</a></th>
-                    <th>Categorie</th>
-                    <th class="sorting {{ GET|heeft_orden_oplopend:'origineel_aangemaakt' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'origineel_aangemaakt' }}" role="button">Datum</a></th>
-                    <th class="sorting {{ GET|heeft_orden_oplopend:'afgesloten_op' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'afgesloten_op' }}" role="button">Status</a></th>
-                    <th>Print pdf</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for melding in meldingen %}
-
-                <tr>
-                    <td width="80">
-                        {% if melding.bijlagen.0.afbeelding_verkleind %}
-                        <div class="container__thumbnail" style="background-image: url('{{MELDINGEN_URL}}{{melding.bijlagen.0.afbeelding_verkleind}}')"></div>
-                        {% elif melding.bijlagen.0.bestand %}
-                        <div class="container__thumbnail" style="background-image: url('{{MELDINGEN_URL}}{{melding.bijlagen.0.bestand}}')"></div>
-                        {% else %}
-                        <div class="background-image"></div>
-                        {% endif %}
-                    </td>
-                    <td><a href="{% url 'detail_part' melding.id %}" data-turbo-frame="detail_modal" data-action="overview#openModal">{{melding.id}}</a></td>
-                    <td>{% if melding.locaties.0.grafnummer %}{{ melding.locaties.0.grafnummer }} {% else %}n.v.t.{% endif %}</td>
-                    <td>{% if melding.locaties.0.vak %}{{melding.locaties.0.vak}} {% else %}n.v.t.{% endif %}</td>
-                    <td>
-                        {% for category in melding.meta.categorie %}
-                            {% vind_in_dict melding.meta_uitgebreid.categorie.choices category %}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
+    <turbo-frame id="overview" data-turbo-action="advance" >
+        <form method="get" action="{% url 'overview_part' %}" id="filterForm">
+            <span class="help-text">{{ startNum }} - {{ endNum }} van {{ totaal }} resultaten</span>
 
 
-                    </td>
-                    <td class="nowrap">{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
-                    <td class="nowrap">
-                        <p class="display--flex">{% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}
-                            <button class="btn btn-icon btn-textlink">
-                                <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" title="Wijzig status">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.8493 6L6 20.8492V26.5061L11.6568 26.5061L26.5062 11.6569L20.8493 6ZM23.6778 11.6569L20.8493 8.82843L18.728 10.9497L21.5564 13.7782L23.6778 11.6569ZM11.6569 23.6776L20.1421 15.1924L17.3137 12.3639L8.82843 20.8492L11.6569 23.6776Z" fill="#00811F"/>
-                                </svg>
-                            </button>
-                        </p>
-                        </td>
-                    <td>
-                        <a href="{% url 'melding_pdf_download' melding.id %}" target="_blank" role="button" class="btn btn-icon btn-textlink">
-                            <svg width="16" height="16" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" title="Exporteer pdf">
-                                <path d="M37.0008 9.99962V-0.000244141H7.00118V9.99962H0.00195312V34.0002H7.00118V44H38.001V34.0002H44V9.99962H37.0008ZM35.0003 40.9994H9.99956V23.0001H35.0003V40.9994ZM9.99956 3.00039H34.0001V9.99962H9.99956V3.00039Z" fill="#00811F"/>
-                                <path d="M31.9997 36.0006H13.0002V39.0012H31.9997V36.0006Z" fill="#00811F"/>
-                                <path d="M31.9997 30.0016H13.0002V33.0022H31.9997V30.0016Z" fill="#00811F"/>
-                            </svg>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% if totaal > meldingen|length %}
-        <div class="container__pagination">
-            <div class="pagination">
-                <ul class="list-horizontal">
-                        <li>
-                        {% if vorige %}
-                            <a href="{% url 'overview_part' %}?offset={{ offsetVorige }}" role="button" rel="next" class="btn--previous">
-                                <svg width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99275 6.99995L0.689453 1.69665L1.75011 0.635986L8.11407 6.99995L1.75011 13.3639L0.689453 12.3032L5.99275 6.99995Z" />
-                                </svg>
-                            </a>
-                        {% endif %}
-                        </li>
-                        {% for page in pages %}
-                        <li>
-                            {% if currentPage == forloop.counter %}
-                            <span>{{ forloop.counter }}</span>
-                            {% else %}
-                            <a href="{% url 'overview_part' %}?{{page}}" role="button" rel="next">{{ forloop.counter }}</a>
-                            {% endif %}
-                        </li>
-                        {% endfor %}
-                        <li>
-                            {% if volgende %}
-                            <a href="{% url 'overview_part' %}?offset={{ offsetVolgende }}" role="button" rel="next" class="btn--next">
-                                <svg width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99275 6.99995L0.689453 1.69665L1.75011 0.635986L8.11407 6.99995L1.75011 13.3639L0.689453 12.3032L5.99275 6.99995Z" />
-                                </svg>
-                            </a>
-                            {% endif %}
-                        </li>
-                </ul>
+            <div class="container__filter" data-controller="filter">
+                <label>Locatie</label>
+                <div class="container__multiselect">
+                    <button class="toggle" data-action="filter#onToggleShow" type="button">Selecteer een locatie ({{locaties_geselecteerd}}/{{locaties_totaal}})</button>
+                    <div class="wrapper">
+                        {{ form.begraafplaats|render_rotterdam_formulier }}
+                        {{ form.ordering|render_rotterdam_formulier }}
+                        {{ form.limit|render_rotterdam_formulier }}
+                    </div>
+                </div>
             </div>
-        </div>
-        {% endif %}
-</turbo-frame>
+
+            <div class="container__table">
+                <table class="table--overview">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'id' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'id' }}" role="button">Verzoek</a></th>
+                            <th class="">Locatie</th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__grafnummer' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'locaties__grafnummer' }}" role="button">Grafnummer</a></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__vak' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'locaties__vak' }}" role="button">Vak</a></th>
+                            <th>Categorie</th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'origineel_aangemaakt' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'origineel_aangemaakt' }}" role="button">Datum</a></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'afgesloten_op' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'afgesloten_op' }}" role="button">Status</a></th>
+                            <th>Print pdf</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for melding in meldingen %}
+
+                        <tr>
+                            <td width="80">
+                                {% if melding.bijlagen.0.afbeelding_verkleind %}
+                                <div class="container__thumbnail" style="background-image: url('{{MELDINGEN_URL}}{{melding.bijlagen.0.afbeelding_verkleind}}')"></div>
+                                {% elif melding.bijlagen.0.bestand %}
+                                <div class="container__thumbnail" style="background-image: url('{{MELDINGEN_URL}}{{melding.bijlagen.0.bestand}}')"></div>
+                                {% else %}
+                                <div class="background-image"></div>
+                                {% endif %}
+                            </td>
+                            <td><a href="{% url 'detail_part' melding.id %}" data-turbo-frame="detail_modal" data-action="overview#openModal">{{melding.id}}</a></td>
+
+                            <td>{{ melding.meta.begraafplaats }}</td>
+                            <td>{% if melding.locaties.0.grafnummer %}{{ melding.locaties.0.grafnummer }} {% else %}n.v.t.{% endif %}</td>
+                            <td>{% if melding.locaties.0.vak %}{{melding.locaties.0.vak}} {% else %}n.v.t.{% endif %}</td>
+                            <td>
+                                {% for category in melding.meta.categorie %}
+                                    {% vind_in_dict melding.meta_uitgebreid.categorie.choices category %}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+
+
+                            </td>
+                            <td class="nowrap">{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
+                            <td class="nowrap">
+                                <p class="display--flex">{% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}
+                                    <button class="btn btn-icon btn-textlink">
+                                        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" title="Wijzig status">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M20.8493 6L6 20.8492V26.5061L11.6568 26.5061L26.5062 11.6569L20.8493 6ZM23.6778 11.6569L20.8493 8.82843L18.728 10.9497L21.5564 13.7782L23.6778 11.6569ZM11.6569 23.6776L20.1421 15.1924L17.3137 12.3639L8.82843 20.8492L11.6569 23.6776Z" fill="#00811F"/>
+                                        </svg>
+                                    </button>
+                                </p>
+                                </td>
+                            <td>
+                                <a href="{% url 'melding_pdf_download' melding.id %}" target="_blank" role="button" class="btn btn-icon btn-textlink">
+                                    <svg width="16" height="16" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" title="Exporteer pdf">
+                                        <path d="M37.0008 9.99962V-0.000244141H7.00118V9.99962H0.00195312V34.0002H7.00118V44H38.001V34.0002H44V9.99962H37.0008ZM35.0003 40.9994H9.99956V23.0001H35.0003V40.9994ZM9.99956 3.00039H34.0001V9.99962H9.99956V3.00039Z" fill="#00811F"/>
+                                        <path d="M31.9997 36.0006H13.0002V39.0012H31.9997V36.0006Z" fill="#00811F"/>
+                                        <path d="M31.9997 30.0016H13.0002V33.0022H31.9997V30.0016Z" fill="#00811F"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if totaal > meldingen|length %}
+            <div class="container__pagination">
+                <div class="pagination">
+                    {% if vorige %}
+                    <button type="button" class="btn--previous" data-action="overview#navigatePrevious">
+                        <svg width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99275 6.99995L0.689453 1.69665L1.75011 0.635986L8.11407 6.99995L1.75011 13.3639L0.689453 12.3032L5.99275 6.99995Z" />
+                        </svg>
+                    </button>
+                    {% endif %}
+                    {{ form.offset|render_rotterdam_formulier }}
+                    {% if volgende %}
+                    <button type="button" class="btn--next" data-action="overview#navigateNext">
+                        <svg width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99275 6.99995L0.689453 1.69665L1.75011 0.635986L8.11407 6.99995L1.75011 13.3639L0.689453 12.3032L5.99275 6.99995Z" />
+                        </svg>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </form>
+    </turbo-frame>
 
 
     <div class="modal modal-right" >

@@ -31,7 +31,7 @@
         {% if classes.icon %}
             {% include 'rotterdam_formulier_html/field_icon.html' %}
         {% endif %}
-        {% if field.auto_id %}
+        {% if field.auto_id and not field.field.widget.attrs.hideLabel %}
             <h3 class="label">{{ field.label }}</h3>
         {% endif %}
         <div class="wrapper-horizontal">
@@ -140,8 +140,8 @@
 
     {% elif field|is_multiple_checkbox %}
     <div class="form-row {{ classes.label }} {{ classes.value }} {{ classes.single_value }}">
-        {% if field.auto_id %}
-            <h3 class="label">{{ field.label }}</h3>
+        {% if field.auto_id and not field.field.widget.attrs.hideLabel %}
+            <h3 class="label">{{ field.label }}{{field.field.widget.attrs.hideLabel}}</h3>
         {% endif %}
         <div id="{{field.auto_id}}">
             <ul class="list--form-check-input">

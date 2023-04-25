@@ -1,3 +1,4 @@
+import copy
 import math
 
 import weasyprint
@@ -58,24 +59,26 @@ def overview(request):
     form = FilterForm(
         query_dict, offset_options=offset_options, locatie_opties=begraafplaatsen
     )
+    filter_form_data = copy.deepcopy(standaard_waardes)
     if form.is_valid():
-        limit = int(form.cleaned_data.get("limit"))
-        offset = int(form.cleaned_data.get("offset"))
-        ordering = form.cleaned_data.get("ordering")
+        filter_form_data = copy.deepcopy(form.cleaned_data)
+    limit = int(filter_form_data.get("limit", "10"))
+    offset = int(filter_form_data.get("offset", "0"))
+    ordering = filter_form_data.get("ordering")
 
-        meldingen = data.get("results", [])
-        totaal = data.get("count", 0)
-        pageNumTotal = int(
-            (totaal - (totaal % limit)) / limit + (1 if totaal % limit > 0 else 0)
-        )
-        pages = []
-        for pageNum in range(pageNumTotal):
-            pages.append(f"limit={limit}&offset={pageNum * limit}&ordering={ordering}")
-        currentPage = offset / limit + 1
-        volgende = data.get("next")
-        vorige = data.get("previous")
-        startNum = int((currentPage - 1) * limit)
-        endNum = int(min([currentPage * limit, totaal]))
+    meldingen = data.get("results", [])
+    totaal = data.get("count", 0)
+    pageNumTotal = int(
+        (totaal - (totaal % limit)) / limit + (1 if totaal % limit > 0 else 0)
+    )
+    pages = []
+    for pageNum in range(pageNumTotal):
+        pages.append(f"limit={limit}&offset={pageNum * limit}&ordering={ordering}")
+    currentPage = offset / limit + 1
+    volgende = data.get("next")
+    vorige = data.get("previous")
+    startNum = int((currentPage - 1) * limit)
+    endNum = int(min([currentPage * limit, totaal]))
 
     return render(
         request,

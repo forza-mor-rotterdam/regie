@@ -27,6 +27,7 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         build-essential \
         python-dev \
+        curl \
         unzip \
         wget \
         dnsutils \

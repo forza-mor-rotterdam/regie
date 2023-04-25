@@ -73,8 +73,8 @@
                 <div>
                     <h3 class="h5">Categorie</h3>
                     <p>
-                        {% for category in melding.meta.categorie %}
-                            {% vind_in_dict melding.meta_uitgebreid.categorie.choices category %}{% if not forloop.last %}, {% endif %}
+                        {% for onderwerp in melding.onderwerpen %}
+                            {% vind_in_dict filter_options.onderwerp onderwerp %}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </p>
                 </div>
@@ -92,7 +92,7 @@
                     <h3 class="h5">Wie heeft het verzoek aangenomen?</h3>
                     <p>
                         {% if melding.meta.aannemer %}
-                            {% vind_in_dict melding.meta_uitgebreid.aannemer.choices melding.meta.aannemer %}
+                            {{ melding.meta.aannemer }}
                         {% else %}
                             -
                         {% endif %}
@@ -113,7 +113,6 @@
                     <p>
                         {% if melding.locaties.0.begraafplaats %}
                             {% vind_in_dict melding.meta_uitgebreid.begraafplaats.choices melding.locaties.0.begraafplaats %}
-
                         {% else %}
                             -
                         {% endif %}
@@ -122,8 +121,8 @@
                 <div>
                     <h3 class="h5">Vak</h3>
                     <p>
-                        {% if melding.locaties.0.vak %}
-                            {{ melding.locaties.0.vak }}
+                        {% if melding.locaties_voor_melding.0.vak %}
+                            {{ melding.locaties_voor_melding.0.vak }}
                         {% else %}
                             n.v.t.
                         {% endif %}
@@ -132,8 +131,8 @@
                 <div>
                     <h3 class="h5">Grafnummer</h3>
                     <p>
-                        {% if melding.locaties.0.grafnummer %}
-                            {{ melding.locaties.0.grafnummer }}
+                        {% if melding.locaties_voor_melding.0.grafnummer %}
+                            {{ melding.locaties_voor_melding.0.grafnummer }}
                         {% else %}
                             n.v.t.
                         {% endif %}
@@ -195,23 +194,13 @@
                 <div>
                     <h3 class="h5">Is deze persoon de rechthebbende?</h3>
                     <p>
-                        {% if melding.meta.rechthebbende == "1" %}
-                            Ja
-                        {% elif melding.meta.rechthebbende == "0" %}
-                            Nee
-                        {% else %}
-                            Onbekend
-                        {% endif %}
+                        {{ melding.meta.rechthebbende }}
                     </p>
                 </div>
                 <div>
                     <h3 class="h5">Is terugkoppeling gewenst?</h3>
                     <p>
-                        {% if melding.meta.terugkoppeling_gewenst == "1"%}
-                            Ja
-                        {% else %}
-                            Nee
-                        {% endif %}
+                        {{ melding.meta.terugkoppeling_gewenst }}
                     </p>
                 </div>
             </div>

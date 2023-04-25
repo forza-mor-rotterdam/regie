@@ -2,7 +2,6 @@ import math
 
 import weasyprint
 from apps.meldingen import service_instance
-from apps.regie.constanten import BEGRAAFPLAATSEN, BEGRAAFPLAATSEN_DICT
 from apps.regie.forms import FilterForm
 from config.context_processors import general_settings
 from django.conf import settings
@@ -52,9 +51,12 @@ def overview(request):
     )
 
     locaties_geselecteerd = len(query_dict.getlist("begraafplaats"))
-    locaties_totaal = len(BEGRAAFPLAATSEN)
+    begraafplaatsen = [
+        [k, f"{v[0]}"]
+        for k, v in data.get("filter_options", {}).get("begraafplaats", {}).items()
+    ]
     form = FilterForm(
-        query_dict, offset_options=offset_options, locatie_opties=BEGRAAFPLAATSEN
+        query_dict, offset_options=offset_options, locatie_opties=begraafplaatsen
     )
     if form.is_valid():
         limit = int(form.cleaned_data.get("limit"))
@@ -62,7 +64,6 @@ def overview(request):
         ordering = form.cleaned_data.get("ordering")
 
         meldingen = data.get("results", [])
-        afdelingen = BEGRAAFPLAATSEN_DICT
         totaal = data.get("count", 0)
         pageNumTotal = int(
             (totaal - (totaal % limit)) / limit + (1 if totaal % limit > 0 else 0)
@@ -81,19 +82,14 @@ def overview(request):
         "melding/part_overview_table.html",
         {
             "meldingen": meldingen,
-            "afdelingen": afdelingen,
             "totaal": totaal,
             "volgende": volgende,
             "vorige": vorige,
-            "offset": offset,
-            "limit": limit,
-            "pages": pages,
-            "currentPage": currentPage,
             "startNum": startNum,
             "endNum": endNum,
             "form": form,
             "locaties_geselecteerd": locaties_geselecteerd,
-            "locaties_totaal": locaties_totaal,
+            "filter_options": data.get("filter_options", {}),
         },
     )
 

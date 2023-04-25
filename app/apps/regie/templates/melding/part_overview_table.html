@@ -15,7 +15,7 @@
             <div class="container__filter" data-controller="filter">
                 <label>Locatie</label>
                 <div class="container__multiselect">
-                    <button class="toggle" data-action="filter#onToggleShow" type="button">Selecteer een locatie ({{locaties_geselecteerd}}/{{locaties_totaal}})</button>
+                    <button class="toggle" data-action="filter#onToggleShow" type="button">Selecteer een locatie ({{locaties_geselecteerd}}/{{filter_options.begraafplaats|length}})</button>
                     <div class="wrapper">
                         {{ form.begraafplaats|render_rotterdam_formulier }}
                         {{ form.ordering|render_rotterdam_formulier }}
@@ -54,14 +54,13 @@
                             </td>
                             <td><a href="{% url 'detail_part' melding.id %}" data-turbo-frame="detail_modal" data-action="overview#openModal">{{melding.id}}</a></td>
 
-                            <td>{{ melding.meta.begraafplaats }}</td>
-                            <td>{% if melding.locaties.0.grafnummer %}{{ melding.locaties.0.grafnummer }} {% else %}n.v.t.{% endif %}</td>
-                            <td>{% if melding.locaties.0.vak %}{{melding.locaties.0.vak}} {% else %}n.v.t.{% endif %}</td>
+                            <td>{% vind_in_dict filter_options.begraafplaats melding.locaties_voor_melding.0.begraafplaats %}</td>
+                            <td>{% if melding.locaties_voor_melding.0.grafnummer %}{{ melding.locaties_voor_melding.0.grafnummer }} {% else %}n.v.t.{% endif %}</td>
+                            <td>{% if melding.locaties_voor_melding.0.vak %}{{melding.locaties_voor_melding.0.vak}} {% else %}n.v.t.{% endif %}</td>
                             <td>
-                                {% for category in melding.meta.categorie %}
-                                    {% vind_in_dict melding.meta_uitgebreid.categorie.choices category %}{% if not forloop.last %}, {% endif %}
+                                {% for onderwerp in melding.onderwerpen %}
+                                    {% vind_in_dict filter_options.onderwerp onderwerp %}{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
-
 
                             </td>
                             <td class="nowrap">{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>

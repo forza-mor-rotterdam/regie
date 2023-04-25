@@ -41,5 +41,7 @@ def qs_offset(request_get, offset_param):
 def vind_in_dict(op_zoek_dict, key):
     if type(op_zoek_dict) != dict:
         return key
-
-    return op_zoek_dict.get(key, key)
+    result = op_zoek_dict.get(key, op_zoek_dict.get(str(key), key))
+    if isinstance(result, (list, tuple)):
+        return result[0]
+    return result

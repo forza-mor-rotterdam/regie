@@ -27,6 +27,13 @@ def http_500(request):
 
 
 def overview(request):
+
+    query_dict_vorige = request.session.get("meldingen_query_params")
+    print(query_dict_vorige)
+    query_dict_vorige.pop("ordering")
+    query_dict_vorige.pop("offset")
+    query_dict_vorige.pop("limit")
+
     standaard_waardes = {
         "ordering": "aangemaakt_op",
         "offset": "0",
@@ -38,6 +45,19 @@ def overview(request):
 
     query_dict.update(request.GET)
 
+    query_dict_kopie = QueryDict("", mutable=True)
+    query_dict_kopie.update(query_dict)
+    query_dict_kopie.pop("ordering")
+    query_dict_kopie.pop("offset")
+    query_dict_kopie.pop("limit")
+    print(query_dict_vorige)
+    print(query_dict_kopie)
+
+    if query_dict_kopie != query_dict_vorige:
+        query_dict.update(
+            {"offset": standaard_waardes["offset"], "limit": standaard_waardes["limit"]}
+        )
+
     data = service_instance.get_melding_lijst(query_string=query_dict.urlencode())
 
     pagina_aantal = math.ceil(data.get("count", 0) / int(query_dict.get("limit")))
@@ -45,11 +65,18 @@ def overview(request):
         (str(p * int(query_dict.get("limit"))), str(p + 1))
         for p in range(0, pagina_aantal)
     ]
-    query_dict["offset"] = (
-        query_dict.get("offset")
-        if str(query_dict.get("offset")) in [str(oo[0]) for oo in offset_options]
-        else 0
-    )
+
+    # query_dict["offset"] = (
+    #     query_dict.get("offset")
+    #     if str(query_dict.get("offset")) in [str(oo[0]) for oo in offset_options]
+    #     else 0
+    # )
+
+    if str(query_dict.get("offset")) not in [str(oo[0]) for oo in offset_options]:
+        query_dict.update({"offset": standaard_waardes["offset"]})
+        data = service_instance.get_melding_lijst(query_string=query_dict.urlencode())
+
+    request.session["meldingen_query_params"] = query_dict
 
     locaties_geselecteerd = len(query_dict.getlist("begraafplaats"))
     begraafplaatsen = [
@@ -93,6 +120,7 @@ def overview(request):
             "form": form,
             "locaties_geselecteerd": locaties_geselecteerd,
             "filter_options": data.get("filter_options", {}),
+            "query_string": query_dict.urlencode(),
         },
     )
 

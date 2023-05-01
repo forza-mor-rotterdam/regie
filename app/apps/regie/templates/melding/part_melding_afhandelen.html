@@ -1,0 +1,15 @@
+<turbo-frame id="melding_afhandelen">
+    <form action="{% url 'melding_afhandelen' melding.id %}" method="post">
+        <h3 class="h5">Status</h3>
+        <p>Huidige status: {{melding.status.naam}}</p>
+        <p>
+            {% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}
+        </p>
+        <h4 class="h6">Status aanpassen</h4>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            Aanpassen
+        </button>
+    </form>
+</turbo-frame>

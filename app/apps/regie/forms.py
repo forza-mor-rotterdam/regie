@@ -43,3 +43,16 @@ class FilterForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields["offset"].choices = offset_options
         self.fields["begraafplaats"].choices = locatie_opties
+
+
+class MeldingAfhandelenForm(forms.Form):
+    afhandel_reden = forms.ChoiceField(
+        widget=forms.RadioSelect(),
+        label="Melding afhandelen",
+        choices=(),
+    )
+
+    def __init__(self, *args, **kwargs):
+        afhandel_reden_opties = kwargs.pop("afhandel_reden_opties", None)
+        super().__init__(*args, **kwargs)
+        self.fields["afhandel_reden"].choices = afhandel_reden_opties

@@ -2,6 +2,7 @@ from apps.regie.views import (
     detail,
     http_404,
     http_500,
+    melding_afhandelen,
     melding_lijst,
     melding_pdf_download,
     overview,
@@ -17,7 +18,12 @@ urlpatterns = [
     path("melding/", melding_lijst, name="melding_lijst"),
     path("health/", include("health_check.urls")),
     path("part/melding/", overview, name="overview_part"),
-    path("part/detail/<int:id>", detail, name="detail_part"),
+    path("part/detail/<int:id>/", detail, name="detail_part"),
+    path(
+        "part/detail/<int:id>/afhandelen/",
+        melding_afhandelen,
+        name="melding_afhandelen",
+    ),
     path(
         "download/melding/<int:id>/pdf/",
         melding_pdf_download,

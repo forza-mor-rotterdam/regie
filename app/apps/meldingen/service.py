@@ -51,3 +51,15 @@ class MeldingenService:
 
     def get_melding(self, id, query_string=""):
         return self.do_request(f"/melding/{id}/?{query_string}")
+
+    def melding_status_aanpassen(self, id, status, bijlagen=[], omschrijving=None):
+        data = {
+            "status": {
+                "naam": status,
+            },
+            "bijlagen": bijlagen,
+            "omschrijving": omschrijving,
+        }
+        return self.do_request(
+            f"/melding/{id}/status-aanpassen/", method="patch", data=data
+        )

@@ -3,7 +3,7 @@ import math
 
 import weasyprint
 from apps.meldingen import service_instance
-from apps.regie.forms import FilterForm
+from apps.regie.forms import FilterForm, MeldingAfhandelenForm
 from config.context_processors import general_settings
 from django.conf import settings
 from django.http import HttpResponse, QueryDict
@@ -103,6 +103,32 @@ def detail(request, id):
         request,
         "melding/part_detail.html",
         {
+            "melding": melding,
+        },
+    )
+
+
+def melding_afhandelen(request, id):
+    melding = service_instance.get_melding(id)
+    afhandel_reden_opties = [(s, s) for s in melding.get("volgende_statussen", ())]
+    form = MeldingAfhandelenForm(afhandel_reden_opties=afhandel_reden_opties)
+    if request.POST:
+        form = MeldingAfhandelenForm(
+            request.POST, afhandel_reden_opties=afhandel_reden_opties
+        )
+        if form.is_valid():
+            melding = service_instance.melding_status_aanpassen(
+                id, status=form.cleaned_data.get("afhandel_reden")
+            )
+            afhandel_reden_opties = [
+                (s, s) for s in melding.get("volgende_statussen", ())
+            ]
+            form = MeldingAfhandelenForm(afhandel_reden_opties=afhandel_reden_opties)
+    return render(
+        request,
+        "melding/part_melding_afhandelen.html",
+        {
+            "form": form,
             "melding": melding,
         },
     )

@@ -7,12 +7,12 @@
 {% block body %}
 <div data-controller="overview">
 
-    <turbo-frame id="overview" data-turbo-action="advance" >
+    <turbo-frame id="overview" data-turbo-action="advance">
         <form method="get" action="{% url 'overview_part' %}" id="filterForm">
             <span class="help-text">{{ startNum }} - {{ endNum }} van {{ totaal }} resultaten</span>
 
 
-            <div class="container__filter" data-controller="filter">
+            <div class="container__filter" data-controller="filter" data-filter-query-string-value="{{ query_string }}">
                 <label>Locatie</label>
                 <div class="container__multiselect">
                     <button class="toggle" data-action="filter#onToggleShow" type="button">Selecteer een locatie ({{locaties_geselecteerd}}/{{filter_options.begraafplaats|length}})</button>

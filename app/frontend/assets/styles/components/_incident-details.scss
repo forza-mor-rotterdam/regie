@@ -42,7 +42,7 @@
         border-bottom: 1px solid $gray-tint04;
 
         svg {
-            margin-right: 12px;
+            margin-right: 8px;
         }
     }
     h3 {
@@ -147,6 +147,15 @@
             background-size: cover;
             background-position: 50% 50%;
             background-repeat: no-repeat;
+        }
+    }
+}
+
+.incident-meta-list {
+    li {
+        margin-bottom: 1rem;
+        > *:last-child {
+            margin-bottom: 0;
         }
     }
 }

@@ -4,13 +4,14 @@ from apps.regie.views import (
     http_500,
     melding_lijst,
     melding_pdf_download,
+    meldingen_bestand,
     overview,
     root,
 )
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 
 urlpatterns = [
     path("", root, name="root"),
@@ -24,6 +25,7 @@ urlpatterns = [
         name="melding_pdf_download",
     ),
     path("admin/", admin.site.urls),
+    re_path(r"media/", meldingen_bestand, name="meldingen_bestand"),
 ]
 
 

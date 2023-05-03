@@ -1,86 +1,12 @@
 {% extends "base.html" %}
 {% load is_list from list_tags %}
 {% load to_date from date_tags %}
+    {% block header %}{% include 'snippets/pageheader.html' with title="Serviceverzoeken" %}{% endblock %}
 
 {% block body %}
-
-
 <div data-controller="overview">
-
     <turbo-frame id="overview" data-turbo-action="advance" src="{% url 'overview_part' %}?{{request.META.QUERY_STRING}}">
 
     </turbo-frame>
-
-
-    <div class="modal modal-right" >
-        {% comment %} <div class="modal"> {% endcomment %}
-            <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->overview#closeModal"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                <button
-                    type="button"
-                    class="btn-close"
-                    aria-label="Sluit"
-                    data-action="overview#closeModal">
-                </button>
-                </div>
-                <div class="modal-body">
-                <turbo-frame
-                    id="detail_modal"
-                    data-src=""
-                    src=""
-                    laoding="lazy"
-                >
-                </turbo-frame>
-                </div>
-            {% comment %} </div> {% endcomment %}
-        </div>
-    </div>
-
-    {% comment %} <details>
-
-    <summary>Ruwe data</summary>
-    <ul>
-    {% for melding in meldingen %}
-        <li>
-            <dl>
-            {% for k, v in melding.items %}
-            <dt>
-                <strong>{{k}}</strong>:
-            </dt>
-            <dd>
-                {% if v.items %}
-                <ul>
-                {% for kk, vv in v.items %}
-                <li><strong>{{kk}}: </strong>{{vv}}</li>
-                {% endfor %}
-                </ul>
-                {% elif v|is_list %}
-                <ul>
-                {% for vv in v %}
-                    <li>
-                    {% if vv.items %}
-                    <ul>
-                    {% for kkk, vvv in vv.items %}
-                    <li><strong>{{kkk}}: </strong>{{vvv}}
-                    {% endfor %}
-                    </ul>
-                    {% else %}
-                    {{vv}}
-                    {%endif%}
-                    </li>
-                {% endfor %}
-                </ul>
-                {% else %}
-                {{v}}
-                {%endif%}
-
-            </dd>
-            {% endfor %}
-            </dl>
-        </li>
-    {% endfor %}
-    </ul>
-    </details> {% endcomment %}
 </div>
 {% endblock%}

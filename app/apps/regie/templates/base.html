@@ -35,7 +35,8 @@
         {% endblock %}
     </head>
     <body>
-    {% include 'snippets/pageheader.html' with title="Serviceverzoeken" %}
+        {% block header %}{% endblock %}
+
         <main>
             <div class="container">
                 {% block body %}{% endblock %}

@@ -33,6 +33,29 @@ header {
     padding: 0 map-get($container-margin, s) 16px;
 }
 
+.grid-container {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 32px;
+
+    .page__detail & {
+        grid-template-columns: 66fr 34fr;
+
+        .grid-item {
+
+            &.bottom-left {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+
+                >* {
+                    align-self: flex-start;
+                }
+            }
+        }
+    }
+}
+
 // HEADINGS
 h1, .h1 {
     font-size: $h1-font-size;
@@ -135,12 +158,13 @@ a,
 
     &.link--back {
         @include has-icon();
-        margin: 0 0 20px 20px;
+        padding-left: 10px;
+        font-size: 16px;
+        font-weight: 700;
         > svg {
             left: -20px;
-            path {
-                fill: $black;
-            }
+            top: 3px;
+            padding-right: 20px;
         }
     }
 
@@ -268,6 +292,7 @@ section {
 }
 
 // HELPER-CLASSES
+
 .foldout {
     height: auto;
     overflow: hidden;
@@ -324,6 +349,9 @@ section {
 }
 
 .display--flex {
+    display: flex;
+}
+.display--flex--center {
     display: flex;
     align-items: center;
 }

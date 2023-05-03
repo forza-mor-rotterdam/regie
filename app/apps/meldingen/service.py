@@ -1,6 +1,5 @@
 import requests
-from django.conf import settings
-from django.core.cache import cache
+from apps.meldingen.utils import get_meldingen_token
 from requests import Request, Response
 
 
@@ -16,22 +15,7 @@ class MeldingenService:
         return f"{self._api_base_url}{url}"
 
     def get_headers(self):
-        meldingen_token = cache.get("meldingen_token")
-        if not meldingen_token:
-            token_response = requests.post(
-                settings.MELDINGEN_TOKEN_API,
-                json={
-                    "username": settings.MELDINGEN_USERNAME,
-                    "password": settings.MELDINGEN_PASSWORD,
-                },
-            )
-            if token_response.status_code == 200:
-                meldingen_token = token_response.json().get("token")
-                cache.set(
-                    "meldingen_token", meldingen_token, settings.MELDINGEN_TOKEN_TIMEOUT
-                )
-
-        headers = {"Authorization": f"Token {meldingen_token}"}
+        headers = {"Authorization": f"Token {get_meldingen_token()}"}
         return headers
 
     def do_request(self, url, method="get", data={}):

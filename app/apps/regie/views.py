@@ -1,12 +1,14 @@
 import copy
 import math
 
+import requests
 import weasyprint
 from apps.meldingen import service_instance
+from apps.meldingen.utils import get_meldingen_token
 from apps.regie.forms import FilterForm
 from config.context_processors import general_settings
 from django.conf import settings
-from django.http import HttpResponse, QueryDict
+from django.http import HttpResponse, QueryDict, StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -146,4 +148,16 @@ def melding_pdf_download(request, id):
         pdf,
         content_type="application/pdf",
         headers={"Content-Disposition": f'attachment;filename="{pdf_filename}"'},
+    )
+
+
+def meldingen_bestand(request):
+    url = f"{settings.MELDINGEN_URL}{request.path}"
+    headers = {"Authorization": f"Token {get_meldingen_token()}"}
+    response = requests.get(url, stream=True, headers=headers)
+    return StreamingHttpResponse(
+        response.raw,
+        content_type=response.headers.get("content-type"),
+        status=response.status_code,
+        reason=response.reason,
     )

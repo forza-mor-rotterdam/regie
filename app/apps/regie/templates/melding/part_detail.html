@@ -40,7 +40,7 @@
                             >
                                 {% for bijlage in melding.bijlagen %}
                                 <li class="container__image" id="{{ bijlage.bestand }}">
-                                    <div class="image" style="background-image: url('{{ MELDINGEN_URL}}{{bijlage.bestand}}')" data-detail-target="selectedImage"></div>
+                                    <div class="image" style="background-image: url('{{bijlage.bestand}}')" data-detail-target="selectedImage"></div>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -52,7 +52,7 @@
                                     <li data-action="click->detail#selectImage"
                                         data-detail-image-index-param="{{ forloop.counter }}">
                                         <div class="container__image">
-                                            <div class="image" style="background-image:url('{{ MELDINGEN_URL}}{{bijlage.afbeelding_verkleind}}');"></div>
+                                            <div class="image" style="background-image:url('{{bijlage.afbeelding_verkleind}}');"></div>
                                         </div>
                                     </li>
                                     {% endfor %}
@@ -256,7 +256,7 @@
                             <ul class="list-clean">
                                 {% for bijlage in melding.bijlagen %}
                                 <li class="container__image">
-                                    <img src="{{MELDINGEN_URL}}{{bijlage.bestand}}" alt=""/>
+                                    <img src="{{bijlage.bestand}}" alt=""/>
                                 </li>
                                 {% endfor %}
                             </ul>

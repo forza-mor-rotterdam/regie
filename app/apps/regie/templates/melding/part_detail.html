@@ -268,7 +268,7 @@
 
                     <div class="container__actions">
                         <p>
-                            <button type="button" class="btn btn-action"><span>Behandelen</span></button>
+                            <button type="button" class="btn btn-action" data-action="detail#openModal"><span>Behandelen</span></button>
                         </p>
                         <p>
                             <a href="" role="button" class="btn btn-icon btn-textlink">
@@ -290,6 +290,83 @@
                             </a>
                         </p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" >
+        {% comment %} <div class="modal"> {% endcomment %}
+            <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->overview#closeModal"></div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1>
+                        <span>Afhandelen</span>
+                    </h1>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        aria-label="Sluit"
+                        data-action="overview#closeModal">
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <turbo-frame
+                        id="behandel_modal"
+                        data-src=""
+                        src=""
+                        laoding="lazy"
+                    >
+                    {% if form %}
+                    <form action="" method="post" data-testid="handleIncidentForm" class="form--incident-handle" novalidate>
+                        {% csrf_token %}
+                        <fieldset>
+                        {{ form.handle_choice.label_tag }}
+                        {% endif %}
+                        {{ form.handle_choice }}
+                        {{ form.handle_choice.errors }}
+                        {% if not form.handle_choice.is_hidden %}
+                        </fieldset>
+                        {% endif %}
+
+                        <fieldset>
+                            <div class="form-row">
+                                <div class="display-flex">
+                                    {{ form.external_text.label_tag }}
+                                    <button class="btn-textlink" type="button" data-action="incidentHandleForm#clearExternalMessage">Wissen</button>
+
+                                </div>
+                                {{ form.external_text }}
+                                {{ form.external_text.errors }}
+                                <button class="btn-textlink" type="button" data-action="incidentHandleForm#defaultExternalMessage">Gebruik de standaard afhandeltekst</button>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div>
+                                {{ form.internal_text.label_tag }}
+                                {{ form.internal_text }}
+                                {{ form.internal_text.errors }}
+                            </div>
+                        </fieldset>
+                        <div class="form-row">
+                            <button
+                                type="submit"
+                                class="btn btn-action"
+                            >
+                                <span>Afhandelen</span>
+                            </button>
+                            <button
+                                type="reset"
+                                class="btn btn-tertiary"
+                                data-action="incidentHandleForm#cancelHandle"
+                            >
+                                <span>Annuleren</span>
+                            </button>
+                        </div>
+                    </form>
+                    </form>
+                    </turbo-frame>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@ import requests
 import weasyprint
 from apps.meldingen import service_instance
 from apps.meldingen.utils import get_meldingen_token
-from apps.regie.forms import FilterForm
+from apps.regie.forms import FilterForm, HandleForm
 from config.context_processors import general_settings
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -102,11 +102,13 @@ def overview(request):
 
 def detail(request, id):
     melding = service_instance.get_melding(id)
+    form = HandleForm
     return render(
         request,
         "melding/part_detail.html",
         {
             "melding": melding,
+            "form": form,
         },
     )
 

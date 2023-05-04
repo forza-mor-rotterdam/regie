@@ -3,7 +3,7 @@
     display: flex;
 
     >label {
-        line-height: 2.5;
+        line-height: 3.2;
         margin-right: $alert-padding-x;
     }
 }
@@ -17,7 +17,17 @@
         border: 1px solid $gray-tint04;
         outline: 0;
         padding: $input-padding-x;
+        font-size: 16px;
 
+        &:after {
+            content: "";
+            display: inline-block;
+            background-image: url(../icons/dropdown.svg);
+            background-size: 19px 26px;
+            width: 16px;
+            height: 19px;
+            margin-left: 20px;
+        }
     }
 
     .wrapper {

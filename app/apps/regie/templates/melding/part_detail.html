@@ -1,7 +1,9 @@
+{% extends "base.html" %}
 {% load vind_in_dict from querystring_tags %}
 {% load to_date from date_tags %}
 
-<turbo-frame id="overview" data-turbo-action="advance">
+{% block body %}
+<turbo-frame id="overvieww" data-turbo-action="advance">
 <div class="page__detail">
     <div>
         <a href="javascript:history.back()" data-turbo-action="advance" class="link--back">
@@ -372,3 +374,4 @@
         </div>
     </div>
 </turbo-frame>
+{% endblock body %}

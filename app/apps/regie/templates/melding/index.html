@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load is_list from list_tags %}
 {% load to_date from date_tags %}
-    {% block header %}{% include 'snippets/pageheader.html' with title="Serviceverzoeken" %}{% endblock %}
 
 {% block body %}
 <div data-controller="overview">
-    <turbo-frame id="overview" data-turbo-action="advance" src="{% url 'overview_part' %}?{{request.META.QUERY_STRING}}">
+    <turbo-frame id="overvieww" data-turbo-action="advance" src="{% url 'overview' %}?{{request.META.QUERY_STRING}}">
 
     </turbo-frame>
 </div>

@@ -20,8 +20,9 @@ urlpatterns = [
     path("", root, name="root"),
     path("melding/", melding_lijst, name="melding_lijst"),
     path("health/", include("health_check.urls")),
-    path("part/melding/", overview, name="overview_part"),
-    path("part/detail/<int:id>", detail, name="detail_part"),
+    path("part/melding/", overview, name="overview"),
+    # path("part/detail/<int:id>", detail, name="detail"),
+    path("melding/<int:id>", detail, name="detail"),
     path(
         "download/melding/<int:id>/pdf/",
         melding_pdf_download,

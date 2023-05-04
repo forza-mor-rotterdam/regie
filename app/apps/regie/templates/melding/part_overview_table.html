@@ -7,9 +7,9 @@
 {% block body %}
 <div data-controller="overview">
 
-    <turbo-frame id="overview" data-turbo-action="advance" >
+    <turbo-frame id="overvieww" data-turbo-action="advance" >
         <h1 class="page-title">Serviceverzoeken</h1>
-        <form method="get" action="{% url 'overview_part' %}" id="filterForm">
+        <form method="get" action="{% url 'overview' %}" id="filterForm">
             <span class="help-text">{{ startNum }} - {{ endNum }} van {{ totaal }} resultaten</span>
 
 
@@ -30,13 +30,13 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th class="sorting {{ GET|heeft_orden_oplopend:'id' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'id' }}" role="button">Verzoek</a></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'id' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'id' }}" role="button">Verzoek</a></th>
                             <th class="">Locatie</th>
-                            <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__grafnummer' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'locaties__grafnummer' }}" role="button">Grafnummer</a></th>
-                            <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__vak' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'locaties__vak' }}" role="button">Vak</a></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__grafnummer' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'locaties__grafnummer' }}" role="button">Grafnummer</a></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__vak' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'locaties__vak' }}" role="button">Vak</a></th>
                             <th>Categorie</th>
-                            <th class="sorting {{ GET|heeft_orden_oplopend:'origineel_aangemaakt' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'origineel_aangemaakt' }}" role="button">Datum</a></th>
-                            <th class="sorting {{ GET|heeft_orden_oplopend:'afgesloten_op' }}"><a href="{% url 'overview_part' %}?{{ GET|qs_ordenen:'afgesloten_op' }}" role="button">Status</a></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'origineel_aangemaakt' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'origineel_aangemaakt' }}" role="button">Datum</a></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'afgesloten_op' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'afgesloten_op' }}" role="button">Status</a></th>
                             <th>Print pdf</th>
                         </tr>
                     </thead>
@@ -53,7 +53,7 @@
                                 <div class="background-image"></div>
                                 {% endif %}
                             </td>
-                            <td><a href="{% url 'detail_part' melding.id %}" data-turbo-frame="overview">{{melding.id}}</a></td>
+                            <td><a href="{% url 'detail' melding.id %}" data-turbo-frame="overview" data-turbo-action="advance" >{{melding.id}}</a></td>
 
                             <td>{% vind_in_dict filter_options.begraafplaats melding.locaties_voor_melding.0.begraafplaats %}</td>
                             <td>{% if melding.locaties_voor_melding.0.grafnummer %}{{ melding.locaties_voor_melding.0.grafnummer }} {% else %}n.v.t.{% endif %}</td>

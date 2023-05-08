@@ -8,6 +8,7 @@ from apps.meldingen.utils import get_meldingen_token
 from apps.regie.forms import FilterForm
 from config.context_processors import general_settings
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, QueryDict, StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
@@ -160,4 +161,26 @@ def meldingen_bestand(request):
         content_type=response.headers.get("content-type"),
         status=response.status_code,
         reason=response.reason,
+    )
+
+
+def gebruiker_informatie(request):
+    return render(
+        request,
+        "auth/gebruiker_informatie.html",
+    )
+
+
+@login_required
+def login_verplicht(request):
+    return render(
+        request,
+        "auth/login_verplicht.html",
+    )
+
+
+def login_mislukt(request):
+    return render(
+        request,
+        "auth/login_mislukt.html",
     )

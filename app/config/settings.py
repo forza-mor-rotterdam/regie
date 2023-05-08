@@ -8,8 +8,8 @@ locale.setlocale(locale.LC_ALL, "nl_NL.UTF-8")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TRUE_VALUES = [True, "True", "true", "1"]
 
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY", os.environ.get("SECRET_KEY", os.environ.get("APP_SECRET"))
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY", os.getenv("SECRET_KEY", os.getenv("APP_SECRET"))
 )
 
 ENVIRONMENT = os.getenv("ENVIRONMENT")
@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     "rest_framework",
     "webpack_loader",
     "corsheaders",
+    "mozilla_django_oidc",
     "health_check",
     "health_check.cache",
     "health_check.db",
@@ -262,3 +263,22 @@ LOGGING = {
         },
     },
 }
+
+OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID")
+OIDC_RP_CLIENT_SECRET = os.getenv("OIDC_RP_CLIENT_SECRET")
+OIDC_OP_AUTHORIZATION_ENDPOINT = os.getenv("OIDC_OP_AUTHORIZATION_ENDPOINT")
+OIDC_OP_TOKEN_ENDPOINT = os.getenv("OIDC_OP_TOKEN_ENDPOINT")
+OIDC_OP_USER_ENDPOINT = os.getenv("OIDC_OP_USER_ENDPOINT")
+OIDC_OP_JWKS_ENDPOINT = os.getenv("OIDC_OP_JWKS_ENDPOINT")
+
+if OIDC_OP_JWKS_ENDPOINT:
+    OIDC_RP_SIGN_ALGO = "RS256"
+
+AUTHENTICATION_BACKENDS = [
+    "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
+]
+
+LOGIN_REDIRECT_URL = "/gebruiker-informatie/"
+LOGIN_REDIRECT_URL_FAILURE = "/login-mislukt/"
+LOGOUT_REDIRECT_URL = "/gebruiker-informatie/"
+LOGIN_URL = "/oidc/authenticate/"

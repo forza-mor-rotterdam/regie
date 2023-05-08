@@ -44,7 +44,7 @@ class FilterForm(forms.Form):
         self.fields["offset"].choices = offset_options
         self.fields["begraafplaats"].choices = locatie_opties
 
-        
+
 class LoginForm(forms.Form):
     username = forms.CharField(label="Personeelsnummer", widget=forms.TextInput())
     password = forms.CharField(label="Wachtwoord", widget=forms.PasswordInput())

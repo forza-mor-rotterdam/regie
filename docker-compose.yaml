@@ -33,8 +33,21 @@ services:
     networks:
       - regie_network
 
+  dex:
+    image: quay.io/dexidp/dex:v2.23.0
+    user: root
+    command: serve /config.yml
+    ports:
+      - "5556:5556"
+    volumes:
+      - ./dex.dev.yml:/config.yml
+      - dex-data:/data
+    networks:
+      - regie_network
+
 volumes:
   postgres-data:
+  dex-data:
 
 networks:
   regie_network:

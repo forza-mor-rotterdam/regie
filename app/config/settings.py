@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     "rest_framework",
     "webpack_loader",
     "corsheaders",
+    "mozilla_django_oidc",
     "health_check",
     "health_check.cache",
     "health_check.db",
@@ -49,7 +50,6 @@ INSTALLED_APPS = (
     "apps.health",
     "apps.rotterdam_formulier_html",
     "apps.regie",
-    "apps.auth",
 )
 
 MIDDLEWARE = (
@@ -58,7 +58,6 @@ MIDDLEWARE = (
     "django_permissions_policy.PermissionsPolicyMiddleware",
     "csp.middleware.CSPMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "apps.auth.middleware.AuthenticationMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -240,9 +239,6 @@ MELDINGEN_TOKEN_TIMEOUT = 60 * 60
 MELDINGEN_USERNAME = os.getenv("MELDINGEN_USERNAME")
 MELDINGEN_PASSWORD = os.getenv("MELDINGEN_PASSWORD")
 
-MSB_AUTHORIZATION_ENDPOINT = os.getenv("MSB_AUTHORIZATION_ENDPOINT", "not_set")
-LOGIN_URL = "/login/"
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -267,3 +263,22 @@ LOGGING = {
         },
     },
 }
+
+OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID")
+OIDC_RP_CLIENT_SECRET = os.getenv("OIDC_RP_CLIENT_SECRET")
+OIDC_OP_AUTHORIZATION_ENDPOINT = os.getenv("OIDC_OP_AUTHORIZATION_ENDPOINT")
+OIDC_OP_TOKEN_ENDPOINT = os.getenv("OIDC_OP_TOKEN_ENDPOINT")
+OIDC_OP_USER_ENDPOINT = os.getenv("OIDC_OP_USER_ENDPOINT")
+OIDC_OP_JWKS_ENDPOINT = os.getenv("OIDC_OP_JWKS_ENDPOINT")
+
+if OIDC_OP_JWKS_ENDPOINT:
+    OIDC_RP_SIGN_ALGO = "RS256"
+
+AUTHENTICATION_BACKENDS = [
+    "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
+]
+
+LOGIN_REDIRECT_URL = "/gebruiker-informatie/"
+LOGIN_REDIRECT_URL_FAILURE = "/login-mislukt/"
+LOGOUT_REDIRECT_URL = "/gebruiker-informatie/"
+LOGIN_URL = "/oidc/authenticate/"

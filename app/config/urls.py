@@ -1,8 +1,10 @@
 from apps.regie.views import (
     detail,
+    gebruiker_informatie,
     http_404,
     http_500,
-    login,
+    login_mislukt,
+    login_verplicht,
     melding_lijst,
     melding_pdf_download,
     meldingen_bestand,
@@ -16,7 +18,6 @@ from django.urls import include, path, re_path
 
 urlpatterns = [
     path("", root, name="root"),
-    path("login/", login, name="login"),
     path("melding/", melding_lijst, name="melding_lijst"),
     path("health/", include("health_check.urls")),
     path("part/melding/", overview, name="overview_part"),
@@ -29,6 +30,16 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     re_path(r"media/", meldingen_bestand, name="meldingen_bestand"),
 ]
+
+if settings.OIDC_RP_CLIENT_ID:
+    urlpatterns += [
+        path(
+            "gebruiker-informatie/", gebruiker_informatie, name="gebruiker_informatie"
+        ),
+        path("login-verplicht/", login_verplicht, name="login_verplicht"),
+        path("login-mislukt/", login_mislukt, name="login_mislukt"),
+        path("oidc/", include("mozilla_django_oidc.urls")),
+    ]
 
 
 if settings.DEBUG:

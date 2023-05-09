@@ -46,32 +46,13 @@ body.show-modal--first-filter {
     overflow-y: auto;
     z-index: 2100;
 
-    // &-right {
-    //     opacity: 1;
-    //     min-height: 100%;
-
-    //     .modal-content {
-    //         background: $white;
-    //         position: absolute;
-    //         display: flex;
-    //         flex-direction: column;
-    //         top: 0;
-    //         // bottom: 0;
-    //         right: -375px;
-    //         width: 375px;
-    //         z-index: 20;
-    //         margin: 0 0 0 auto;
-    //         transition: right 0.3s ease;
-    //     }
-    // }
-
     &-dialog {
         display: flex;
         align-items: center;
         min-height: calc(100% - 3rem);
         position: relative;
         width: 90%;
-        max-width: $modal-md;
+        max-width: map-get($container-max-widths , lg );
         margin: 1.5rem auto;
     }
 

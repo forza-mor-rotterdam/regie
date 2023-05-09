@@ -1,0 +1,43 @@
+{% load rotterdam_formulier_html %}
+
+<turbo-frame id="melding_afhandelen">
+{{ melding.meta }}
+    <form action="{% url 'melding_afhandelen' melding.id %}" method="post" class="form--horizontal">
+        <h3 class="h5">Status</h3>
+        <p>Huidige status: {{melding.status.naam}}</p>
+        <p>
+            {% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}
+        </p>
+        <h4 class="h6">Status aanpassen</h4>
+        {% csrf_token %}
+        {{ form.afhandel_reden|render_rotterdam_formulier }}
+        {% if melding.meta.terugkoppeling_gewenst == "Ja" %}
+            <div class="form-control__with-helptext">
+                {{ form.tekst_extern|render_rotterdam_formulier }}
+            </div>
+        {% endif %}
+
+        <div data-controller="bijlagen">
+            {{ form.bijlagen|render_rotterdam_formulier }}
+        </div>
+        <div class="form-control__with-helptext">
+            {{ form.tekst_intern|render_rotterdam_formulier }}
+        </div>
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <div class="form-row">
+            <button
+                type="submit"
+                class="btn btn-action"
+            >
+                <span>Afhandelen</span>
+            </button>
+            <button
+                type="reset"
+                class="btn btn-tertiary"
+                data-action="incidentHandleForm#cancelHandle"
+            >
+                <span>Annuleren</span>
+            </button>
+        </div>
+    </form>
+</turbo-frame>

@@ -292,29 +292,33 @@
                             </a>
                         </p>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" >
+    <div class="modal" data-controller="detail">
         {% comment %} <div class="modal"> {% endcomment %}
-            <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->overview#closeModal"></div>
+            <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->detail#closeModal"></div>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                     <h1>
-                        <span>Afhandelen</span>
+                        <span>Behandelen</span>
                     </h1>
                     <button
                         type="button"
                         class="btn-close"
                         aria-label="Sluit"
-                        data-action="overview#closeModal">
+                        data-action="detail#closeModal">
                     </button>
                     </div>
                     <div class="modal-body">
-                    <turbo-frame
+                    <turbo-frame id="melding_afhandelen" src="{% url 'melding_afhandelen' melding.id %}">
+
+                    </turbo-frame>
+                    {% comment %} <turbo-frame
                         id="behandel_modal"
                         data-src=""
                         src=""
@@ -368,7 +372,7 @@
                         </div>
                     </form>
                     </form>
-                    </turbo-frame>
+                    </turbo-frame> {% endcomment %}
                 </div>
             </div>
         </div>

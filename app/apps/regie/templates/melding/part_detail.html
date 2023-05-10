@@ -331,6 +331,20 @@
                                                     <dd>{{ melding_gebeurtenis.omschrijving_intern }}</dd>
                                                 {% endif %}
                                             </dl>
+                                            {% if melding_gebeurtenis.bijlagen|length %}
+                                                <div class="container__thumbs">
+                                                    <ul>
+                                                        {% for bijlage in melding_gebeurtenis.bijlagen %}
+                                                        <li>
+                                                            <div class="container__image">
+                                                                <div class="image" style="background-image:url('{{bijlage.bestand}}');"></div>
+                                                            </div>
+                                                        </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            {% endif %}
+
                                         </details>
                                     </li>
                                 {% endfor %}

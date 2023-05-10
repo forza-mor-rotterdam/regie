@@ -6,7 +6,7 @@ export default class extends Controller {
         dateObject: String,
     }
 
-    static targets = ["timeHoursMinutes", "timeHoursMinutes2"]
+    static targets = ["timeHoursMinutes"]
 
     connect() {
         const dateObject = new Date(this.data.get("dateObjectValue"))
@@ -14,6 +14,5 @@ export default class extends Controller {
         const time = `${dateObject.getHours()}:${minutes}`
 
         this.timeHoursMinutesTarget.textContent = time
-        this.timeHoursMinutes2Target.textContent = time
     }
 }

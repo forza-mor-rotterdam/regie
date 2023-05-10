@@ -5,7 +5,12 @@ import requests
 import weasyprint
 from apps.meldingen import service_instance
 from apps.meldingen.utils import get_meldingen_token
-from apps.regie.forms import FilterForm, HandleForm, MeldingAfhandelenForm
+from apps.regie.forms import (
+    BEHANDEL_OPTIES,
+    BEHANDEL_STATUS,
+    FilterForm,
+    MeldingAfhandelenForm,
+)
 from config.context_processors import general_settings
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -102,7 +107,8 @@ def overview(request):
 
 def detail(request, id):
     melding = service_instance.get_melding(id)
-    form = HandleForm
+    form = MeldingAfhandelenForm
+
     return render(
         request,
         "melding/part_detail.html",
@@ -117,25 +123,32 @@ def melding_afhandelen(request, id):
     # endpoitn status_aanpassen
     # als er niks wijzigt ("Nog niet, de ...") ander endpoint om alleen bericht door te geven
     melding = service_instance.get_melding(id)
-
+    print(melding.get("volgende_statussen"))
     afhandel_reden_opties = [(s, s) for s in melding.get("volgende_statussen", ())]
     form = MeldingAfhandelenForm()
     if request.POST:
         form = MeldingAfhandelenForm(request.POST)
         if form.is_valid():
-            melding = service_instance.melding_status_aanpassen(
-                id, status=form.cleaned_data.get("afhandel_reden")
+            response_melding = service_instance.melding_status_aanpassen(
+                id,
+                status=BEHANDEL_STATUS.get(form.cleaned_data.get("status")),
+                omschrijving_extern=form.cleaned_data.get("omschrijving_extern"),
+                omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
             )
-            afhandel_reden_opties = [
-                (s, s) for s in melding.get("volgende_statussen", ())
-            ]
-            form = MeldingAfhandelenForm(afhandel_reden_opties=afhandel_reden_opties)
+            # afhandel_reden_opties = [
+            #     (s, s) for s in melding.get("volgende_statussen", ())
+            # ]
+            print(response_melding)
+            return redirect("detail", id=id)
+
     return render(
         request,
         "melding/part_melding_afhandelen.html",
         {
             "form": form,
             "melding": melding,
+            "afhandel_reden_opties": afhandel_reden_opties,
+            "standaard_afhandel_teksten": {bo[0]: bo[2] for bo in BEHANDEL_OPTIES},
         },
     )
 

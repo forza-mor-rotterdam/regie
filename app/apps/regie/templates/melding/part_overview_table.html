@@ -66,13 +66,7 @@
                             </td>
                             <td class="nowrap">{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
                             <td class="nowrap">
-                                <p class="display--flex--center">{% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}
-                                    <button class="btn btn-icon btn-textlink">
-                                        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" title="Wijzig status">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M20.8493 6L6 20.8492V26.5061L11.6568 26.5061L26.5062 11.6569L20.8493 6ZM23.6778 11.6569L20.8493 8.82843L18.728 10.9497L21.5564 13.7782L23.6778 11.6569ZM11.6569 23.6776L20.1421 15.1924L17.3137 12.3639L8.82843 20.8492L11.6569 23.6776Z" fill="#00811F"/>
-                                        </svg>
-                                    </button>
-                                </p>
+                                <span class="display--flex--center badge {% if melding.afgesloten_op %} badge--green{% else %} badge--lightblue{% endif %}">{% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}</span>
                                 </td>
                             <td>
                                 <a href="{% url 'melding_pdf_download' melding.id %}" target="_blank" role="button" class="btn btn-icon btn-textlink">

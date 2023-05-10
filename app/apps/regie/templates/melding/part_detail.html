@@ -269,9 +269,11 @@
                 <div class="grid-item aside">
 
                     <div class="container__actions">
+                        {% if not melding.afgesloten_op %}
                         <p>
                             <button type="button" class="btn btn-action" data-action="detail#openModal"><span>Behandelen</span></button>
                         </p>
+                        {% endif %}
                         <p>
                             <a href="" role="button" class="btn btn-icon btn-textlink">
                                 <svg width="16" height="16" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" title="">
@@ -291,6 +293,13 @@
                                 Verwijderen
                             </a>
                         </p>
+
+                        <ul>
+
+                        {% for melding_gebeurtenis in melding.melding_gebeurtenissen %}
+                            <li>{{ melding_gebeurtenis }}</li>
+                        {% endfor %}
+                        </ul>
                     </div>
 
                 </div>

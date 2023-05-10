@@ -36,14 +36,27 @@ class MeldingenService:
     def get_melding(self, id, query_string=""):
         return self.do_request(f"/melding/{id}/?{query_string}")
 
-    def melding_status_aanpassen(self, id, status, bijlagen=[], omschrijving=None):
+    def melding_status_aanpassen(
+        self,
+        id,
+        status=None,
+        bijlagen=[],
+        omschrijving_extern=None,
+        omschrijving_intern=None,
+    ):
         data = {
             "status": {
                 "naam": status,
             },
             "bijlagen": bijlagen,
-            "omschrijving": omschrijving,
+            "omschrijving_extern": omschrijving_extern,
+            "omschrijving_intern": omschrijving_intern,
         }
+
         return self.do_request(
-            f"/melding/{id}/status-aanpassen/", method="patch", data=data
+            f"/melding/{id}/status-aanpassen/"
+            if status
+            else f"/melding/{id}/gebeurtenis-toevoegen/",
+            method="patch" if status else "post",
+            data=data,
         )

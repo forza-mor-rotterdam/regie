@@ -261,6 +261,16 @@ dl {
     }
 }
 
+dl {
+    dt {
+        font-weight: 700;
+    }
+    dd {
+        margin: 0 0 0.5rem;
+        font-weight: 400;
+    }
+}
+
 
 // SECTIONS
 section {

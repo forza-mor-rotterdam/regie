@@ -9,13 +9,13 @@ BEHANDEL_OPTIES = (
     ),
     (
         "in_behandeling",
-        "In Behandeling",
+        "Nog niet, de melding is in behandeling.",
         "Tekst bij In behandeling",
         None,
     ),
     (
         "nee",
-        "Nee",
+        "Nee, het probleem kan niet worden opgelost.",
         "Tekst bij Nee",
         "geannuleerd",
     ),

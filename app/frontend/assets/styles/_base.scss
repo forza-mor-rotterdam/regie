@@ -283,6 +283,47 @@ section {
     }
 }
 
+details {
+    &.filter {
+        &--active {
+            background-color: $gray-tint01;
+            border: 0;
+            margin-bottom: $input-padding-x;
+
+            ul {
+                margin: 0;
+            }
+        }
+    }
+
+    summary {
+        padding: 24px 16px 24px 40px;
+        position: relative;
+        cursor: pointer;
+        border-top: 1px solid $gray-tint04;
+        list-style: none;
+        &::-webkit-details-marker {
+            display:none;
+        }
+        &::before {
+            content: url('../icons/arrow-right.svg');
+            position: absolute;
+            top: calc(50% - 10px);
+            left: 16px;
+            transform: rotate(90deg);
+        }
+
+    }
+
+    &[open] {
+        > summary {
+            &::before {
+                transform: rotate(-90deg);
+                left: 19px;
+            }
+        }
+    }
+}
 // STICKY
 
 .has-sticky-footer {

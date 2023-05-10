@@ -181,6 +181,7 @@ CSP_IMG_SRC = [
     "placehold.it",
     "www.placeholder.com",
     "via.placeholder.com",
+    "mor-core-acc.forzamor.nl",
 ]
 
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "data:", "unpkg.com")

@@ -179,3 +179,22 @@
         display: inline-block;
     }
 }
+
+.container__details--overview {
+    box-sizing: content-box;
+    // padding-top: 16px;
+    .wrapper {
+        background-color: $gray-tint02;
+        padding: $input-padding-x;
+        display: flex;
+        font-size: 16px;
+
+        dl {
+            margin: 0;
+            flex-basis: 40%;
+        }
+    }
+    select {
+        margin: 0 $container-padding-x 0 0;
+    }
+}

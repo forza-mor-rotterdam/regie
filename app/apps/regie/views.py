@@ -5,10 +5,16 @@ import requests
 import weasyprint
 from apps.meldingen import service_instance
 from apps.meldingen.utils import get_meldingen_token
-from apps.regie.forms import FilterForm
+from apps.regie.forms import (
+    BEHANDEL_OPTIES,
+    BEHANDEL_STATUS,
+    FilterForm,
+    MeldingAfhandelenForm,
+)
 from config.context_processors import general_settings
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import default_storage
 from django.http import HttpResponse, QueryDict, StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
@@ -102,11 +108,51 @@ def overview(request):
 
 def detail(request, id):
     melding = service_instance.get_melding(id)
+    form = MeldingAfhandelenForm
+
     return render(
         request,
         "melding/part_detail.html",
         {
             "melding": melding,
+            "form": form,
+        },
+    )
+
+
+def melding_afhandelen(request, id):
+    # endpoitn status_aanpassen
+    # als er niks wijzigt ("Nog niet, de ...") ander endpoint om alleen bericht door te geven
+    melding = service_instance.get_melding(id)
+    afhandel_reden_opties = [(s, s) for s in melding.get("volgende_statussen", ())]
+    form = MeldingAfhandelenForm()
+    if request.POST:
+        form = MeldingAfhandelenForm(request.POST)
+        if form.is_valid():
+            bijlagen = request.FILES.getlist("bijlagen", [])
+            bijlagen_base64 = []
+            for f in bijlagen:
+                file_name = default_storage.save(f.name, f)
+                bijlagen_base64.append({"bestand": form._to_base64(file_name)})
+
+            response_melding = service_instance.melding_status_aanpassen(
+                id,
+                status=BEHANDEL_STATUS.get(form.cleaned_data.get("status")),
+                omschrijving_extern=form.cleaned_data.get("omschrijving_extern"),
+                omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
+                bijlagen=bijlagen_base64,
+            )
+            print(response_melding)
+            return redirect("detail", id=id)
+
+    return render(
+        request,
+        "melding/part_melding_afhandelen.html",
+        {
+            "form": form,
+            "melding": melding,
+            "afhandel_reden_opties": afhandel_reden_opties,
+            "standaard_afhandel_teksten": {bo[0]: bo[2] for bo in BEHANDEL_OPTIES},
         },
     )
 

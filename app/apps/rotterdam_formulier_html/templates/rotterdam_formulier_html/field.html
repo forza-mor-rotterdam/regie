@@ -34,7 +34,7 @@
         {% if field.auto_id and not field.field.widget.attrs.hideLabel %}
             <h3 class="label">{{ field.label }}</h3>
         {% endif %}
-        <div class="wrapper-horizontal">
+        <div>
             {{ field }}
         </div>
         {% for error in field.errors %}
@@ -95,21 +95,23 @@
                 {% if field.auto_id %}
                     <label class="control-label {{ classes.label }} {% if field.field.required %}{{ form.required_css_class }}{% endif %}">{{ field.label }}</label>
                 {% endif %}
-                <select multiple name="{{ field.html_name }}" {% render_attrs field class="form-select" test="nog een test" %} {% if field.field.required %}required{% endif %} >
-                    {% for choice in field %}
-                          {{ choice.tag }}
+                <div>
+                    <select multiple name="{{ field.html_name }}" {% render_attrs field class="form-select" test="nog een test" %} {% if field.field.required %}required{% endif %} >
+                        {% for choice in field %}
+                            {{ choice.tag }}
+                        {% endfor %}
+                    </select>
+
+                    {% for error in field.errors %}
+                        <span class="help-block invalid-text {{ form.error_css_class }}">{{ error }}</span>
                     {% endfor %}
-                </select>
 
-                {% for error in field.errors %}
-                    <span class="help-block invalid-text {{ form.error_css_class }}">{{ error }}</span>
-                {% endfor %}
-
-                {% if field.help_text %}
-                <p class="help-block">
-                    {{ field.help_text|safe }}
-                </p>
-                {% endif %}
+                    {% if field.help_text %}
+                    <p class="help-block">
+                        {{ field.help_text|safe }}
+                    </p>
+                    {% endif %}
+                </div>
 
             {% else %}
                 {% if classes.icon %}
@@ -118,21 +120,23 @@
                 {% if field.auto_id %}
                     <label class="control-label {{ classes.label }} {% if field.field.required %}{{ form.required_css_class }}{% endif %}">{{ field.label }}</label>
                 {% endif %}
-                <select name="{{ field.html_name }}" {% render_attrs field class="form-select" %} {% if field.field.required %}required{% endif %}>
-                    {% for choice in field %}
-                          {{ choice.tag }}
+                <div>
+                    <select name="{{ field.html_name }}" {% render_attrs field class="form-select" %} {% if field.field.required %}required{% endif %}>
+                        {% for choice in field %}
+                            {{ choice.tag }}
+                        {% endfor %}
+                    </select>
+
+                    {% for error in field.errors %}
+                        <span class="help-block invalid-text {{ form.error_css_class }}">{{ error }}</span>
                     {% endfor %}
-                </select>
 
-                {% for error in field.errors %}
-                    <span class="help-block invalid-text {{ form.error_css_class }}">{{ error }}</span>
-                {% endfor %}
-
-                {% if field.help_text %}
-                <p class="help-block">
-                    {{ field.help_text|safe }}
-                </p>
-                {% endif %}
+                    {% if field.help_text %}
+                    <p class="help-block">
+                        {{ field.help_text|safe }}
+                    </p>
+                    {% endif %}
+                </div>
 
             {% endif %}
 
@@ -179,17 +183,19 @@
             {% if field.auto_id %}
                 <label class="{% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.label }}{% if not field.field.required %} <small>(Niet verplicht)</small>{% endif %}</label>
             {% endif %}
-            <textarea id="{{ field.auto_id }}" class="form-control {% if field.errors %}is-invalid{% endif %}" rows="4" name="{{field.html_name}}" {% render_attrs field %} >{% if field.value %}{{ field.value }}{% endif %}</textarea>
+            <div>
+                <textarea id="{{ field.auto_id }}" class="form-control {% if field.errors %}is-invalid{% endif %}" rows="4" name="{{field.html_name}}" {% render_attrs field %} >{% if field.value %}{{ field.value }}{% endif %}</textarea>
 
-            {% for error in field.errors %}
-                <p class="help-block invalid-text {{ form.error_css_class }}">{{ error }}</p>
-            {% endfor %}
+                {% for error in field.errors %}
+                    <p class="help-block invalid-text {{ form.error_css_class }}">{{ error }}</p>
+                {% endfor %}
 
-            {% if field.help_text %}
-                <p>
-                    {{ field.help_text|safe }}
-                </p>
-            {% endif %}
+                {% if field.help_text %}
+                    <p class="help-block">
+                        {{ field.help_text|safe }}
+                    </p>
+                {% endif %}
+            </div>
         </div>
 
     {% elif field|is_file %}
@@ -198,7 +204,7 @@
                 <label class="{% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.field.label }}{% if not field.field.required %} <small>(Niet verplicht)</small>{% endif %}</label>
             {% endif %}
             <div class="">
-                <button type="button" class="btn btn-secondary" id="buttonFile" data-action="request#showFileInput">
+                <button type="button" class="btn btn-secondary" id="buttonFile" data-action="bijlagen#showFileInput">
 
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M17 6H15V15H6V17H15V26H17V17H26V15H17V6Z" fill="#fff"/>
@@ -230,18 +236,18 @@
             {% if field.auto_id %}
                 <label class="{% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.field.label }}{% if not field.field.required %} <small>(Niet verplicht)</small>{% endif %}</label>
             {% endif %}
-            {% comment %} {{ field }} {% endcomment %}
-            <input type="text" id="{{ field.auto_id }}" name="{{field.html_name}}" {% if field.value != None %} value="{{ field.value|stringformat:'s' }}"{% endif %} class="form-control {% if field.errors %}is-invalid{% endif %}" {% render_attrs field %}{% if field.field.required %}required{% endif %}>
+            <div>
+                <input type="text" id="{{ field.auto_id }}" name="{{field.html_name}}" {% if field.value != None %} value="{{ field.value|stringformat:'s' }}"{% endif %} class="form-control {% if field.errors %}is-invalid{% endif %}" {% render_attrs field %}{% if field.field.required %}required{% endif %}>
 
-            {% for error in field.errors %}
-                <p class="help-block invalid-text {{ form.error_css_class }}">{{ error }}</p>
-            {% endfor %}
-
-            {% if field.help_text %}
-                <p>
-                    {{ field.help_text|safe }}
-                </p>
-            {% endif %}
+                {% for error in field.errors %}
+                    <p class="help-block invalid-text {{ form.error_css_class }}">{{ error }}</p>
+                {% endfor %}
+                {% if field.help_text %}
+                    <p>
+                        {{ field.help_text|safe }}
+                    </p>
+                {% endif %}
+            </div>
         </div>
 
     {% endif %}

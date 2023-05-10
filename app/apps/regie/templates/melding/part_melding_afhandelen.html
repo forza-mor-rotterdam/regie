@@ -1,0 +1,109 @@
+{% load rotterdam_formulier_html %}
+{% load vind_in_dict from querystring_tags %}
+{% load to_date from date_tags %}
+{% load json_encode from json_tags %}
+
+<turbo-frame id="melding_afhandelen">
+    <div class="container__details--overview">
+        <div class="wrapper">
+
+        {% comment %} <div>
+            {{ melding.meta }}
+        </div> {% endcomment %}
+            <dl>
+                {% if melding.id %}
+                    <dt>Melding</dt>
+                    <dd>{{ melding.id }}</dd>
+                {% endif %}
+                {% if melding.meta.grafnummer %}
+                    <dt>Graf</dt>
+                    <dd>{{ melding.meta.grafnummer }}</dd>
+                {% endif %}
+                {% if melding.meta.vak %}
+                    <dt>Vak</dt>
+                    <dd>{{ melding.meta.vak }}</dd>
+                {% endif %}
+                {% if melding.onderwerpen %}
+                    <dt>Categorie</dt>
+                    <dd>
+                        {% for onderwerp in melding.onderwerpen %}
+                            {% vind_in_dict filter_options.onderwerp onderwerp %}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </dd>
+                {% endif %}
+                {% if melding.origineel_aangemaakt %}
+                    <dt>Ingediend</dt>
+                    <dd>{{ melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i" }}</dd>
+                {% endif %}
+
+
+            </dl>
+            <dl>
+                {% if melding.id %}
+                    <dt>Status</dt>
+                    <dd>{{ melding.status.naam }}</dd>
+                {% endif %}
+                {% if melding.meta.naam_melder %}
+                    <dt>Melder</dt>
+                    <dd>{{ melding.meta.naam_melder }}</dd>
+                {% endif %}
+                {% if melding.meta.email_melder %}
+                    <dt>E-mailadres</dt>
+                    <dd>{{ melding.meta.email_melder }}</dd>
+                {% endif %}
+                {% if melding.meta.telefoon_melder %}
+                    <dt>Telefoonnummer</dt>
+                    <dd>{{ melding.meta.telefoon_melder }}</dd>
+                {% endif %}
+
+                {% if melding.meta.terugkoppeling_gewenst %}
+                    <dt>Is terugkoppeling gewenst?</dt>
+                    <dd>{{ melding.meta.terugkoppeling_gewenst }}</dd>
+                {% endif %}
+            </dl>
+        </div>
+    </div>
+    <form
+        action="{% url 'melding_afhandelen' melding.id %}"
+        method="post"
+        class="form--horizontal"
+        data-controller="meldingbehandelformulier"
+        data-meldingbehandelformulier-standaardafhandelteksten-value="{{standaard_afhandel_teksten|json_encode}}"
+        data-turbo-frame="_top"
+        enctype="multipart/form-data"
+    >
+
+        {% csrf_token %}
+
+        {{ form.status|render_rotterdam_formulier }}
+
+        {% if melding.meta.terugkoppeling_gewenst == "Ja" %}
+            <div class="form-control__with-helptext">
+                {{ form.omschrijving_extern|render_rotterdam_formulier }}
+            </div>
+        {% endif %}
+
+        <div data-controller="bijlagen">
+            {{ form.bijlagen|render_rotterdam_formulier }}
+        </div>
+        <div class="form-control__with-helptext">
+            {{ form.omschrijving_intern|render_rotterdam_formulier }}
+        </div>
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <div class="form-row">
+            <button
+                type="submit"
+                class="btn btn-action"
+            >
+                <span>Afhandelen</span>
+            </button>
+            <button
+                type="reset"
+                class="btn btn-tertiary"
+                data-action="incidentHandleForm#cancelHandle"
+            >
+                <span>Annuleren</span>
+            </button>
+        </div>
+    </form>
+</turbo-frame>

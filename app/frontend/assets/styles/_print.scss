@@ -1,8 +1,5 @@
-.print-only,
-.badge,
-.link--back,
-.grid-item.aside {
-    display: none !important;
+.print-only {
+    display: none;
 }
 
 @media print {

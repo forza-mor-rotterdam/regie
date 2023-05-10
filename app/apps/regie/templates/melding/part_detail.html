@@ -41,8 +41,8 @@
                                 style="width: calc(100% * {{ melding.bijlagen|length }})"
                             >
                                 {% for bijlage in melding.bijlagen %}
-                                <li class="container__image" id="{{ bijlage.bestand }}">
-                                    <div class="image" style="background-image: url('{{bijlage.bestand}}')" data-detail-target="selectedImage"></div>
+                                <li class="container__image" id="{{ bijlage.bestand_relative_url }}">
+                                    <div class="image" style="background-image: url('{{bijlage.bestand_relative_url}}')" data-detail-target="selectedImage"></div>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -54,7 +54,7 @@
                                     <li data-action="click->detail#selectImage"
                                         data-detail-image-index-param="{{ forloop.counter }}">
                                         <div class="container__image">
-                                            <div class="image" style="background-image:url('{{bijlage.afbeelding_verkleind}}');"></div>
+                                            <div class="image" style="background-image:url('{{bijlage.afbeelding_verkleind_relative_url}}');"></div>
                                         </div>
                                     </li>
                                     {% endfor %}
@@ -258,7 +258,7 @@
                             <ul class="list-clean">
                                 {% for bijlage in melding.bijlagen %}
                                 <li class="container__image">
-                                    <img src="{{bijlage.bestand}}" alt=""/>
+                                    <img src="{{bijlage.bestand_relative_url}}" alt=""/>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -337,7 +337,7 @@
                                                         {% for bijlage in melding_gebeurtenis.bijlagen %}
                                                         <li>
                                                             <div class="container__image">
-                                                                <div class="image" style="background-image:url('{{bijlage.bestand}}');"></div>
+                                                                <div class="image" style="background-image:url('{{bijlage.bestand_relative_url}}');"></div>
                                                             </div>
                                                         </li>
                                                         {% endfor %}

@@ -23,5 +23,7 @@ def get_meldingen_token():
                 "meldingen_token", meldingen_token, settings.MELDINGEN_TOKEN_TIMEOUT
             )
         else:
-            raise MeldingAuthResponseException()
+            raise MeldingAuthResponseException(
+                f"auth response status code: {token_response.status_code}"
+            )
     return meldingen_token

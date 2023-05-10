@@ -70,6 +70,7 @@
         data-controller="meldingbehandelformulier"
         data-meldingbehandelformulier-standaardafhandelteksten-value="{{standaard_afhandel_teksten|json_encode}}"
         data-turbo-frame="_top"
+        enctype="multipart/form-data"
     >
 
         {% csrf_token %}

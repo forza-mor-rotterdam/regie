@@ -1,4 +1,7 @@
+import base64
+
 from django import forms
+from django.core.files.storage import default_storage
 
 BEHANDEL_OPTIES = (
     (
@@ -126,6 +129,13 @@ class MeldingAfhandelenForm(forms.Form):
         ),
         required=False,
     )
+
+    def _to_base64(self, file):
+        binary_file = default_storage.open(file)
+        binary_file_data = binary_file.read()
+        base64_encoded_data = base64.b64encode(binary_file_data)
+        base64_message = base64_encoded_data.decode("utf-8")
+        return base64_message
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

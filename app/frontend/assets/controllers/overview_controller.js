@@ -6,6 +6,10 @@ export default class extends Controller {
 
     }
 
+    navigate(e) {
+        Turbo.visit(e.params.targeturl)
+    }
+
     navigateNext(e) {
         e.target.closest('.pagination').querySelector('[checked]').closest('li').nextElementSibling.querySelector('input').click();
     }

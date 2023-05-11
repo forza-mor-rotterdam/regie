@@ -109,7 +109,7 @@
                                         <h3 class="h5">Categorie</h3>
                                         <p>
                                             {% for onderwerp in melding.onderwerpen %}
-                                                {% vind_in_dict filter_options.onderwerp onderwerp %}{% if not forloop.last %}, {% endif %}
+                                                {{ onderwerp.response_json.naam }}{% if not forloop.last %}, {% endif %}
                                             {% endfor %}
                                         </p>
                                     </li>
@@ -316,11 +316,15 @@
                                                 {% if melding_gebeurtenis.aangemaakt_op %}
                                                     <strong>{{ melding_gebeurtenis.aangemaakt_op|to_date|date:"d-m-Y" }} <span data-datetime-target="timeHoursMinutes"></span></strong><br>
                                                 {% endif %}
-                                                {% if melding_gebeurtenis.gebeurtenis_type %}
+                                                {% if melding_gebeurtenis.gebeurtenis_type and melding_gebeurtenis.gebeurtenis_type != "standaard" %}
                                                     <strong>{{ melding_gebeurtenis.gebeurtenis_type }}</strong>
                                                 {% endif %}
                                             </summary>
                                             <dl>
+                                                {% if melding_gebeurtenis.status %}
+                                                    <dt class="h5">Status</dt>
+                                                    <dd>{{ melding_gebeurtenis.status.naam }}</dd>
+                                                {% endif %}
                                                 {% if melding_gebeurtenis.omschrijving_extern %}
                                                     <dt class="h5">Bericht voor de melder</dt>
                                                     <dd>{{ melding_gebeurtenis.omschrijving_extern }}</dd>
@@ -344,7 +348,6 @@
                                                     </ul>
                                                 </div>
                                             {% endif %}
-
                                         </details>
                                     </li>
                                 {% endfor %}
@@ -359,7 +362,6 @@
     </div>
 
     <div class="modal" data-controller="detail">
-        {% comment %} <div class="modal"> {% endcomment %}
             <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->detail#closeModal"></div>
             <div class="modal-dialog">
                 <div class="modal-content">

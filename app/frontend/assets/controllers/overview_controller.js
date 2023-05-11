@@ -7,7 +7,9 @@ export default class extends Controller {
     }
 
     navigate(e) {
-        Turbo.visit(e.params.targeturl)
+        if(!e.target.closest("a")) {
+            Turbo.visit(e.params.targeturl)
+        }
     }
 
     navigateNext(e) {

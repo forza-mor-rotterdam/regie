@@ -51,6 +51,7 @@
         background-position: 50% 50%;
         height: 48px;
         width: 64px;
+        margin-bottom: 4px;
 
         .thumbnail {
             height: 48px;
@@ -70,6 +71,12 @@
         background-position: 16px center;
     }
 
+    tr {
+        &:hover {
+            cursor: pointer;
+            background-color: $gray-tint02;
+        }
+    }
 
     th {
         position: sticky;
@@ -85,9 +92,15 @@
     }
 
     .btn-textlink {
+        display: flex;
+        padding: 6px 0;
+
         svg {
             padding: 0 8px;
         }
-        display: flex;
+
+        &:hover {
+            background-color: $white;
+        }
     }
 }

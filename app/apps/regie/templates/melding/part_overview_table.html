@@ -37,13 +37,13 @@
                             <th>Categorie</th>
                             <th class="sorting {{ GET|heeft_orden_oplopend:'origineel_aangemaakt' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'origineel_aangemaakt' }}" role="button">Datum</a></th>
                             <th class="sorting {{ GET|heeft_orden_oplopend:'afgesloten_op' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'afgesloten_op' }}" role="button">Status</a></th>
-                            <th>Print pdf</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for melding in meldingen %}
 
-                        <tr>
+                        <tr data-action="click->overview#navigate" data-overview-targeturl-param="{% url 'detail' melding.id %}">
                             <td width="80">
                                 {% if melding.bijlagen.0.afbeelding_verkleind_relative_url %}
                                 <div class="container__thumbnail" style="background-image: url('{{melding.bijlagen.0.afbeelding_verkleind_relative_url}}')"></div>
@@ -53,7 +53,7 @@
                                 <div class="background-image"></div>
                                 {% endif %}
                             </td>
-                            <td><a href="{% url 'detail' melding.id %}" data-turbo-frame="overview" data-turbo-action="advance" >{{melding.id}}</a></td>
+                            <td>{{melding.id}}</td>
 
                             <td>{% vind_in_dict filter_options.begraafplaats melding.locaties_voor_melding.0.begraafplaats %}</td>
                             <td>{% if melding.locaties_voor_melding.0.grafnummer %}{{ melding.locaties_voor_melding.0.grafnummer }} {% else %}n.v.t.{% endif %}</td>

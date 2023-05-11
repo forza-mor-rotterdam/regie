@@ -27,7 +27,7 @@
                     <dt>Categorie</dt>
                     <dd>
                         {% for onderwerp in melding.onderwerpen %}
-                            {% vind_in_dict filter_options.onderwerp onderwerp %}{% if not forloop.last %}, {% endif %}
+                            {{ onderwerp.response_json.naam }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
                     </dd>
                 {% endif %}

@@ -7,19 +7,19 @@ BEHANDEL_OPTIES = (
     (
         "ja",
         "Ja",
-        "Tekst bij Ja",
+        "We zijn met uw melding aan de slag gegaan en hebben het probleem opgelost.",
         "afgehandeld",
     ),
     (
         "in_behandeling",
         "Nog niet, de melding is in behandeling.",
-        "Tekst bij In behandeling",
+        "We zijn met uw melding aan de slag gegaan maar deze kan niet direct worden opgelost. Want...",
         None,
     ),
     (
         "nee",
         "Nee, het probleem kan niet worden opgelost.",
-        "Tekst bij Nee",
+        "We zijn met uw melding aan de slag gegaan, maar konden het probleem helaas niet oplossen. Want...",
         "geannuleerd",
     ),
 )

@@ -229,18 +229,20 @@
                                     {% endif %}
                                 </ul>
                                 <ul class="list-clean">
-                                    <div>
+                                    {% if melding.meta.specifiek_graf == "Ja" %}
+                                    <li>
                                         <h3 class="h5">Is deze persoon de rechthebbende?</h3>
                                         <p>
                                             {{ melding.meta.rechthebbende }}
                                         </p>
-                                    </div>
-                                    <div>
+                                    </li>
+                                    {% endif %}
+                                    <li>
                                         <h3 class="h5">Is terugkoppeling gewenst?</h3>
                                         <p>
                                             {{ melding.meta.terugkoppeling_gewenst }}
                                         </p>
-                                    </div>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -349,6 +351,7 @@
                                                 </div>
                                             {% endif %}
                                         </details>
+                                        {{melding_gebeurtenis}}
                                     </li>
                                 {% endfor %}
                                 </ul>

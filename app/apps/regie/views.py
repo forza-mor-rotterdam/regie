@@ -44,8 +44,9 @@ def overview(request):
 
     query_dict = QueryDict("", mutable=True)
     query_dict.update(standaard_waardes)
-
     query_dict.update(request.GET)
+
+    request.session["overview_querystring"] = request.GET.urlencode()
 
     data = service_instance.get_melding_lijst(query_string=query_dict.urlencode())
 
@@ -109,6 +110,7 @@ def overview(request):
 def detail(request, id):
     melding = service_instance.get_melding(id)
     form = MeldingAfhandelenForm
+    overview_querystring = request.session.get("overview_querystring", "")
 
     return render(
         request,
@@ -116,6 +118,7 @@ def detail(request, id):
         {
             "melding": melding,
             "form": form,
+            "overview_querystring": overview_querystring,
         },
     )
 

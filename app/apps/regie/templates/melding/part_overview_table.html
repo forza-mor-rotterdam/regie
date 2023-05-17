@@ -14,9 +14,9 @@
 
 
             <div class="container__filter" data-controller="filter">
-                <label>Locatie</label>
+                <label class="visually-hidden">Locatie</label>
                 <div class="container__multiselect">
-                    <button class="toggle" data-action="filter#onToggleShow" type="button">Selecteer een locatie ({{locaties_geselecteerd}}/{{filter_options.begraafplaats|length}})</button>
+                    <button class="toggle" data-action="filter#onToggleShow" type="button">Kies locatie(s) ({{locaties_geselecteerd}}/{{filter_options.begraafplaats|length}})</button>
                     <div class="wrapper">
                         {{ form.begraafplaats|render_rotterdam_formulier }}
                         {{ form.ordering|render_rotterdam_formulier }}

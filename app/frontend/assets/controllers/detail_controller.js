@@ -53,4 +53,12 @@ export default class extends Controller {
         }
     }
 
+    cancelInformatieToevoegen(e) {
+        console.log("cancelInformatieToevoegen")
+        const form = e.target.closest("form")
+        // form.find(input["type=file"]).value=null
+        form.reset();
+        e.target.closest('details').open = false;
+    }
+
 }

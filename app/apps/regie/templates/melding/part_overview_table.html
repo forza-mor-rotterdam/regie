@@ -30,7 +30,7 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th class="sorting {{ GET|heeft_orden_oplopend:'id' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'id' }}" role="button">Verzoek</a></th>
+                            <th class="sorting {{ GET|heeft_orden_oplopend:'id' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'id' }}" role="button">Melding</a></th>
                             <th class="">Locatie</th>
                             <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__grafnummer' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'locaties__grafnummer' }}" role="button">Grafnummer</a></th>
                             <th class="sorting {{ GET|heeft_orden_oplopend:'locaties__vak' }}"><a href="{% url 'overview' %}?{{ GET|qs_ordenen:'locaties__vak' }}" role="button">Vak</a></th>

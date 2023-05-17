@@ -37,7 +37,7 @@ def http_500(request):
 
 def overview(request):
     standaard_waardes = {
-        "ordering": "aangemaakt_op",
+        "ordering": "origineel_aangemaakt",
         "offset": "0",
         "limit": "10",
     }

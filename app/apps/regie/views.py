@@ -111,6 +111,12 @@ def overview(request):
 
 def detail(request, id):
     melding = service_instance.get_melding(id)
+    melding_gebeurtenissen = melding["melding_gebeurtenissen"]
+    bijlagen_extra = []
+    for b in melding_gebeurtenissen:
+        if len(b["bijlagen"]) > 0:
+            for f in b["bijlagen"]:
+                bijlagen_extra.append(f)
     form = InformatieToevoegenForm()
     overview_querystring = request.session.get("overview_querystring", "")
     if request.POST:
@@ -137,6 +143,7 @@ def detail(request, id):
             "melding": melding,
             "form": form,
             "overview_querystring": overview_querystring,
+            "bijlagen_extra": bijlagen_extra,
         },
     )
 
@@ -194,7 +201,7 @@ def informatie_toevoegen(request, id):
                 bijlagen=bijlagen_base64,
             )
             print(response_melding)
-            return redirect("informatie_toevoegen", id=id)
+            return redirect("detail", id=id)
 
     return render(
         request,

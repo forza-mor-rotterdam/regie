@@ -23,7 +23,9 @@
                         class="form--aside"
                         action="{% url 'informatie_toevoegen' melding.id %}"
                         method="post"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data"
+                        data-turbo-frame="_top"
+                    >
                         {% csrf_token %}
                         {{ form.omschrijving_intern|render_rotterdam_formulier}}
                         <div data-controller="bijlagen">
@@ -59,6 +61,7 @@
                                 <strong>{{ melding_gebeurtenis.gebeurtenis_type }}</strong>
                             {% endif %} {% endcomment %}
                         </summary>
+                        {{ melding_gebeurtenis }}
                         <dl>
                             {% if melding_gebeurtenis.status %}
                                 <dt class="h5">Status</dt>

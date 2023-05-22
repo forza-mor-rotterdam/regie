@@ -24,18 +24,18 @@ urlpatterns = [
     path("health/", include("health_check.urls")),
     path("part/melding/", overview, name="overview"),
     path(
-        "part/melding/<int:id>/afhandelen/",
+        "part/melding/<uuid:id>/afhandelen/",
         melding_afhandelen,
         name="melding_afhandelen",
     ),
     path(
-        "part/melding/<int:id>/informatie-toevoegen/",
+        "part/melding/<uuid:id>/informatie-toevoegen/",
         informatie_toevoegen,
         name="informatie_toevoegen",
     ),
-    path("melding/<int:id>", detail, name="detail"),
+    path("melding/<uuid:id>", detail, name="detail"),
     path(
-        "download/melding/<int:id>/pdf/",
+        "download/melding/<uuid:id>/pdf/",
         melding_pdf_download,
         name="melding_pdf_download",
     ),

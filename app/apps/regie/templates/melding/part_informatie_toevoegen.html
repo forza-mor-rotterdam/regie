@@ -21,7 +21,7 @@
                     </summary>
                     <form
                         class="form--aside"
-                        action="{% url 'informatie_toevoegen' melding.id %}"
+                        action="{% url 'informatie_toevoegen' melding.uuid %}"
                         method="post"
                         enctype="multipart/form-data">
                         {% csrf_token %}

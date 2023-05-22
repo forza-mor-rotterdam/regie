@@ -6,22 +6,26 @@ BEHANDEL_OPTIES = (
         "Ja",
         "We zijn met uw melding aan de slag gegaan en hebben het probleem opgelost.",
         "afgehandeld",
+        "opgelost",
     ),
     (
         "in_behandeling",
         "Nog niet, de melding is in behandeling.",
         "We zijn met uw melding aan de slag gegaan maar deze kan niet direct worden opgelost. Want...",
         None,
+        None,
     ),
     (
         "nee",
         "Nee, het probleem kan niet worden opgelost.",
         "We zijn met uw melding aan de slag gegaan, maar konden het probleem helaas niet oplossen. Want...",
-        "geannuleerd",
+        "afgehandeld",
+        None,
     ),
 )
 
 BEHANDEL_STATUS = {bo[0]: bo[3] for bo in BEHANDEL_OPTIES}
+BEHANDEL_RESOLUTIE = {bo[0]: bo[4] for bo in BEHANDEL_OPTIES}
 
 
 class FilterForm(forms.Form):
@@ -120,7 +124,7 @@ class MeldingAfhandelenForm(forms.Form):
                 "data-meldingbehandelformulier-target": "externalText",
             }
         ),
-        required=True,
+        required=False,
     )
 
     bijlagen = forms.FileField(

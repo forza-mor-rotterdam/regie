@@ -15,9 +15,8 @@
         </h2>
         <div class="">
             <div>
-                <details>
+                <details class="details-form">
                     <summary>
-                        +<br>
                         Voeg een opmerking of foto toe
                     </summary>
                     <form
@@ -33,9 +32,9 @@
                         <div class="form-row">
                             <button
                                 type="submit"
-                                class="btn btn-action"
+                                class="btn btn-secondary"
                             >
-                                <span>Afhandelen</span>
+                                <span>Toevoegen</span>
                             </button>
                             <button
                                 type="reset"
@@ -56,9 +55,9 @@
                             {% if melding_gebeurtenis.aangemaakt_op %}
                                 <strong>{{ melding_gebeurtenis.aangemaakt_op|to_date|date:"d-m-Y" }} <span data-datetime-target="timeHoursMinutes"></span></strong><br>
                             {% endif %}
-                            {% if melding_gebeurtenis.gebeurtenis_type and melding_gebeurtenis.gebeurtenis_type != "standaard" %}
+                            {% comment %} {% if melding_gebeurtenis.gebeurtenis_type and melding_gebeurtenis.gebeurtenis_type != "standaard" %}
                                 <strong>{{ melding_gebeurtenis.gebeurtenis_type }}</strong>
-                            {% endif %}
+                            {% endif %} {% endcomment %}
                         </summary>
                         <dl>
                             {% if melding_gebeurtenis.status %}

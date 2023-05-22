@@ -28,6 +28,10 @@ class MeldingenService:
             "timeout": self._timeout,
         }
         response: Response = action(**action_params)
+        print(response.status_code)
+        print(response.text)
+        print(action_params)
+
         return response.json()
 
     def get_melding_lijst(self, query_string=""):
@@ -35,6 +39,25 @@ class MeldingenService:
 
     def get_melding(self, id, query_string=""):
         return self.do_request(f"/melding/{id}/?{query_string}")
+
+    def melding_gebeurtenis_toevoegen(
+        self,
+        id,
+        bijlagen=[],
+        omschrijving_intern=None,
+        omschrijving_extern=None,
+    ):
+        data = {
+            "bijlagen": bijlagen,
+            "omschrijving_intern": omschrijving_intern,
+            "omschrijving_extern": omschrijving_extern,
+        }
+
+        return self.do_request(
+            f"/melding/{id}/gebeurtenis-toevoegen/",
+            method="post",
+            data=data,
+        )
 
     def melding_status_aanpassen(
         self,
@@ -45,13 +68,18 @@ class MeldingenService:
         omschrijving_intern=None,
     ):
         data = {
-            "status": {
-                "naam": status,
-            },
             "bijlagen": bijlagen,
             "omschrijving_extern": omschrijving_extern,
             "omschrijving_intern": omschrijving_intern,
         }
+        if status:
+            data.update(
+                {
+                    "status": {
+                        "naam": status,
+                    },
+                }
+            )
 
         return self.do_request(
             f"/melding/{id}/status-aanpassen/"

@@ -468,3 +468,32 @@ textarea {
         }
     }
 }
+
+.form--aside {
+    margin-top: 22px;
+
+    #buttonFile {
+        display: none;
+    }
+
+    .btn {
+        margin-right: 16px;
+    }
+
+    textarea {
+        margin-bottom: 1rem;
+    }
+
+    .label--file {
+        display: inline-block;
+        position: absolute;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        pointer-events: none;
+    }
+}

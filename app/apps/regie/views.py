@@ -9,8 +9,10 @@ from apps.regie.forms import (
     BEHANDEL_OPTIES,
     BEHANDEL_STATUS,
     FilterForm,
+    InformatieToevoegenForm,
     MeldingAfhandelenForm,
 )
+from apps.regie.utils import to_base64
 from config.context_processors import general_settings
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -109,8 +111,24 @@ def overview(request):
 
 def detail(request, id):
     melding = service_instance.get_melding(id)
-    form = MeldingAfhandelenForm
+    form = InformatieToevoegenForm()
     overview_querystring = request.session.get("overview_querystring", "")
+    if request.POST:
+        form = InformatieToevoegenForm(request.POST)
+        if form.is_valid():
+            bijlagen = request.FILES.getlist("bijlagen", [])
+            bijlagen_base64 = []
+            for f in bijlagen:
+                file_name = default_storage.save(f.name, f)
+                bijlagen_base64.append({"bestand": to_base64(file_name)})
+
+            response_melding = service_instance.melding_status_aanpassen(
+                id,
+                omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
+                bijlagen=bijlagen_base64,
+            )
+            print(response_melding)
+            return redirect("detail", id=id)
 
     return render(
         request,
@@ -124,8 +142,6 @@ def detail(request, id):
 
 
 def melding_afhandelen(request, id):
-    # endpoitn status_aanpassen
-    # als er niks wijzigt ("Nog niet, de ...") ander endpoint om alleen bericht door te geven
     melding = service_instance.get_melding(id)
     afhandel_reden_opties = [(s, s) for s in melding.get("volgende_statussen", ())]
     form = MeldingAfhandelenForm()
@@ -136,7 +152,7 @@ def melding_afhandelen(request, id):
             bijlagen_base64 = []
             for f in bijlagen:
                 file_name = default_storage.save(f.name, f)
-                bijlagen_base64.append({"bestand": form._to_base64(file_name)})
+                bijlagen_base64.append({"bestand": to_base64(file_name)})
 
             response_melding = service_instance.melding_status_aanpassen(
                 id,
@@ -156,6 +172,36 @@ def melding_afhandelen(request, id):
             "melding": melding,
             "afhandel_reden_opties": afhandel_reden_opties,
             "standaard_afhandel_teksten": {bo[0]: bo[2] for bo in BEHANDEL_OPTIES},
+        },
+    )
+
+
+def informatie_toevoegen(request, id):
+    melding = service_instance.get_melding(id)
+    form = InformatieToevoegenForm()
+    if request.POST:
+        form = InformatieToevoegenForm(request.POST)
+        if form.is_valid():
+            bijlagen = request.FILES.getlist("bijlagen", [])
+            bijlagen_base64 = []
+            for f in bijlagen:
+                file_name = default_storage.save(f.name, f)
+                bijlagen_base64.append({"bestand": to_base64(file_name)})
+
+            response_melding = service_instance.melding_status_aanpassen(
+                id,
+                omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
+                bijlagen=bijlagen_base64,
+            )
+            print(response_melding)
+            return redirect("informatie_toevoegen", id=id)
+
+    return render(
+        request,
+        "melding/part_informatie_toevoegen.html",
+        {
+            "melding": melding,
+            "form": form,
         },
     )
 

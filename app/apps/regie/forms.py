@@ -1,7 +1,4 @@
-import base64
-
 from django import forms
-from django.core.files.storage import default_storage
 
 BEHANDEL_OPTIES = (
     (
@@ -80,6 +77,27 @@ class RadioSelect(forms.RadioSelect):
     option_template_name = "widgets/radio_option.html"
 
 
+class InformatieToevoegenForm(forms.Form):
+    omschrijving_intern = forms.CharField(
+        label="Voeg een opmerking toe",
+        widget=forms.Textarea(
+            attrs={"class": "form-control", "data-testid": "information", "rows": "4"}
+        ),
+        required=False,
+    )
+
+    bijlagen = forms.FileField(
+        widget=forms.widgets.FileInput(
+            attrs={
+                "accept": ".jpg, .jpeg, .png, .heic",
+                "data-action": "change->bijlagen#updateImageDisplay",
+            }
+        ),
+        label="Voeg één of meerdere foto's toe",
+        required=False,
+    )
+
+
 class MeldingAfhandelenForm(forms.Form):
     status = forms.ChoiceField(
         widget=RadioSelect(
@@ -129,13 +147,6 @@ class MeldingAfhandelenForm(forms.Form):
         ),
         required=False,
     )
-
-    def _to_base64(self, file):
-        binary_file = default_storage.open(file)
-        binary_file_data = binary_file.read()
-        base64_encoded_data = base64.b64encode(binary_file_data)
-        base64_message = base64_encoded_data.decode("utf-8")
-        return base64_message
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

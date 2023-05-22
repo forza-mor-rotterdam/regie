@@ -3,6 +3,7 @@ from apps.regie.views import (
     gebruiker_informatie,
     http_404,
     http_500,
+    informatie_toevoegen,
     login_mislukt,
     login_verplicht,
     melding_afhandelen,
@@ -26,6 +27,11 @@ urlpatterns = [
         "part/melding/<int:id>/afhandelen/",
         melding_afhandelen,
         name="melding_afhandelen",
+    ),
+    path(
+        "part/melding/<int:id>/informatie-toevoegen/",
+        informatie_toevoegen,
+        name="informatie_toevoegen",
     ),
     path("melding/<int:id>", detail, name="detail"),
     path(

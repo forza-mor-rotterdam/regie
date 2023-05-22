@@ -24,7 +24,7 @@
             </div>
             <div class="grid-item bottom-left">
                 {% if melding.afgesloten_op %}
-                <span class="badge badge--green">Afgehandeld</span>
+                <span class="badge badge--green">Afgehandeld ({{melding.resolutie}})</span>
                 {% else %}
                 <span class="badge badge--lightblue">Openstaand</span>
                 {% endif %}
@@ -320,7 +320,7 @@
                     </div>
 
                     <section class="section--seperated" data-testid="detailReporter">
-                        <turbo-frame id="informatie_toevoegen" src="{% url 'informatie_toevoegen' melding.id %}">
+                        <turbo-frame id="informatie_toevoegen" src="{% url 'informatie_toevoegen' melding.uuid %}">
 
                         </turbo-frame>
                     </section>
@@ -346,7 +346,7 @@
                     </button>
                     </div>
                     <div class="modal-body">
-                    <turbo-frame id="melding_afhandelen" src="{% url 'melding_afhandelen' melding.id %}">
+                    <turbo-frame id="melding_afhandelen" src="{% url 'melding_afhandelen' melding.uuid %}">
 
                     </turbo-frame>
                 </div>

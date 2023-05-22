@@ -63,6 +63,7 @@ class MeldingenService:
         self,
         id,
         status=None,
+        resolutie=None,
         bijlagen=[],
         omschrijving_extern=None,
         omschrijving_intern=None,
@@ -78,9 +79,9 @@ class MeldingenService:
                     "status": {
                         "naam": status,
                     },
+                    "resolutie": resolutie,
                 }
             )
-
         return self.do_request(
             f"/melding/{id}/status-aanpassen/"
             if status

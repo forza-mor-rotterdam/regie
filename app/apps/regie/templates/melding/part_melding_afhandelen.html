@@ -64,7 +64,7 @@
         </div>
     </div>
     <form
-        action="{% url 'melding_afhandelen' melding.id %}"
+        action="{% url 'melding_afhandelen' melding.uuid %}"
         method="post"
         class="form--horizontal"
         data-controller="meldingbehandelformulier"

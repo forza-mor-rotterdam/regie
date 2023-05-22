@@ -7,6 +7,7 @@ from apps.meldingen import service_instance
 from apps.meldingen.utils import get_meldingen_token
 from apps.regie.forms import (
     BEHANDEL_OPTIES,
+    BEHANDEL_RESOLUTIE,
     BEHANDEL_STATUS,
     FilterForm,
     InformatieToevoegenForm,
@@ -164,6 +165,7 @@ def melding_afhandelen(request, id):
             response_melding = service_instance.melding_status_aanpassen(
                 id,
                 status=BEHANDEL_STATUS.get(form.cleaned_data.get("status")),
+                resolutie=BEHANDEL_RESOLUTIE.get(form.cleaned_data.get("status")),
                 omschrijving_extern=form.cleaned_data.get("omschrijving_extern"),
                 omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
                 bijlagen=bijlagen_base64,

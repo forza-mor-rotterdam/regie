@@ -6,6 +6,11 @@
         line-height: 3.2;
         margin-right: $alert-padding-x;
     }
+
+    > .btn {
+        padding: 0 16px 0 10px;
+        flex: 0;
+    }
 }
 .container__multiselect {
     position: relative;
@@ -16,7 +21,7 @@
         background-color: white;
         border: 1px solid $gray-tint04;
         outline: 0;
-        padding: $input-padding-x;
+        padding: 12px $input-padding-x;
         font-size: 16px;
 
         &:after {

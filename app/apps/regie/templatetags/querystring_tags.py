@@ -26,6 +26,10 @@ def heeft_orden_oplopend(request_get, orden_param):
 
         return "sorting--up"
 
+    # show sorting icon on default
+    if len(qs_huidige_dict) == 0 and orden_param == "origineel_aangemaakt":
+        return "sorting--down"
+
     return ""
 
 

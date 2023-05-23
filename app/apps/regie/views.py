@@ -92,6 +92,7 @@ def overview(request):
     vorige = data.get("previous")
     startNum = int((currentPage - 1) * limit)
     endNum = int(min([currentPage * limit, totaal]))
+    melding_aanmaken_url = settings.MELDING_AANMAKEN_URL
 
     return render(
         request,
@@ -106,6 +107,7 @@ def overview(request):
             "form": form,
             "locaties_geselecteerd": locaties_geselecteerd,
             "filter_options": data.get("filter_options", {}),
+            "melding_aanmaken_url": melding_aanmaken_url,
         },
     )
 

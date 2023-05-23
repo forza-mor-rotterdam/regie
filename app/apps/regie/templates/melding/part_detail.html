@@ -17,9 +17,9 @@
     <div data-controller="detail">
         <div class="grid-container">
             <div class="grid-item">
-                <div class="">
+                <div>
                     <h1>{% if melding.locaties_voor_melding.0.grafnummer %} Grafnummer {{ melding.locaties_voor_melding.0.grafnummer }}, {% endif %}{% if melding.locaties_voor_melding.0.vak %}Vak {{ melding.locaties_voor_melding.0.vak }} {% endif %}</h1>
-                    <span>2023-9863</span>
+                    <span>{{melding.id}}</span>
                 </div>
             </div>
             <div class="grid-item bottom-left">

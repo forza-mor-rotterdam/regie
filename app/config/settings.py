@@ -240,6 +240,11 @@ MELDINGEN_TOKEN_TIMEOUT = 60 * 60
 MELDINGEN_USERNAME = os.getenv("MELDINGEN_USERNAME")
 MELDINGEN_PASSWORD = os.getenv("MELDINGEN_PASSWORD")
 
+MELDING_AANMAKEN_URL = os.getenv(
+    "MELDING_AANMAKEN_URL",
+    "https://serviceformulier-acc.benc.forzamor.nl/melding/aanmaken",
+)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

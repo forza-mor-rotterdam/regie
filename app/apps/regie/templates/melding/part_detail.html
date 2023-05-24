@@ -23,7 +23,6 @@
                         {% if grafnummer %} Grafnummer {{ grafnummer }}, {% endif %}{% if vak %}Vak {{ vak }}{% endif %}
                         {% if not grafnummer and not vak and plaats %}{% vind_in_dict melding.meta_uitgebreid.begraafplaats.choices plaats %}{% endif %}
                     </h1>
-                    <span>{{melding.id}}</span>
                     {% endwith %}
                 </div>
             </div>
@@ -111,6 +110,16 @@
                             <div class="display--flex">
                                 <ul class="list-clean">
                                     <li>
+                                        <h3 class="h5">Nummer</h3>
+                                        <p>
+                                            {% if melding.id %}
+                                                {{ melding.id }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </p>
+                                    </li>
+                                    <li>
                                         <h3 class="h5">Ingediend</h3>
                                         <p>
                                             {% if melding.origineel_aangemaakt %}
@@ -130,17 +139,16 @@
                                             {% endif %}
                                         </p>
                                     </li>
+                                </ul>
+                                <ul class="list-clean">
                                     <li>
-                                        <h3 class="h5">Categorie</h3>
+                                        <h3 class="h5">Onderwerp</h3>
                                         <p>
                                             {% for onderwerp in melding.onderwerpen %}
                                                 {{ onderwerp.response_json.naam }}{% if not forloop.last %}, {% endif %}
                                             {% endfor %}
                                         </p>
                                     </li>
-                                </ul>
-                                <ul class="list-clean">
-
                                     <li>
                                         <h3 class="h5">Toelichting</h3>
                                         <p>

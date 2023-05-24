@@ -18,8 +18,13 @@
         <div class="grid-container">
             <div class="grid-item">
                 <div>
-                    <h1>{% if melding.locaties_voor_melding.0.grafnummer %} Grafnummer {{ melding.locaties_voor_melding.0.grafnummer }}, {% endif %}{% if melding.locaties_voor_melding.0.vak %}Vak {{ melding.locaties_voor_melding.0.vak }} {% endif %}</h1>
+                    {% with grafnummer=melding.locaties_voor_melding.0.grafnummer vak=melding.locaties_voor_melding.0.vak plaats=melding.meta.begraafplaats %}
+                    <h1>
+                        {% comment %} {% if grafnummer %} Grafnummer {{ grafnummer }}, {% endif %}{% if vak %}Vak {{ vak }}{% endif %} {% endcomment %}
+                        {% if plaats %}{% vind_in_dict melding.meta_uitgebreid.begraafplaats.choices plaats %}{% endif %}
+                    </h1>
                     <span>{{melding.id}}</span>
+                    {% endwith %}
                 </div>
             </div>
             <div class="grid-item bottom-left">
@@ -43,15 +48,15 @@
                                 style="width: calc(100% * {{ bijlagen_aantal|add:bijlagen_extra_aantal }})"
                             >
                                 {% for bijlage in melding.bijlagen %}
-                                <li class="container__image" id="{{ bijlage.bestand_relative_url }}">
-                                    <div class="image" style="background-image: url('{{bijlage.bestand_relative_url}}')" data-detail-target="selectedImage">
+                                <li class="container__image" id="{{ bijlage.afbeelding_relative_url }}">
+                                    <div class="image" style="background-image: url('{{bijlage.afbeelding_relative_url}}')" data-detail-target="selectedImage">
                                         <span>Foto van melder</span>
                                     </div>
                                 </li>
                                 {% endfor %}
                                 {% for b in bijlagen_extra reversed %}
-                                <li class="container__image" id="{{ b.bestand_relative_url }}">
-                                    <div class="image" style="background-image: url('{{b.bestand_relative_url}}')" data-detail-target="selectedImage">
+                                <li class="container__image" id="{{ b.afbeelding_relative_url }}">
+                                    <div class="image" style="background-image: url('{{b.afbeelding_relative_url}}')" data-detail-target="selectedImage">
                                         <span>Foto toegevoegd door medewerker</span>
                                     </div>
                                 </li>
@@ -73,7 +78,7 @@
                                     <li data-action="click->detail#selectImage"
                                         data-detail-image-index-param="{{ forloop.counter|add:bijlagen_aantal }}">
                                         <div class="container__image">
-                                            <div class="image" style="background-image:url('{{b.bestand_relative_url}}');"></div>
+                                            <div class="image" style="background-image:url('{{b.afbeelding_verkleind_relative_url}}');"></div>
                                         </div>
                                     </li>
                                     {% endfor %}
@@ -280,7 +285,7 @@
                             <ul class="list-clean">
                                 {% for bijlage in melding.bijlagen %}
                                 <li class="container__image">
-                                    <img src="{{bijlage.bestand_relative_url}}" alt=""/>
+                                    <img src="{{bijlage.afbeelding_relative_url}}" alt=""/>
                                 </li>
                                 {% endfor %}
                             </ul>

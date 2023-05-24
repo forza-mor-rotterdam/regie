@@ -61,7 +61,6 @@
                                 <strong>{{ melding_gebeurtenis.gebeurtenis_type }}</strong>
                             {% endif %} {% endcomment %}
                         </summary>
-                        {{ melding_gebeurtenis }}
                         <dl>
                             {% if melding_gebeurtenis.status %}
                                 <dt class="h5">Status</dt>
@@ -83,7 +82,7 @@
                                     {% for bijlage in melding_gebeurtenis.bijlagen %}
                                     <li>
                                         <div class="container__image">
-                                            <div class="image" style="background-image:url('{{bijlage.bestand_relative_url}}');"></div>
+                                            <div class="image" style="background-image:url('{{bijlage.afbeelding_verkleind_relative_url}}');"></div>
                                         </div>
                                     </li>
                                     {% endfor %}

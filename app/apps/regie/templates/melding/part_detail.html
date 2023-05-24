@@ -20,8 +20,8 @@
                 <div>
                     {% with grafnummer=melding.locaties_voor_melding.0.grafnummer vak=melding.locaties_voor_melding.0.vak plaats=melding.meta.begraafplaats %}
                     <h1>
-                        {% comment %} {% if grafnummer %} Grafnummer {{ grafnummer }}, {% endif %}{% if vak %}Vak {{ vak }}{% endif %} {% endcomment %}
-                        {% if plaats %}{% vind_in_dict melding.meta_uitgebreid.begraafplaats.choices plaats %}{% endif %}
+                        {% if grafnummer %} Grafnummer {{ grafnummer }}, {% endif %}{% if vak %}Vak {{ vak }}{% endif %}
+                        {% if not grafnummer and not vak and plaats %}{% vind_in_dict melding.meta_uitgebreid.begraafplaats.choices plaats %}{% endif %}
                     </h1>
                     <span>{{melding.id}}</span>
                     {% endwith %}
@@ -168,8 +168,8 @@
                                     <li>
                                         <h3 class="h5">Begraafplaats</h2>
                                         <p>
-                                            {% if melding.locaties.0.begraafplaats %}
-                                                {% vind_in_dict melding.meta_uitgebreid.begraafplaats.choices melding.locaties.0.begraafplaats %}
+                                            {% if melding.meta.begraafplaats %}
+                                                {% vind_in_dict melding.meta_uitgebreid.begraafplaats.choices melding.meta.begraafplaats %}
                                             {% else %}
                                                 -
                                             {% endif %}

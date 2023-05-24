@@ -33,6 +33,10 @@ header {
     padding: 0 map-get($container-margin, s) 16px;
 }
 
+main {
+    margin-bottom: 100px;
+}
+
 .grid-container {
     display: grid;
     grid-auto-columns: minmax(0, 1fr);

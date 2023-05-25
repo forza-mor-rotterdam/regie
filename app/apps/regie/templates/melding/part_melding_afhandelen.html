@@ -104,13 +104,7 @@
                         {{ form.omschrijving_intern|render_rotterdam_formulier }}
                     </div>
                     {% comment %} {{ form.as_p }} {% endcomment %}
-                    <div class="form-row">
-                        <button
-                            type="submit"
-                            class="btn btn-action"
-                        >
-                            <span>Afhandelen</span>
-                        </button>
+                    <div class="form-row btn-row">
                         <button
                             type="reset"
                             class="btn btn-tertiary"
@@ -118,6 +112,13 @@
                         >
                             <span>Annuleren</span>
                         </button>
+                        <button
+                            type="submit"
+                            class="btn btn-action"
+                        >
+                            <span>Behandelen</span>
+                        </button>
+
                     </div>
                 </form>
             </div>

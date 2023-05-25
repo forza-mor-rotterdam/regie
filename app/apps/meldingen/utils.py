@@ -8,7 +8,7 @@ class MeldingAuthResponseException(Exception):
 
 
 def get_meldingen_token():
-    meldingen_token = cache.get("meldingen_token")
+    meldingen_token = cache.get("meldingen_token2")
     if not meldingen_token:
         token_response = requests.post(
             settings.MELDINGEN_TOKEN_API,

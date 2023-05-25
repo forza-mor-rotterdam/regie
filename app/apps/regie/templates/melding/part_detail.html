@@ -27,11 +27,14 @@
                 </div>
             </div>
             <div class="grid-item bottom-left">
-                {% if melding.afgesloten_op %}
-                <span class="badge badge--green">Afgehandeld ({{melding.resolutie}})</span>
-                {% else %}
-                <span class="badge badge--darkblue">Openstaand</span>
-                {% endif %}
+                <div class="">
+                    {% if melding.afgesloten_op %}
+                    <span class="badge badge--green">Afgehandeld ({{melding.resolutie}})</span>
+                    {% else %}
+                    <span class="badge badge--darkblue">Openstaand</span>
+                    {% endif %}
+                    <span class="badge badge--darkblue">Taak actief</span>
+                </div>
             </div>
         </div>
         <div class="grid-container">

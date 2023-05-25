@@ -27,9 +27,9 @@
                         data-turbo-frame="_top"
                     >
                         {% csrf_token %}
-                        {{ form.omschrijving_intern|render_rotterdam_formulier}}
+                        {{ form.opmerking|render_rotterdam_formulier}}
                         <div data-controller="bijlagen">
-                            {{ form.bijlagen|render_rotterdam_formulier}}
+                            {{ form.bijlagen_extra|render_rotterdam_formulier}}
                         </div>
                         <div class="form-row">
                             <button

@@ -204,7 +204,7 @@
                 <label class="label--file {% if field.field.required %}{{ form.required_css_class }}{% endif %}" for="{{ field.auto_id }}">{{ field.field.label }}{% if not field.field.required %} <small>(Niet verplicht)</small>{% endif %}</label>
             {% endif %}
             <div class="">
-                <button type="button" class="btn btn-secondary" id="buttonFile" data-action="bijlagen#showFileInput">
+                <button type="button" class="btn btn-secondary btn-files" id="buttonFile_{{field.auto_id}}" data-action="bijlagen#showFileInput">
 
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M17 6H15V15H6V17H15V26H17V17H26V15H17V6Z" fill="#fff"/>
@@ -212,7 +212,7 @@
                         <span>Foto toevoegen</span>
 
                 </button>
-                <div class="file-upload multiple" tabindex="1">
+                <div class="file-upload multiple hidden" tabindex="1">
                     <div class="file-upload-mask">
                         Sleep één of meer bestanden hier naartoe, of klik hier om bestanden te uploaden
                     </div>
@@ -221,7 +221,7 @@
                         {% if field.value != None %} value="{{ field.value|stringformat:'s' }}"{% endif %}
                         {% render_attrs field class="file-upload-input" multiple="multiple" %}
                     >
-                    <div id="imagesPreview" class="preview"></div>
+                    <div id="imagesPreview_{{field.auto_id}}" class="preview"></div>
                 </div>
             </div>
         </div>

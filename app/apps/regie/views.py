@@ -193,7 +193,7 @@ def informatie_toevoegen(request, id):
     if request.POST:
         form = InformatieToevoegenForm(request.POST)
         if form.is_valid():
-            bijlagen = request.FILES.getlist("bijlagen", [])
+            bijlagen = request.FILES.getlist("bijlagen_extra", [])
             bijlagen_base64 = []
             for f in bijlagen:
                 file_name = default_storage.save(f.name, f)
@@ -201,7 +201,7 @@ def informatie_toevoegen(request, id):
 
             response_melding = service_instance.melding_status_aanpassen(
                 id,
-                omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
+                omschrijving_intern=form.cleaned_data.get("opmerking"),
                 bijlagen=bijlagen_base64,
             )
             print(response_melding)

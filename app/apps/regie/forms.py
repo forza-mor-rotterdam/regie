@@ -82,7 +82,7 @@ class RadioSelect(forms.RadioSelect):
 
 
 class InformatieToevoegenForm(forms.Form):
-    omschrijving_intern = forms.CharField(
+    opmerking = forms.CharField(
         label="Voeg een opmerking toe",
         widget=forms.Textarea(
             attrs={"class": "form-control", "data-testid": "information", "rows": "4"}
@@ -90,7 +90,7 @@ class InformatieToevoegenForm(forms.Form):
         required=False,
     )
 
-    bijlagen = forms.FileField(
+    bijlagen_extra = forms.FileField(
         widget=forms.widgets.FileInput(
             attrs={
                 "accept": ".jpg, .jpeg, .png, .heic",

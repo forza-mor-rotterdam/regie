@@ -396,7 +396,7 @@ textarea {
     }
 }
 
-#buttonFile {
+.btn-files {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -472,8 +472,12 @@ textarea {
 .form--aside {
     margin-top: 22px;
 
-    #buttonFile {
-        display: none;
+    .btn-files {
+        display: none !important;
+    }
+    .file-upload.hidden {
+        height: auto;
+        overflow: visible;
     }
 
     .btn {

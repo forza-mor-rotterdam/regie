@@ -120,6 +120,10 @@ class TaakStartenForm(forms.Form):
         self.fields["taaktype"].choices = taaktypes
 
 
+class TaakAfrondenForm(forms.Form):
+    ...
+
+
 class MeldingAfhandelenForm(forms.Form):
     status = forms.ChoiceField(
         widget=RadioSelect(

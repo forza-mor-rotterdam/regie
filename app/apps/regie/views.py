@@ -12,6 +12,7 @@ from apps.regie.forms import (
     FilterForm,
     InformatieToevoegenForm,
     MeldingAfhandelenForm,
+    TaakAfrondenForm,
     TaakStartenForm,
 )
 from apps.regie.utils import to_base64
@@ -210,6 +211,29 @@ def taak_starten(request, id):
         {
             "form": form,
             "melding": melding,
+        },
+    )
+
+
+def taak_afronden(request, melding_uuid, taakopdracht_uuid):
+    melding = service_instance.get_melding(melding_uuid)
+    taakopdrachten = {
+        to.get("uuid"): to for to in melding.get("taakopdrachten_voor_melding", [])
+    }
+    taakopdracht = taakopdrachten.get(str(taakopdracht_uuid))
+    form = TaakAfrondenForm()
+    if request.POST:
+        form = TaakAfrondenForm(request.POST)
+        if form.is_valid():
+            return redirect("detail", id=melding_uuid)
+
+    return render(
+        request,
+        "melding/part_taak_afronden.html",
+        {
+            "form": form,
+            "melding": melding,
+            "taakopdracht": taakopdracht,
         },
     )
 

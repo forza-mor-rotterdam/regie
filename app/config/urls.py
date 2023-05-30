@@ -12,6 +12,7 @@ from apps.regie.views import (
     meldingen_bestand,
     overview,
     root,
+    taak_afronden,
     taak_starten,
 )
 from django.conf import settings
@@ -33,6 +34,11 @@ urlpatterns = [
         "part/melding/<uuid:id>/taakstarten/",
         taak_starten,
         name="taak_starten",
+    ),
+    path(
+        "part/melding/<uuid:melding_uuid>/taak-afronden/<uuid:taakopdracht_uuid>/",
+        taak_afronden,
+        name="taak_afronden",
     ),
     path(
         "part/melding/<uuid:id>/informatie-toevoegen/",

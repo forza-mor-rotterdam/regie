@@ -12,7 +12,6 @@ services:
     ports:
       - 8003:8003
     networks:
-      regie_network:
       mor_bridge_network:
     env_file:
       - .env.local

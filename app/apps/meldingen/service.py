@@ -28,10 +28,6 @@ class MeldingenService:
             "timeout": self._timeout,
         }
         response: Response = action(**action_params)
-        print(response.status_code)
-        print(response.text)
-        print(action_params)
-
         return response.json()
 
     def get_melding_lijst(self, query_string=""):
@@ -88,4 +84,20 @@ class MeldingenService:
             else f"/melding/{id}/gebeurtenis-toevoegen/",
             method="patch" if status else "post",
             data=data,
+        )
+
+    def taakapplicaties(self):
+        return self.do_request("/taakapplicatie/")
+
+    def taak_aanmaken(
+        self, melding_uuid, taaktype_url, titel, bericht=None, additionele_informatie={}
+    ):
+        data = {
+            "taaktype": taaktype_url,
+            "titel": titel,
+            "bericht": bericht,
+            "additionele_informatie": additionele_informatie,
+        }
+        return self.do_request(
+            f"/melding/{melding_uuid}/taakopdracht/", method="post", data=data
         )

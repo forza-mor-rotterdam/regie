@@ -27,3 +27,27 @@ def get_meldingen_token():
                 f"auth response status code: {token_response.status_code}"
             )
     return meldingen_token
+
+
+def get_taaktypes(melding):
+    from apps.meldingen import service_instance
+
+    taakapplicaties = service_instance.taakapplicaties()
+    taaktypes = [
+        [
+            tt.get("_links", {}).get("self"),
+            f"{ta.get('naam')} - {tt.get('omschrijving')}",
+        ]
+        for ta in taakapplicaties.get("results", [])
+        for tt in ta.get("taaktypes", [])
+    ]
+    gebruikte_taaktypes = [
+        *set(
+            list(
+                to.get("taaktype")
+                for to in melding.get("taakopdrachten_voor_melding", [])
+            )
+        )
+    ]
+    taaktypes = [tt for tt in taaktypes if tt[0] not in gebruikte_taaktypes]
+    return taaktypes

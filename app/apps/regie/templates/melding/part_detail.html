@@ -307,9 +307,11 @@
                 <div class="grid-item aside">
 
                     <div class="container__actions">
+                        {% if taaktypes %}
                         <p>
                             <button type="button" class="btn btn-action" data-action="detail#openModal" data-detail-action-param="{% url 'taak_starten' melding.uuid %}"><span>Start taak</span></button>
                         </p>
+                        {% endif %}
                         {% if not melding.afgesloten_op %}
                         <p>
                             <button type="button" class="btn btn-action" data-action="detail#openModal" data-detail-action-param="{% url 'melding_afhandelen' melding.uuid %}"><span>Behandelen</span></button>

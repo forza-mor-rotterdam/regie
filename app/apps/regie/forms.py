@@ -103,7 +103,7 @@ class InformatieToevoegenForm(forms.Form):
 
 
 class TaakStartenForm(forms.Form):
-    taak = forms.ChoiceField(
+    taaktype = forms.ChoiceField(
         widget=forms.Select(),
         label="Taak",
         choices=(
@@ -113,6 +113,11 @@ class TaakStartenForm(forms.Form):
         ),
         required=True,
     )
+
+    def __init__(self, *args, **kwargs):
+        taaktypes = kwargs.pop("taaktypes", None)
+        super().__init__(*args, **kwargs)
+        self.fields["taaktype"].choices = taaktypes
 
 
 class MeldingAfhandelenForm(forms.Form):

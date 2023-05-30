@@ -19,7 +19,7 @@
             </div>
             <div class="modal-body">
                 <form
-                    action=""
+                    action="{% url 'taak_starten' melding.uuid %}"
                     method="post"
                     class="form--horizontal"
                     data-controller=""
@@ -29,7 +29,7 @@
 
                     {% csrf_token %}
 
-                    {{ form.taak|render_rotterdam_formulier }}
+                    {{ form.taaktype|render_rotterdam_formulier }}
                     <div class="form-row btn-row">
                         <button
                             type="reset"

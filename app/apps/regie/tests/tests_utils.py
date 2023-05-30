@@ -10,5 +10,4 @@ class TestUtils(SimpleTestCase):
         string_in = "Mock data mock mock"
         string_out = "mock_data_mock_mock"
 
-        print(snake_case(string_in))
         self.assertEqual(snake_case(string_in), string_out)

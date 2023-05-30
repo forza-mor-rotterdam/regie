@@ -4,7 +4,7 @@ import math
 import requests
 import weasyprint
 from apps.meldingen import service_instance
-from apps.meldingen.utils import get_meldingen_token
+from apps.meldingen.utils import get_meldingen_token, get_taaktypes
 from apps.regie.forms import (
     BEHANDEL_OPTIES,
     BEHANDEL_RESOLUTIE,
@@ -115,6 +115,7 @@ def overview(request):
 
 def detail(request, id):
     melding = service_instance.get_melding(id)
+    taaktypes = get_taaktypes(melding)
     melding_gebeurtenissen = melding["melding_gebeurtenissen"]
     bijlagen_extra = []
     for b in melding_gebeurtenissen:
@@ -132,12 +133,11 @@ def detail(request, id):
                 file_name = default_storage.save(f.name, f)
                 bijlagen_base64.append({"bestand": to_base64(file_name)})
 
-            response_melding = service_instance.melding_status_aanpassen(
+            service_instance.melding_status_aanpassen(
                 id,
                 omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
                 bijlagen=bijlagen_base64,
             )
-            print(response_melding)
             return redirect("detail", id=id)
 
     return render(
@@ -148,6 +148,7 @@ def detail(request, id):
             "form": form,
             "overview_querystring": overview_querystring,
             "bijlagen_extra": bijlagen_extra,
+            "taaktypes": taaktypes,
         },
     )
 
@@ -165,7 +166,7 @@ def melding_afhandelen(request, id):
                 file_name = default_storage.save(f.name, f)
                 bijlagen_base64.append({"bestand": to_base64(file_name)})
 
-            response_melding = service_instance.melding_status_aanpassen(
+            service_instance.melding_status_aanpassen(
                 id,
                 status=BEHANDEL_STATUS.get(form.cleaned_data.get("status")),
                 resolutie=BEHANDEL_RESOLUTIE.get(form.cleaned_data.get("status")),
@@ -173,7 +174,6 @@ def melding_afhandelen(request, id):
                 omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
                 bijlagen=bijlagen_base64,
             )
-            print(response_melding)
             return redirect("detail", id=id)
 
     return render(
@@ -190,19 +190,18 @@ def melding_afhandelen(request, id):
 
 def taak_starten(request, id):
     melding = service_instance.get_melding(id)
-    form = TaakStartenForm()
+    taaktypes = get_taaktypes(melding)
+    form = TaakStartenForm(taaktypes=taaktypes)
     if request.POST:
-        form = TaakStartenForm(request.POST)
+        form = TaakStartenForm(request.POST, taaktypes=taaktypes)
         if form.is_valid():
-
-            response_melding = service_instance.melding_status_aanpassen(
-                id,
-                status=BEHANDEL_STATUS.get(form.cleaned_data.get("status")),
-                resolutie=BEHANDEL_RESOLUTIE.get(form.cleaned_data.get("status")),
-                omschrijving_extern=form.cleaned_data.get("omschrijving_extern"),
-                omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
+            data = form.cleaned_data
+            taaktypes_dict = {tt[0]: tt[1] for tt in taaktypes}
+            service_instance.taak_aanmaken(
+                melding_uuid=id,
+                taaktype_url=data.get("taaktype"),
+                titel=taaktypes_dict.get(data.get("taaktype"), data.get("taaktype")),
             )
-            print(response_melding)
             return redirect("detail", id=id)
 
     return render(
@@ -227,12 +226,11 @@ def informatie_toevoegen(request, id):
                 file_name = default_storage.save(f.name, f)
                 bijlagen_base64.append({"bestand": to_base64(file_name)})
 
-            response_melding = service_instance.melding_status_aanpassen(
+            service_instance.melding_status_aanpassen(
                 id,
                 omschrijving_intern=form.cleaned_data.get("opmerking"),
                 bijlagen=bijlagen_base64,
             )
-            print(response_melding)
             return redirect("detail", id=id)
 
     return render(

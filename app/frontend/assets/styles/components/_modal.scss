@@ -46,6 +46,12 @@ body.show-modal--first-filter {
     overflow-y: auto;
     z-index: 2100;
 
+    .turboframe-container {
+        display: flex;
+        align-items: center;
+        min-height: 100%;
+    }
+
     &-dialog {
         display: flex;
         align-items: center;
@@ -54,6 +60,10 @@ body.show-modal--first-filter {
         width: 90%;
         max-width: map-get($container-max-widths , lg );
         margin: 1.5rem auto;
+
+        &--small {
+            max-width: map-get($container-max-widths , md );
+        }
     }
 
     &-content {

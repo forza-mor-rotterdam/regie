@@ -27,11 +27,14 @@
                 </div>
             </div>
             <div class="grid-item bottom-left">
-                {% if melding.afgesloten_op %}
-                <span class="badge badge--green">Afgehandeld ({{melding.resolutie}})</span>
-                {% else %}
-                <span class="badge badge--lightblue">Openstaand</span>
-                {% endif %}
+                <div class="">
+                    {% if melding.afgesloten_op %}
+                    <span class="badge badge--green">Afgehandeld ({{melding.resolutie}})</span>
+                    {% else %}
+                    <span class="badge badge--darkblue">Openstaand</span>
+                    {% endif %}
+                    <span class="badge badge--darkblue">Taak actief</span>
+                </div>
             </div>
         </div>
         <div class="grid-container">
@@ -41,7 +44,7 @@
 
                     {% with bijlagen_aantal=melding.bijlagen|length bijlagen_extra_aantal=bijlagen_extra|length %}
                     {% if melding.bijlagen|length > 0 or bijlagen_extra|length != 0 %}
-                        <div class="container__imageslider" data-detail-target="imageSliderContainer" data-action="scroll->detail#onScrollSlider">
+                        <div class="container__imageslider" data-detail-target="imageSliderContainerr" data-action="scroll->detail#onScrollSlider">
                             <ul
                                 class="list-clean imageslider"
                                 style="width: calc(100% * {{ bijlagen_aantal|add:bijlagen_extra_aantal }})"
@@ -304,9 +307,12 @@
                 <div class="grid-item aside">
 
                     <div class="container__actions">
+                        <p>
+                            <button type="button" class="btn btn-action" data-action="detail#openModal" data-detail-action-param="{% url 'taak_starten' melding.uuid %}"><span>Start taak</span></button>
+                        </p>
                         {% if not melding.afgesloten_op %}
                         <p>
-                            <button type="button" class="btn btn-action" data-action="detail#openModal"><span>Behandelen</span></button>
+                            <button type="button" class="btn btn-action" data-action="detail#openModal" data-detail-action-param="{% url 'melding_afhandelen' melding.uuid %}"><span>Behandelen</span></button>
                         </p>
                         {% endif %}
                         <p>
@@ -344,27 +350,10 @@
     </div>
 
     <div class="modal" data-controller="detail">
-            <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->detail#closeModal"></div>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h1>
-                        <span>Behandelen</span>
-                    </h1>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        aria-label="Sluit"
-                        data-action="detail#closeModal">
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                    <turbo-frame id="melding_afhandelen" src="{% url 'melding_afhandelen' melding.uuid %}">
+        <div class="modal-backdrop modal-exit" id="modal-backdrop"data-action="click->detail#closeModal"></div>
+        <turbo-frame id="melding_actie_form" class="turboframe-container" data-detail-target="turboActionModal" src="{% url 'melding_afhandelen' melding.uuid %}" loading="lazy">
 
-                    </turbo-frame>
-                </div>
-            </div>
-        </div>
+        </turbo-frame>
     </div>
 </turbo-frame>
 {% endblock body %}

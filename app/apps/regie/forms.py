@@ -102,6 +102,19 @@ class InformatieToevoegenForm(forms.Form):
     )
 
 
+class TaakStartenForm(forms.Form):
+    taak = forms.ChoiceField(
+        widget=forms.Select(),
+        label="Taak",
+        choices=(
+            ("graf_ophogen", "Graf ophogen"),
+            ("steen_rechtzetten", "Steen rechtzetten"),
+            ("snoeien", "Snoeien"),
+        ),
+        required=True,
+    )
+
+
 class MeldingAfhandelenForm(forms.Form):
     status = forms.ChoiceField(
         widget=RadioSelect(

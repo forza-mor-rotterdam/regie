@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    static targets = ['selectedImage', 'thumbList', 'imageSliderContainer']
+    static targets = ['selectedImage', 'thumbList', 'imageSliderContainer', 'turboActionModal']
 
     initialize() {
         if(this.hasThumbListTarget) {
@@ -10,20 +10,21 @@ export default class extends Controller {
         }
     }
 
-    openModal() {
-        console.log("openModal")
+    openModal(event) {
         const modal = document.querySelector('.modal');
         const modalBackdrop = document.querySelector('.modal-backdrop');
 
-        console.log('modal', modal)
-        console.log('modalBackDrop', modalBackdrop)
+        // NOT WORKING ?? this.turboActionModalTarget.setAttribute("src", event)
+
+        const turboActionModal = document.querySelector('#melding_actie_form')
+        turboActionModal.setAttribute("src", event.params.action)
+
         modal.classList.add('show');
         modalBackdrop.classList.add('show');
         document.body.classList.add('show-modal');
     }
 
     closeModal() {
-        console.log('closeModal')
         const modal = document.querySelector('.modal');
         const modalBackdrop = document.querySelector('.modal-backdrop');
         modal.classList.remove('show');

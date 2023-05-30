@@ -12,6 +12,7 @@ from apps.regie.forms import (
     FilterForm,
     InformatieToevoegenForm,
     MeldingAfhandelenForm,
+    TaakStartenForm,
 )
 from apps.regie.utils import to_base64
 from config.context_processors import general_settings
@@ -183,6 +184,33 @@ def melding_afhandelen(request, id):
             "melding": melding,
             "afhandel_reden_opties": afhandel_reden_opties,
             "standaard_afhandel_teksten": {bo[0]: bo[2] for bo in BEHANDEL_OPTIES},
+        },
+    )
+
+
+def taak_starten(request, id):
+    melding = service_instance.get_melding(id)
+    form = TaakStartenForm()
+    if request.POST:
+        form = TaakStartenForm(request.POST)
+        if form.is_valid():
+
+            response_melding = service_instance.melding_status_aanpassen(
+                id,
+                status=BEHANDEL_STATUS.get(form.cleaned_data.get("status")),
+                resolutie=BEHANDEL_RESOLUTIE.get(form.cleaned_data.get("status")),
+                omschrijving_extern=form.cleaned_data.get("omschrijving_extern"),
+                omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
+            )
+            print(response_melding)
+            return redirect("detail", id=id)
+
+    return render(
+        request,
+        "melding/part_taak_starten.html",
+        {
+            "form": form,
+            "melding": melding,
         },
     )
 

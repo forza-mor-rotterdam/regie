@@ -259,8 +259,13 @@ dl {
         dt {
             margin: 0 0 .5rem;
         }
+        dd {
+            flex: 1 1 60%;
+        }
         dt {
-            margin-right: .5rem;
+            flex: 1 1 40%;
+            box-sizing: border-box;
+            padding-right: .5rem;
         }
     }
 }

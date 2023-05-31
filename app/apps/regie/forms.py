@@ -9,16 +9,9 @@ BEHANDEL_OPTIES = (
         "opgelost",
     ),
     (
-        "in_behandeling",
-        "Nog niet, de melding is in behandeling.",
-        "We zijn met uw melding aan de slag gegaan maar deze kan niet direct worden opgelost. Want...",
-        None,
-        None,
-    ),
-    (
         "nee",
-        "Nee, het probleem kan niet worden opgelost.",
-        "We zijn met uw melding aan de slag gegaan, maar konden het probleem helaas niet oplossen. Want...",
+        "Nee",
+        "We zijn met uw melding aan de slag gegaan maar deze kan niet direct worden opgelost. Want...",
         "afgehandeld",
         None,
     ),
@@ -44,6 +37,10 @@ TAAK_BEHANDEL_STATUS = {bo[0]: bo[3] for bo in TAAK_BEHANDEL_OPTIES}
 TAAK_BEHANDEL_RESOLUTIE = {bo[0]: bo[4] for bo in TAAK_BEHANDEL_OPTIES}
 BEHANDEL_STATUS = {bo[0]: bo[3] for bo in BEHANDEL_OPTIES}
 BEHANDEL_RESOLUTIE = {bo[0]: bo[4] for bo in BEHANDEL_OPTIES}
+
+
+class CheckboxSelectMultipleThumb(forms.CheckboxSelectMultiple):
+    ...
 
 
 class FilterForm(forms.Form):
@@ -186,6 +183,19 @@ class MeldingAfhandelenForm(forms.Form):
         choices=[[x[0], x[1]] for x in BEHANDEL_OPTIES],
     )
 
+    vervolgtaak = forms.ChoiceField(
+        widget=RadioSelect(
+            attrs={
+                "class": "list--form-radio-input",
+            }
+        ),
+        label="Is er een vervolgtaak nodig?",
+        choices=(
+            ("ja", "Ja"),
+            ("nee", "Nee"),
+        ),
+    )
+
     omschrijving_extern = forms.CharField(
         label="Bericht voor de melder",
         help_text="Je kunt deze tekst aanpassen of eigen tekst toevoegen.",
@@ -200,24 +210,22 @@ class MeldingAfhandelenForm(forms.Form):
         required=False,
     )
 
-    bijlagen = forms.FileField(
-        widget=forms.widgets.FileInput(
+    bijlagen = forms.MultipleChoiceField(
+        widget=CheckboxSelectMultipleThumb(
             attrs={
-                "accept": ".jpg, .jpeg, .png, .heic",
-                "data-action": "change->bijlagen#updateImageDisplay",
+                "class": "form-check-input",
             }
         ),
-        label="Foto's",
+        label="Welke foto's mogen worden verzonden naar de melder?",
         required=False,
     )
 
     omschrijving_intern = forms.CharField(
         label="Interne opmerking",
-        help_text="Je kunt deze tekst aanpassen of eigen tekst toevoegen.",
+        help_text="Deze tekst wordt niet naar de melder verstuurd.",
         widget=forms.Textarea(
             attrs={
                 "class": "form-control",
-                "data-testid": "information",
                 "rows": "4",
                 "data-meldingbehandelformulier-target": "internalText",
             }
@@ -226,7 +234,21 @@ class MeldingAfhandelenForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        bijlagen = kwargs.pop("bijlagen", None)
         super().__init__(*args, **kwargs)
+        print("FORMS bijlagen = = = >")
+        print(bijlagen)
+        # self.fields["bijlagen"].choices = bijlagen
+        self.fields["bijlagen"].choices = [
+            (str(m.get("afbeelding")), m.get("afbeelding")) for m in bijlagen
+        ]
+
+        # def __init__(self, *args, **kwargs):
+        # offset_options = kwargs.pop("offset_options", None)
+        # locatie_opties = kwargs.pop("locatie_opties", None)
+        # super().__init__(*args, **kwargs)
+        # self.fields["offset"].choices = offset_options
+        # self.fields["begraafplaats"].choices = locatie_opties
 
     # def terugsturen(self, data):
     #     if data.get("afhandel_reden") == ""

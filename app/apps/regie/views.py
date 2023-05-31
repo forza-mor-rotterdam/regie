@@ -74,9 +74,11 @@ def overview(request):
         [k, f"{v[0]}"]
         for k, v in data.get("filter_options", {}).get("begraafplaats", {}).items()
     ]
+
     form = FilterForm(
         query_dict, offset_options=offset_options, locatie_opties=begraafplaatsen
     )
+
     filter_form_data = copy.deepcopy(standaard_waardes)
     if form.is_valid():
         filter_form_data = copy.deepcopy(form.cleaned_data)
@@ -160,7 +162,8 @@ def detail(request, id):
 def melding_afhandelen(request, id):
     melding = service_instance.get_melding(id)
     afhandel_reden_opties = [(s, s) for s in melding.get("volgende_statussen", ())]
-    form = MeldingAfhandelenForm()
+    bijlagen = melding["bijlagen"]
+    form = MeldingAfhandelenForm(bijlagen=bijlagen)
     if request.POST:
         form = MeldingAfhandelenForm(request.POST)
         if form.is_valid():

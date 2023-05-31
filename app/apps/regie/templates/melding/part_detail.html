@@ -24,14 +24,15 @@
                         {% if not grafnummer and not vak and plaats %}{% vind_in_dict melding.meta_uitgebreid.begraafplaats.choices plaats %}{% endif %}
                     </h1>
                     {% endwith %}
+                    <p>
+                    {{ melding }}
+                    </p>
                 </div>
             </div>
             <div class="grid-item bottom-left">
                 <div class="">
-                    {% if melding.afgesloten_op %}
-                    <span class="badge badge--green">Afgehandeld ({{melding.resolutie}})</span>
-                    {% else %}
-                    <span class="badge badge--darkblue">Openstaand</span>
+                    {% if melding.status %}
+                    <span class="badge badge--{% if melding.status.naam == 'afgehandeld'%}green{% else %}darkblue{% endif %}">{{melding.status.naam}}{% if melding.status.naam is 'afgehandeld'%} ({{melding.resolutie}}){% endif %}</span>
                     {% endif %}
                     <span class="badge badge--darkblue">Taak actief</span>
                 </div>
@@ -148,7 +149,7 @@
                                         <h3 class="h5">Onderwerp</h3>
                                         <p>
                                             {% for onderwerp in melding.onderwerpen %}
-                                                {{ onderwerp.response_json.naam }}{% if not forloop.last %}, {% endif %}
+                                                {{ onderwerp.naam }}{% if not forloop.last %}, {% endif %}
                                             {% endfor %}
                                         </p>
                                     </li>

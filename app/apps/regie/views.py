@@ -162,8 +162,9 @@ def detail(request, id):
 def melding_afhandelen(request, id):
     melding = service_instance.get_melding(id)
     afhandel_reden_opties = [(s, s) for s in melding.get("volgende_statussen", ())]
-    bijlagen = melding["bijlagen"]
-    form = MeldingAfhandelenForm(bijlagen=bijlagen)
+    # bijlagen = melding["bijlagen"]
+    # form = MeldingAfhandelenForm(bijlagen=bijlagen)
+    form = MeldingAfhandelenForm()
     if request.POST:
         form = MeldingAfhandelenForm(request.POST)
         if form.is_valid():

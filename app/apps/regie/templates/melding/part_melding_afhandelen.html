@@ -8,7 +8,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1>
-                    <span>Behandelen</span>
+                    <span>Afhandelen melding</span>
                 </h1>
                 <button
                     type="button"
@@ -21,45 +21,50 @@
                 <section class="section--seperated" data-testid="detailReporter">
                     <div class="container__details">
                         <h2>
-                            Behandeling taak
+                            Behandeling melding
                         </h2>
                         <div class="wrapper">
+                        {% comment %} {{melding}} {% endcomment %}
                             <dl>
-                                {% if melding.id %}
-                                <div>
-                                    <dt>Melding</dt>
-                                    <dd>{{ melding.id }}</dd>
-                                </div>
-                                {% endif %}
-                                {% if melding.meta.grafnummer %}
-                                <div>
-                                    <dt>Graf</dt>
-                                    <dd>{{ melding.meta.grafnummer }}</dd>
-                                </div>
-                                {% endif %}
-                                {% if melding.meta.vak %}
-                                <div>
-                                    <dt>Vak</dt>
-                                    <dd>{{ melding.meta.vak }}</dd>
-                                </div>
-                                {% endif %}
                                 {% if melding.onderwerpen %}
                                 <div>
-                                    <dt>Categorie</dt>
+                                    <dt>Omschrijving taak</dt>
                                     <dd>
-                                        {% for onderwerp in melding.onderwerpen %}
-                                            {{ onderwerp.response_json.naam }}{% if not forloop.last %}, {% endif %}
+                                        {% for taak in melding.onderwerpen %}
+                                            {{ taak.naam }}{% if not forloop.last %}, {% endif %}
                                         {% endfor %}
                                     </dd>
                                 </div>
                                 {% endif %}
-                                {% if melding.origineel_aangemaakt %}
-                                <div>
-                                    <dt>Ingediend</dt>
-                                    <dd>{{ melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i" }}</dd>
-                                </div>
-                                {% endif %}
 
+                                {% if melding.bijlagen %}
+                                <div>
+                                    <dt>Foto's</dt>
+                                    <dd>
+                                        <div class="container__thumbs no-slides">
+                                            <ul data-detail-target="thumbList">
+                                                {% for bijlage in melding.bijlagen %}
+                                                <li data-action="click->detail#selectImage"
+                                                    data-detail-image-index-param="{{ forloop.counter }}">
+                                                    <div class="container__image">
+                                                        <div class="image" style="background-image:url('{{bijlage.afbeelding_verkleind_relative_url}}');"></div>
+                                                    </div>
+                                                </li>
+                                                {% endfor %}
+                                                {% for b in bijlagen_extra reversed %}
+                                                <li data-action="click->detail#selectImage"
+                                                    data-detail-image-index-param="{{ forloop.counter|add:bijlagen_aantal }}">
+                                                    <div class="container__image">
+                                                        <div class="image" style="background-image:url('{{b.afbeelding_verkleind_relative_url}}');"></div>
+                                                    </div>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </dd>
+                                </div>
+
+                                {% endif %}
 
                             </dl>
 
@@ -85,8 +90,6 @@
 
                         {{ form.status|render_rotterdam_formulier }}
 
-                        {{ form.vervolgtaak|render_rotterdam_formulier }}
-
                         <div class="form-control__with-helptext">
                             {{ form.omschrijving_intern|render_rotterdam_formulier }}
                         </div>
@@ -97,9 +100,9 @@
                             </div>
                         {% endif %}
 
-                        {% if form.bijlagen %}
+                        {% comment %} {% if form.bijlagen %}
                             {{ form.bijlagen|render_rotterdam_formulier }}
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                         <div class="form-row btn-row">
                             <button
                                 type="reset"

@@ -183,19 +183,6 @@ class MeldingAfhandelenForm(forms.Form):
         choices=[[x[0], x[1]] for x in BEHANDEL_OPTIES],
     )
 
-    vervolgtaak = forms.ChoiceField(
-        widget=RadioSelect(
-            attrs={
-                "class": "list--form-radio-input",
-            }
-        ),
-        label="Is er een vervolgtaak nodig?",
-        choices=(
-            ("ja", "Ja"),
-            ("nee", "Nee"),
-        ),
-    )
-
     omschrijving_extern = forms.CharField(
         label="Bericht voor de melder",
         help_text="Je kunt deze tekst aanpassen of eigen tekst toevoegen.",
@@ -210,15 +197,15 @@ class MeldingAfhandelenForm(forms.Form):
         required=False,
     )
 
-    bijlagen = forms.MultipleChoiceField(
-        widget=CheckboxSelectMultipleThumb(
-            attrs={
-                "class": "form-check-input",
-            }
-        ),
-        label="Welke foto's mogen worden verzonden naar de melder?",
-        required=False,
-    )
+    # bijlagen = forms.MultipleChoiceField(
+    #     widget=CheckboxSelectMultipleThumb(
+    #         attrs={
+    #             "class": "form-check-input",
+    #         }
+    #     ),
+    #     label="Welke foto's mogen worden verzonden naar de melder?",
+    #     required=False,
+    # )
 
     omschrijving_intern = forms.CharField(
         label="Interne opmerking",
@@ -234,21 +221,14 @@ class MeldingAfhandelenForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        bijlagen = kwargs.pop("bijlagen", None)
+        # bijlagen = kwargs.pop("bijlagen", None)
         super().__init__(*args, **kwargs)
-        print("FORMS bijlagen = = = >")
-        print(bijlagen)
+        # print("FORMS bijlagen = = = >")
+        # print(bijlagen)
         # self.fields["bijlagen"].choices = bijlagen
-        self.fields["bijlagen"].choices = [
-            (str(m.get("afbeelding")), m.get("afbeelding")) for m in bijlagen
-        ]
-
-        # def __init__(self, *args, **kwargs):
-        # offset_options = kwargs.pop("offset_options", None)
-        # locatie_opties = kwargs.pop("locatie_opties", None)
-        # super().__init__(*args, **kwargs)
-        # self.fields["offset"].choices = offset_options
-        # self.fields["begraafplaats"].choices = locatie_opties
+        # self.fields["bijlagen"].choices = [
+        #     (str(m.get("afbeelding")), m.get("afbeelding")) for m in bijlagen
+        # ]
 
     # def terugsturen(self, data):
     #     if data.get("afhandel_reden") == ""

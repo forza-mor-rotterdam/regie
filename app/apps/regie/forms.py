@@ -129,6 +129,15 @@ class TaakStartenForm(forms.Form):
         required=True,
     )
 
+    bericht = forms.CharField(
+        label="Interne opmerking",
+        help_text="Deze tekst wordt niet naar de melder verstuurd.",
+        widget=forms.Textarea(
+            attrs={"class": "form-control", "data-testid": "information", "rows": "4"}
+        ),
+        required=False,
+    )
+
     def __init__(self, *args, **kwargs):
         taaktypes = kwargs.pop("taaktypes", None)
         super().__init__(*args, **kwargs)

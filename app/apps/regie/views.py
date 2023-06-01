@@ -122,6 +122,8 @@ def overview(request):
 def detail(request, id):
     melding = service_instance.get_melding(id)
     taaktypes = get_taaktypes(melding)
+    print("taaktypes = = = >")
+    print(taaktypes)
     melding_gebeurtenissen = melding["melding_gebeurtenissen"]
     bijlagen_extra = []
     for b in melding_gebeurtenissen:
@@ -209,6 +211,7 @@ def taak_starten(request, id):
                 melding_uuid=id,
                 taaktype_url=data.get("taaktype"),
                 titel=taaktypes_dict.get(data.get("taaktype"), data.get("taaktype")),
+                bericht=data.get("bericht"),
             )
             return redirect("detail", id=id)
 

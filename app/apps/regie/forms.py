@@ -153,6 +153,7 @@ class TaakAfrondenForm(forms.Form):
         ),
         label="Is het probleem opgelost?",
         choices=[[x[0], x[1]] for x in TAAK_BEHANDEL_OPTIES],
+        required=True,
     )
 
     bijlagen = forms.FileField(
@@ -190,6 +191,7 @@ class MeldingAfhandelenForm(forms.Form):
         ),
         label="Is het probleem opgelost?",
         choices=[[x[0], x[1]] for x in BEHANDEL_OPTIES],
+        required=True,
     )
 
     omschrijving_extern = forms.CharField(

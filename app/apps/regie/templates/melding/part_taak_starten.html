@@ -30,12 +30,15 @@
                     {% csrf_token %}
 
                     {{ form.taaktype|render_rotterdam_formulier }}
-                    {{ form.bericht|render_rotterdam_formulier }}
+                    <div class="form-control__with-helptext">
+                        {{ form.bericht|render_rotterdam_formulier }}
+                    </div>
                     <div class="form-row btn-row">
                         <button
                             type="reset"
                             class="btn btn-tertiary"
-                            data-action="incidentHandleForm#cancelHandle"
+                            data-controller="detail"
+                            data-action="detail#closeModal"
                         >
                             <span>Annuleren</span>
                         </button>

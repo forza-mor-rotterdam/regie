@@ -122,8 +122,6 @@ def overview(request):
 def detail(request, id):
     melding = service_instance.get_melding(id)
     taaktypes = get_taaktypes(melding)
-    print("taaktypes = = = >")
-    print(taaktypes)
     melding_gebeurtenissen = melding["melding_gebeurtenissen"]
     bijlagen_extra = []
     for b in melding_gebeurtenissen:

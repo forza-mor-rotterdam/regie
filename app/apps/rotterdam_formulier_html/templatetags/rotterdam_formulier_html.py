@@ -154,10 +154,6 @@ def is_multiple_checkbox(field):
 
 @register.filter
 def is_multiple_checkbox_thumb(field):
-    print("FILTER, is_multiple_checkbox_thumb")
-    print(isinstance(field.field.widget, CheckboxSelectMultipleThumb))
-    print(field.field)
-    print(field.field.widget)
     return isinstance(field.field.widget, CheckboxSelectMultipleThumb)
 
 

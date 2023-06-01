@@ -36,7 +36,7 @@ def get_taaktypes(melding):
     taaktypes = [
         [
             tt.get("_links", {}).get("self"),
-            f"{ta.get('naam')} - {tt.get('omschrijving')}",
+            f"{tt.get('omschrijving')}",
         ]
         for ta in taakapplicaties.get("results", [])
         for tt in ta.get("taaktypes", [])

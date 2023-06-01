@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 import requests
 from apps.meldingen.utils import get_meldingen_token
 from requests import Request, Response
@@ -6,13 +8,24 @@ from requests import Request, Response
 class MeldingenService:
     _api_base_url = None
     _timeout: tuple[int, ...] = (5, 10)
+    _api_path: str = "/api/v1"
+
+    class BasisUrlFout(Exception):
+        ...
 
     def __init__(self, api_base_url: str, *args, **kwargs: dict):
         self._api_base_url = api_base_url.strip().rstrip("/")
         super().__init__(*args, **kwargs)
 
     def get_url(self, url):
-        return f"{self._api_base_url}{url}"
+        url_o = urlparse(url)
+        if not url_o.scheme and not url_o.netloc:
+            return f"{self._api_base_url}{url}"
+        if f"{url_o.scheme}://{url_o.netloc}" == self._api_base_url:
+            return url
+        raise MeldingenService.BasisUrlFout(
+            f"url: {url}, basis_url: {self._api_base_url}"
+        )
 
     def get_headers(self):
         headers = {"Authorization": f"Token {get_meldingen_token()}"}
@@ -31,10 +44,10 @@ class MeldingenService:
         return response.json()
 
     def get_melding_lijst(self, query_string=""):
-        return self.do_request(f"/melding/?{query_string}")
+        return self.do_request(f"{self._api_path}/melding/?{query_string}")
 
     def get_melding(self, id, query_string=""):
-        return self.do_request(f"/melding/{id}/?{query_string}")
+        return self.do_request(f"{self._api_path}/melding/{id}/?{query_string}")
 
     def melding_gebeurtenis_toevoegen(
         self,
@@ -50,7 +63,7 @@ class MeldingenService:
         }
 
         return self.do_request(
-            f"/melding/{id}/gebeurtenis-toevoegen/",
+            f"{self._api_path}/melding/{id}/gebeurtenis-toevoegen/",
             method="post",
             data=data,
         )
@@ -79,15 +92,15 @@ class MeldingenService:
                 }
             )
         return self.do_request(
-            f"/melding/{id}/status-aanpassen/"
+            f"{self._api_path}/melding/{id}/status-aanpassen/"
             if status
-            else f"/melding/{id}/gebeurtenis-toevoegen/",
+            else f"{self._api_path}/melding/{id}/gebeurtenis-toevoegen/",
             method="patch" if status else "post",
             data=data,
         )
 
     def taakapplicaties(self):
-        return self.do_request("/taakapplicatie/")
+        return self.do_request(f"{self._api_path}/taakapplicatie/")
 
     def taak_aanmaken(
         self, melding_uuid, taaktype_url, titel, bericht=None, additionele_informatie={}
@@ -99,5 +112,27 @@ class MeldingenService:
             "additionele_informatie": additionele_informatie,
         }
         return self.do_request(
-            f"/melding/{melding_uuid}/taakopdracht/", method="post", data=data
+            f"{self._api_path}/melding/{melding_uuid}/taakopdracht/",
+            method="post",
+            data=data,
+        )
+
+    def taak_status_aanpassen(
+        self,
+        taakopdracht_url,
+        status,
+        resolutie=None,
+        omschrijving_intern=None,
+        bijlagen=None,
+    ):
+        data = {
+            "taakstatus": {
+                "naam": status,
+            },
+            "resolutie": resolutie,
+            "omschrijving_intern": omschrijving_intern,
+            "bijlagen": bijlagen,
+        }
+        return self.do_request(
+            f"{taakopdracht_url}status-aanpassen/", method="patch", data=data
         )

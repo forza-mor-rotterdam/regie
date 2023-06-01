@@ -9,6 +9,9 @@ from apps.regie.forms import (
     BEHANDEL_OPTIES,
     BEHANDEL_RESOLUTIE,
     BEHANDEL_STATUS,
+    TAAK_BEHANDEL_OPTIES,
+    TAAK_BEHANDEL_RESOLUTIE,
+    TAAK_BEHANDEL_STATUS,
     FilterForm,
     InformatieToevoegenForm,
     MeldingAfhandelenForm,
@@ -220,11 +223,24 @@ def taak_afronden(request, melding_uuid, taakopdracht_uuid):
     taakopdrachten = {
         to.get("uuid"): to for to in melding.get("taakopdrachten_voor_melding", [])
     }
-    taakopdracht = taakopdrachten.get(str(taakopdracht_uuid))
+    taakopdracht = taakopdrachten.get(str(taakopdracht_uuid), {})
     form = TaakAfrondenForm()
     if request.POST:
         form = TaakAfrondenForm(request.POST)
         if form.is_valid():
+            bijlagen = request.FILES.getlist("bijlagen_extra", [])
+            bijlagen_base64 = []
+            for f in bijlagen:
+                file_name = default_storage.save(f.name, f)
+                bijlagen_base64.append({"bestand": to_base64(file_name)})
+            service_instance.taak_status_aanpassen(
+                taakopdracht_url=taakopdracht.get("_links", {}).get("self"),
+                status=TAAK_BEHANDEL_STATUS.get(form.cleaned_data.get("status")),
+                resolutie=TAAK_BEHANDEL_RESOLUTIE.get(form.cleaned_data.get("status")),
+                omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
+                bijlagen=bijlagen_base64,
+            )
+
             return redirect("detail", id=melding_uuid)
 
     return render(

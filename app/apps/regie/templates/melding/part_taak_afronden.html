@@ -29,7 +29,14 @@
 
                     {% csrf_token %}
 
-                    {% comment %} {{ form.taaktype|render_rotterdam_formulier }} {% endcomment %}
+                    {{ form.status|render_rotterdam_formulier }}
+
+                    <div data-controller="bijlagen">
+                        {{ form.bijlagen|render_rotterdam_formulier }}
+                    </div>
+                    <div class="form-control__with-helptext">
+                        {{ form.omschrijving_intern|render_rotterdam_formulier }}
+                    </div>
                     <div class="form-row btn-row">
                         <button
                             type="reset"

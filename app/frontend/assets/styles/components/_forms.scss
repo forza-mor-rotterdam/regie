@@ -439,8 +439,7 @@ textarea {
 
         display: flex;
         flex-direction: row;
-        align-items: baseline;
-        justify-content: flex-end;
+        margin-top: 1rem;
 
         >.label,
         >label {
@@ -451,11 +450,16 @@ textarea {
         }
 
         &.btn-row {
+            justify-content: end;
             .btn {
                 margin-left: 16px;
                 width: auto;
                 white-space: nowrap;
             }
+        }
+
+        ul {
+            margin: 0;
         }
     }
 }

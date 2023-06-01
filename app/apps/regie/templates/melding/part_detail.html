@@ -28,12 +28,12 @@
             </div>
             <div class="grid-item bottom-left">
                 <div class="">
-                    {% if melding.afgesloten_op %}
-                    <span class="badge badge--green">Afgehandeld ({{melding.resolutie}})</span>
-                    {% else %}
-                    <span class="badge badge--darkblue">Openstaand</span>
+                    {% if melding.status %}
+                    <span class="badge badge--{% if melding.status.naam == 'afgehandeld'%}green{% else %}darkblue{% endif %}">{{melding.status.naam}}{% if melding.status.naam is 'afgehandeld'%} ({{melding.resolutie}}){% endif %}</span>
                     {% endif %}
-                    <span class="badge badge--darkblue">Taak actief</span>
+                    {% if melding.taakopdrachten_voor_melding|length %}
+                        <span class="badge badge--darkblue">Taak actief</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -148,7 +148,7 @@
                                         <h3 class="h5">Onderwerp</h3>
                                         <p>
                                             {% for onderwerp in melding.onderwerpen %}
-                                                {{ onderwerp.response_json.naam }}{% if not forloop.last %}, {% endif %}
+                                                {{ onderwerp.naam }}{% if not forloop.last %}, {% endif %}
                                             {% endfor %}
                                         </p>
                                     </li>
@@ -310,11 +310,9 @@
                         {% if taaktypes %}
                         <p>
                             <button type="button" class="btn btn-action" data-action="detail#openModal" data-detail-action-param="{% url 'taak_starten' melding.uuid %}"><span>Start taak</span></button>
-                        </p>
                         {% endif %}
                         {% if not melding.afgesloten_op %}
-                        <p>
-                            <button type="button" class="btn btn-action" data-action="detail#openModal" data-detail-action-param="{% url 'melding_afhandelen' melding.uuid %}"><span>Behandelen</span></button>
+                            <button type="button" class="btn btn-tertiary" data-action="detail#openModal" data-detail-action-param="{% url 'melding_afhandelen' melding.uuid %}"><span>Melding afhandelen</span></button>
                         </p>
                         {% endif %}
                         <p>

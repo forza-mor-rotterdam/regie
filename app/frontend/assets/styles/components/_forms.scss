@@ -370,8 +370,7 @@ textarea {
             padding-right: 56px;
 
             img {
-                height: 116px;
-                width: 100%;
+                max-height: 116px;
                 max-width: 155px;
                 vertical-align: middle;
                 margin-right: $input-padding-x;

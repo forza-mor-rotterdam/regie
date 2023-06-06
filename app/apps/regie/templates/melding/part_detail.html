@@ -307,14 +307,14 @@
                 <div class="grid-item aside">
 
                     <div class="container__actions">
-                        {% if taaktypes %}
                         <p>
+                            {% if taaktypes %}
                             <button type="button" class="btn btn-action" data-action="detail#openModal" data-detail-action-param="{% url 'taak_starten' melding.uuid %}"><span>Start taak</span></button>
-                        {% endif %}
-                        {% if not melding.afgesloten_op %}
+                            {% endif %}
+                            {% if not melding.afgesloten_op %}
                             <button type="button" class="btn btn-tertiary" data-action="detail#openModal" data-detail-action-param="{% url 'melding_afhandelen' melding.uuid %}"><span>Melding afhandelen</span></button>
+                            {% endif %}
                         </p>
-                        {% endif %}
                         <p>
                             <a href="{% url 'melding_pdf_download' melding.uuid %}" target="_blank" role="button" class="btn btn-icon btn-textlink">
                                 <svg width="16" height="16" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" title="">

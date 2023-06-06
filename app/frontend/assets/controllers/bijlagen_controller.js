@@ -4,6 +4,7 @@ let temp_files = {}
 let temp_filesArr = []
 export default class extends Controller {
 
+    static targets = ['bijlagenExtra']
     connect() {}
 
     removeDuplicates(arr) {
@@ -25,7 +26,7 @@ export default class extends Controller {
     removeFile (e) {
 
         const index = e.params.index;
-        const input = document.getElementById('id_bijlagen')
+        const input = this.bijlagenExtraTarget
         temp_filesArr = [...temp_files]
         temp_filesArr.splice(index, 1)
 
@@ -58,7 +59,7 @@ export default class extends Controller {
     }
 
     updateImageDisplay(adding = true) {
-        const input = document.getElementById('id_bijlagen')
+        const input = this.bijlagenExtraTarget
         const preview = document.getElementById('imagesPreview');
         const newFiles = input.files; //contains only new file(s)
 

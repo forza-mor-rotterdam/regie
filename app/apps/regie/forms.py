@@ -110,6 +110,7 @@ class InformatieToevoegenForm(forms.Form):
             attrs={
                 "accept": ".jpg, .jpeg, .png, .heic",
                 "data-action": "change->bijlagen#updateImageDisplay",
+                "data-bijlagen-target": "bijlagenExtra",
             }
         ),
         label="Voeg één of meerdere foto's toe",

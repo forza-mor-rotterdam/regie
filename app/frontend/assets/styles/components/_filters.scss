@@ -12,6 +12,16 @@
         flex: 0;
     }
 }
+
+.filter-header {
+    display: flex;
+    align-items: baseline;
+
+    h1 {
+        margin: 0 16px 0 0;
+    }
+}
+
 .container__multiselect {
     position: relative;
     z-index: 10;

@@ -8,10 +8,11 @@
 <div data-controller="overview">
 
     <turbo-frame id="overvieww" data-turbo-action="advance" >
-        <h1 class="page-title">Serviceverzoeken</h1>
         <form method="get" action="{% url 'overview' %}" id="filterForm">
-            <span class="help-text">{{ startNum }} - {{ endNum }} van {{ totaal }} resultaten</span>
-
+            <div class="filter-header">
+                <h1 class="page-title">Meldingen</h1>
+                <span class="help-text">{{ startNum }} - {{ endNum }} van {{ totaal }} resultaten</span>
+            </div>
 
             <div class="container__filter" data-controller="filter">
                 <label class="visually-hidden">Locatie</label>

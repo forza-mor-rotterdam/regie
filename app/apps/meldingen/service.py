@@ -41,6 +41,7 @@ class MeldingenService:
             "timeout": self._timeout,
         }
         response: Response = action(**action_params)
+
         return response.json()
 
     def get_melding_lijst(self, query_string=""):

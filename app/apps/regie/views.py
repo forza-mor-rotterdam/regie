@@ -122,9 +122,9 @@ def overview(request):
 def detail(request, id):
     melding = service_instance.get_melding(id)
     taaktypes = get_taaktypes(melding)
-    melding_gebeurtenissen = melding["melding_gebeurtenissen"]
+    meldinggebeurtenissen = melding["meldinggebeurtenissen"]
     bijlagen_extra = []
-    for b in melding_gebeurtenissen:
+    for b in meldinggebeurtenissen:
         if len(b["bijlagen"]) > 0:
             for f in b["bijlagen"]:
                 bijlagen_extra.append(f)
@@ -271,10 +271,10 @@ def informatie_toevoegen(request, id):
                 file_name = default_storage.save(f.name, f)
                 bijlagen_base64.append({"bestand": to_base64(file_name)})
 
-            service_instance.melding_status_aanpassen(
+            service_instance.melding_gebeurtenis_toevoegen(
                 id,
-                omschrijving_intern=form.cleaned_data.get("opmerking"),
                 bijlagen=bijlagen_base64,
+                omschrijving_intern=form.cleaned_data.get("opmerking"),
             )
             return redirect("detail", id=id)
 

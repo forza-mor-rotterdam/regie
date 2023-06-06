@@ -50,7 +50,7 @@
                 </details>
             </div>
             <ul class="list__mutations">
-            {% for melding_gebeurtenis in melding.melding_gebeurtenissen %}
+            {% for melding_gebeurtenis in melding.meldinggebeurtenissen %}
                 <li data-controller="datetime" data-datetime-date-object-value="{{ melding_gebeurtenis.aangemaakt_op }}">
                     <details>
                         <summary>

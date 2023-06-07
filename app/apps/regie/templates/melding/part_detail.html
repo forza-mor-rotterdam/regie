@@ -44,7 +44,7 @@
 
                     {% with bijlagen_aantal=melding.bijlagen|length bijlagen_extra_aantal=bijlagen_extra|length %}
                     {% if melding.bijlagen|length > 0 or bijlagen_extra|length != 0 %}
-                        <div class="container__imageslider" data-detail-target="imageSliderContainerr" data-action="scroll->detail#onScrollSlider">
+                        <div class="container__imageslider" data-detail-target="imageSliderContainer" data-action="scroll->detail#onScrollSlider">
                             <ul
                                 class="list-clean imageslider"
                                 style="width: calc(100% * {{ bijlagen_aantal|add:bijlagen_extra_aantal }})"

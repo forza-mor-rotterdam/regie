@@ -73,8 +73,11 @@
                             </td>
                             <td class="nowrap">{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
                             <td class="nowrap">
-                                <span class="display--flex--center badge {% if melding.afgesloten_op %} badge--green{% else %} badge--lightblue{% endif %}">{% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}</span>
-                                </td>
+                                <span class="display--flex--center badge badge--{% if melding.status.naam == 'afgehandeld' %}green{% elif melding.status.naam == 'controle' %}yellow{% else %}lightblue{% endif %}">
+                                    {{ melding.status.naam }}
+                                    {% if melding.aantal_actieve_taken is not 0 %} ({{ melding.aantal_actieve_taken }}){% endif %}
+                                </span>
+                            </td>
                             <td>
                                 <a href="{% url 'melding_pdf_download' melding.uuid %}" target="_blank" role="button" class="btn btn-icon btn-textlink">
                                     <svg width="16" height="16" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" title="Exporteer pdf">

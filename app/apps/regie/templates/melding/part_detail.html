@@ -29,7 +29,7 @@
             <div class="grid-item bottom-left">
                 <div class="">
                     {% if melding.status %}
-                    <span class="badge badge--{% if melding.status.naam == 'afgehandeld'%}green{% else %}darkblue{% endif %}">{{melding.status.naam}}{% if melding.status.naam is 'afgehandeld'%} ({{melding.resolutie}}){% endif %}</span>
+                    <span class="badge badge--{% if melding.status.naam == 'afgehandeld'%}green{% elif melding.status.naam == 'controle' %}yellow{% else %}darkblue{% endif %}">{{melding.status.naam}}{% if melding.status.naam is 'afgehandeld'%} ({{melding.resolutie}}){% endif %}</span>
                     {% endif %}
                     {% if melding.taakopdrachten_voor_melding|length %}
                         <span class="badge badge--darkblue">Taak actief</span>

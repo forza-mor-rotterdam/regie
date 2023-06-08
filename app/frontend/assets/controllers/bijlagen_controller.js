@@ -2,10 +2,15 @@ import { Controller } from '@hotwired/stimulus';
 
 let temp_files = {}
 let temp_filesArr = []
+let input = null
 export default class extends Controller {
 
-    static targets = ['bijlagenExtra']
-    connect() {}
+    static targets = ['bijlagenExtra', 'bijlagenAfronden']
+    connect() {
+        //clear the filelist
+        temp_files = {}
+        temp_filesArr = []
+    }
 
     removeDuplicates(arr) {
         var unique = [];
@@ -26,7 +31,12 @@ export default class extends Controller {
     removeFile (e) {
 
         const index = e.params.index;
-        const input = this.bijlagenExtraTarget
+        if(this.hasBijlagenExtraTarget) {
+            input = this.bijlagenExtraTarget
+        }
+        if(this.hasBijlagenAfrondenTarget) {
+            input = this.bijlagenAfrondenTarget
+        }
         temp_filesArr = [...temp_files]
         temp_filesArr.splice(index, 1)
 
@@ -59,10 +69,14 @@ export default class extends Controller {
     }
 
     updateImageDisplay(adding = true) {
-        const input = this.bijlagenExtraTarget
-        const preview = document.getElementById('imagesPreview');
+        if(this.hasBijlagenExtraTarget) {
+            input = this.bijlagenExtraTarget
+        }
+        if(this.hasBijlagenAfrondenTarget) {
+            input = this.bijlagenAfrondenTarget
+        }
+        const preview = input.nextElementSibling
         const newFiles = input.files; //contains only new file(s)
-
         if(adding) {this.addFiles(newFiles)}
 
 

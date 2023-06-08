@@ -162,6 +162,7 @@ class TaakAfrondenForm(forms.Form):
             attrs={
                 "accept": ".jpg, .jpeg, .png, .heic",
                 "data-action": "change->bijlagen#updateImageDisplay",
+                "data-bijlagen-target": "bijlagenAfronden",
             }
         ),
         label="Foto's",

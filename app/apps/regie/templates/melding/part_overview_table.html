@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load qs_ordenen heeft_orden_oplopend vind_in_dict qs_offset from querystring_tags %}
+{% load vertaal from vertaal_tags %}
 {% load rotterdam_formulier_html %}
 
 {% load to_date from date_tags %}
@@ -74,7 +75,7 @@
                             <td class="nowrap">{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
                             <td class="nowrap">
                                 <span class="display--flex--center badge badge--{% if melding.status.naam == 'afgehandeld' %}green{% elif melding.status.naam == 'controle' %}yellow{% else %}lightblue{% endif %}">
-                                    {{ melding.status.naam }}
+                                    {{ melding.status.naam|vertaal }}
                                     {% if melding.aantal_actieve_taken is not 0 %} ({{ melding.aantal_actieve_taken }}){% endif %}
                                 </span>
                             </td>

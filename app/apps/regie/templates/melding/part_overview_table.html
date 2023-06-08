@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load qs_ordenen heeft_orden_oplopend vind_in_dict qs_offset from querystring_tags %}
+{% load vertaal from vertaal_tags %}
 {% load rotterdam_formulier_html %}
 
 {% load to_date from date_tags %}
@@ -73,7 +74,7 @@
                             </td>
                             <td class="nowrap">{{melding.origineel_aangemaakt|to_date|date:"d-m-Y H:i"}}</td>
                             <td class="nowrap">
-                                <span class="display--flex--center badge {% if melding.afgesloten_op %} badge--green{% else %} badge--lightblue{% endif %}">{% if melding.afgesloten_op %}Afgehandeld{% else %}Openstaand{% endif %}</span>
+                                <span class="display--flex--center badge {% if melding.afgesloten_op %} badge--green{% else %} badge--lightblue{% endif %}">{{melding.status.naam|vertaal}}</span>
                                 </td>
                             <td>
                                 <a href="{% url 'melding_pdf_download' melding.uuid %}" target="_blank" role="button" class="btn btn-icon btn-textlink">

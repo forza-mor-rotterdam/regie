@@ -13,6 +13,9 @@ class MeldingenService:
     class BasisUrlFout(Exception):
         ...
 
+    class AntwoordFout(Exception):
+        ...
+
     def __init__(self, api_base_url: str, *args, **kwargs: dict):
         self._api_base_url = api_base_url.strip().rstrip("/")
         super().__init__(*args, **kwargs)
@@ -31,7 +34,7 @@ class MeldingenService:
         headers = {"Authorization": f"Token {get_meldingen_token()}"}
         return headers
 
-    def do_request(self, url, method="get", data={}):
+    def do_request(self, url, method="get", data={}, raw_response=True):
 
         action: Request = getattr(requests, method)
         action_params: dict = {
@@ -42,13 +45,21 @@ class MeldingenService:
         }
         response: Response = action(**action_params)
 
+        if raw_response:
+            return response
         return response.json()
 
     def get_melding_lijst(self, query_string=""):
-        return self.do_request(f"{self._api_path}/melding/?{query_string}")
+        return self.do_request(
+            f"{self._api_path}/melding/?{query_string}",
+            raw_response=False,
+        )
 
     def get_melding(self, id, query_string=""):
-        return self.do_request(f"{self._api_path}/melding/{id}/?{query_string}")
+        return self.do_request(
+            f"{self._api_path}/melding/{id}/?{query_string}",
+            raw_response=False,
+        )
 
     def melding_gebeurtenis_toevoegen(
         self,
@@ -62,12 +73,16 @@ class MeldingenService:
             "omschrijving_intern": omschrijving_intern,
             "omschrijving_extern": omschrijving_extern,
         }
-
-        return self.do_request(
+        response = self.do_request(
             f"{self._api_path}/melding/{id}/gebeurtenis-toevoegen/",
             method="post",
             data=data,
         )
+        if response.status_code != 200:
+            raise MeldingenService.AntwoordFout(
+                f"status code: {response.status_code}, status code verwacht: 200"
+            )
+        return response.json()
 
     def melding_status_aanpassen(
         self,
@@ -98,10 +113,14 @@ class MeldingenService:
             else f"{self._api_path}/melding/{id}/gebeurtenis-toevoegen/",
             method="patch" if status else "post",
             data=data,
+            raw_response=False,
         )
 
     def taakapplicaties(self):
-        return self.do_request(f"{self._api_path}/taakapplicatie/")
+        return self.do_request(
+            f"{self._api_path}/taakapplicatie/",
+            raw_response=False,
+        )
 
     def taak_aanmaken(
         self, melding_uuid, taaktype_url, titel, bericht=None, additionele_informatie={}
@@ -116,6 +135,7 @@ class MeldingenService:
             f"{self._api_path}/melding/{melding_uuid}/taakopdracht/",
             method="post",
             data=data,
+            raw_response=False,
         )
 
     def taak_status_aanpassen(
@@ -135,5 +155,8 @@ class MeldingenService:
             "bijlagen": bijlagen,
         }
         return self.do_request(
-            f"{taakopdracht_url}status-aanpassen/", method="patch", data=data
+            f"{taakopdracht_url}status-aanpassen/",
+            method="patch",
+            data=data,
+            raw_response=False,
         )

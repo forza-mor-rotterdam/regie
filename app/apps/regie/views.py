@@ -1,4 +1,5 @@
 import copy
+import logging
 import math
 
 import requests
@@ -27,6 +28,8 @@ from django.http import HttpResponse, QueryDict, StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
+
+logger = logging.getLogger(__name__)
 
 
 def http_404(request):

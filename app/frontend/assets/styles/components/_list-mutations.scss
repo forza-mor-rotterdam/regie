@@ -3,6 +3,7 @@
     >li {
         margin: 0 calc(-1 * (map-get($container-margin, md)));
         padding: 0 map-get($container-margin, md);
+        position: relative;
         // &:nth-child(even) {
         //     background-color: $gray-tint02;
         // }
@@ -17,27 +18,69 @@
                     height: 0;
                 }
             }
-        }
-    }
 
+        }
+        &:first-child {
+            summary {
+                &::before {
+                    display: none;
+                }
+            }
+        }
+
+    }
+    .line {
+        width: 2px;
+        height: 100%;
+        position: absolute;
+        left: 6px;
+        top: 23px;
+        background-color: $gray-tint11;
+    }
     details {
-        position: relative;
-        &::before {
+        .line {
             content: "";
             width: 2px;
-            height: 100%;
+            height: calc(100% + 20px);
             position: absolute;
             left: 6px;
             top: 23px;
             background-color: $gray-tint11;
         }
+        .line-melding,
+        .event-melding {
+            background-color: $green-tint01 !important;
+        }
+        .line-taak,
+        .event-taak {
+            background-color: $magenta-tint01 !important;
+        }
+
+        position: relative;
 
         summary {
-            padding: 12px 0 12px 24px;
+            padding: 12px 18px 12px 74px;
             border: 0;
+            font-size: $small-font-size;
+            text-align: right;
 
             &::before {
-                content: "";
+                // display: none;
+                right: 0;
+                left: auto;
+                top: calc(50% - 8px);
+            }
+            .line {
+                width: 2px;
+                height: 100%;
+                position: absolute;
+                left: 6px;
+                top: 23px;
+                background-color: $gray-tint11;
+            }
+            .event {
+                position: absolute;
+                display: block;
                 top: 13px;
                 left: 0;
                 width: 14px;
@@ -46,17 +89,19 @@
                 background-color: $gray-tint11;
             }
         }
-
-        dl {
-            margin-top: 0;
-            margin-bottom: 0;
-            padding-bottom: 16px;
+        .content {
+            position: relative;
+            padding: 17px;
+            background-color: $gray-tint02;
+            margin-bottom: 20px;
+            margin-left: 5px;
         }
 
         &[open] {
             > summary {
                 &::before {
-                    left: 0;
+                    right: 0;
+                    left: auto;
                 }
             }
         }

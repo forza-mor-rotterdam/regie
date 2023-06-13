@@ -19,7 +19,7 @@ from apps.regie.forms import (
     TaakAfrondenForm,
     TaakStartenForm,
 )
-from apps.regie.utils import to_base64
+from apps.regie.utils import melding_naar_tijdlijn, to_base64
 from config.context_processors import general_settings
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -264,6 +264,7 @@ def taak_afronden(request, melding_uuid, taakopdracht_uuid):
 
 def informatie_toevoegen(request, id):
     melding = service_instance.get_melding(id)
+    tijdlijn_data = melding_naar_tijdlijn(melding)
     form = InformatieToevoegenForm()
     if request.POST:
         form = InformatieToevoegenForm(request.POST)
@@ -287,6 +288,7 @@ def informatie_toevoegen(request, id):
         {
             "melding": melding,
             "form": form,
+            "tijdlijn_data": tijdlijn_data,
         },
     )
 

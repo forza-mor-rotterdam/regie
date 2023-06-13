@@ -55,7 +55,7 @@ class MeldingenService:
             raw_response=False,
         )
 
-    def get_melding(self, id, query_string=""):
+    def get_melding(self, id, query_string="") -> dict:
         return self.do_request(
             f"{self._api_path}/melding/{id}/?{query_string}",
             raw_response=False,

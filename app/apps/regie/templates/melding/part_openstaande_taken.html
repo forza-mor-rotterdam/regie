@@ -11,6 +11,7 @@
 
             <ul class="list__mutations">
             {% for taakopdracht in melding.taakopdrachten_voor_melding %}
+                {% if taakopdracht.status.naam != "voltooid" %}
                 <li >
                     <details>
                         <summary>
@@ -28,6 +29,7 @@
                         </div>
                     </details>
                 </li>
+                {% endif %}
             {% endfor %}
             </ul>
         </div>

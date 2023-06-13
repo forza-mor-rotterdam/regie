@@ -49,50 +49,8 @@
                     </form>
                 </details>
             </div>
-            <ul class="list__mutations">
-            {% for melding_gebeurtenis in melding.meldinggebeurtenissen %}
-                <li data-controller="datetime" data-datetime-date-object-value="{{ melding_gebeurtenis.aangemaakt_op }}">
-                    <details>
-                        <summary>
-                            {% if melding_gebeurtenis.aangemaakt_op %}
-                                <strong>{{ melding_gebeurtenis.aangemaakt_op|to_date|date:"d-m-Y" }} <span data-datetime-target="timeHoursMinutes"></span></strong><br>
-                            {% endif %}
-                            {% comment %} {% if melding_gebeurtenis.gebeurtenis_type and melding_gebeurtenis.gebeurtenis_type != "standaard" %}
-                                <strong>{{ melding_gebeurtenis.gebeurtenis_type }}</strong>
-                            {% endif %} {% endcomment %}
-                        </summary>
-                        <dl>
-                            {% if melding_gebeurtenis.status %}
-                                <dt class="h5">Status</dt>
-                                <dd>{{ melding_gebeurtenis.status.naam }}</dd>
-                            {% endif %}
-                            {% if melding_gebeurtenis.omschrijving_extern %}
-                                <dt class="h5">Bericht voor de melder</dt>
-                                <dd>{{ melding_gebeurtenis.omschrijving_extern }}</dd>
-                            {% endif %}
 
-                            {% if melding_gebeurtenis.omschrijving_intern %}
-                                <dt class="h5">Interne opmerking</dt>
-                                <dd>{{ melding_gebeurtenis.omschrijving_intern }}</dd>
-                            {% endif %}
-                        </dl>
-                        {% if melding_gebeurtenis.bijlagen|length %}
-                            <div class="container__thumbs">
-                                <ul>
-                                    {% for bijlage in melding_gebeurtenis.bijlagen %}
-                                    <li>
-                                        <div class="container__image">
-                                            <div class="image" style="background-image:url('{{bijlage.afbeelding_verkleind_relative_url}}');"></div>
-                                        </div>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-                    </details>
-                </li>
-            {% endfor %}
-            </ul>
+            {% include "melding/part_tijdlijn.html" %}
         </div>
     </div>
 </turbo-frame>

@@ -44,11 +44,15 @@ class MeldingenService:
             "timeout": self._timeout,
         }
         response: Response = action(**action_params)
-        response.raise_for_status()
 
         if raw_response:
             return response
-        return response.json()
+        try:
+            return response.json()
+        except Exception:
+            raise MeldingenService.AntwoordFout(
+                f"url: {self.get_url(url)}, status code: {response.status_code}, tekst: {response.text}"
+            )
 
     def get_melding_lijst(self, query_string=""):
         return self.do_request(

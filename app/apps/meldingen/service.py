@@ -44,6 +44,7 @@ class MeldingenService:
             "timeout": self._timeout,
         }
         response: Response = action(**action_params)
+        response.raise_for_status()
 
         if raw_response:
             return response

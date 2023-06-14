@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     "django.contrib.gis",
     "django.contrib.postgres",
     "rest_framework",
+    "rest_framework.authtoken",
+    "drf_spectacular",
     "webpack_loader",
     "corsheaders",
     "mozilla_django_oidc",
@@ -143,6 +145,31 @@ WEBPACK_LOADER = {
     }
 }
 DEV_SOCKET_PORT = os.getenv("DEV_SOCKET_PORT", "9000")
+
+
+# Django REST framework settings
+REST_FRAMEWORK = dict(
+    PAGE_SIZE=5,
+    UNAUTHENTICATED_USER={},
+    UNAUTHENTICATED_TOKEN={},
+    DEFAULT_PAGINATION_CLASS="rest_framework.pagination.LimitOffsetPagination",
+    DEFAULT_FILTER_BACKENDS=("django_filters.rest_framework.DjangoFilterBackend",),
+    DEFAULT_THROTTLE_RATES={
+        "nouser": os.getenv("PUBLIC_THROTTLE_RATE", "60/hour"),
+    },
+    DEFAULT_PARSER_CLASSES=[
+        "rest_framework.parsers.JSONParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
+    ],
+    DEFAULT_SCHEMA_CLASS="drf_spectacular.openapi.AutoSchema",
+    DEFAULT_VERSIONING_CLASS="rest_framework.versioning.NamespaceVersioning",
+    # DEFAULT_PERMISSION_CLASSES=("rest_framework.permissions.IsAuthenticated",),
+    DEFAULT_AUTHENTICATION_CLASSES=(
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+)
+
 
 # Django security settings
 SECURE_BROWSER_XSS_FILTER = True
@@ -281,6 +308,7 @@ if OIDC_OP_JWKS_ENDPOINT:
     OIDC_RP_SIGN_ALGO = "RS256"
 
 AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
     "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
 ]
 

@@ -338,6 +338,10 @@ OIDC_RP_SCOPES = os.getenv(
     "OIDC_RP_SCOPES",
     " ".join(OPENID_CONFIG.get("scopes_supported", ["openid", "email", "profile"])),
 )
+OIDC_OP_LOGOUT_ENDPOINT = os.getenv(
+    "OIDC_OP_LOGOUT_ENDPOINT",
+    OPENID_CONFIG.get("end_session_endpoint"),
+)
 
 if OIDC_OP_JWKS_ENDPOINT:
     OIDC_RP_SIGN_ALGO = "RS256"

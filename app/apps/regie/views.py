@@ -28,6 +28,7 @@ from django.http import HttpResponse, QueryDict, StreamingHttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
+from mozilla_django_oidc import views
 
 logger = logging.getLogger(__name__)
 
@@ -366,3 +367,12 @@ def login_mislukt(request):
         request,
         "auth/login_mislukt.html",
     )
+
+
+class OIDCLogoutView(views.OIDCLogoutView):
+    def get(self, request):
+        """
+        The OIDCLogoutView only implements logout via a post request, but we want a get request.
+        Therefore allow that here
+        """
+        return self.post(request)

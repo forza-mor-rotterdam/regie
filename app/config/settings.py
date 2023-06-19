@@ -350,6 +350,8 @@ AUTHENTICATION_BACKENDS = [
     # "django.contrib.auth.backends.ModelBackend",
     "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
 ]
+OIDC_OP_LOGOUT_URL_METHOD = "apps.regie.views.provider_logout"
+ALLOW_LOGOUT_GET_METHOD = True
 
 LOGIN_REDIRECT_URL = "/gebruiker-informatie/"
 LOGIN_REDIRECT_URL_FAILURE = "/login-mislukt/"

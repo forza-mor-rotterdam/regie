@@ -1,5 +1,4 @@
 from apps.regie.views import (
-    OIDCLogoutView,
     detail,
     gebruiker_informatie,
     http_404,
@@ -65,7 +64,6 @@ if settings.OIDC_RP_CLIENT_ID:
         ),
         path("login-verplicht/", login_verplicht, name="login_verplicht"),
         path("login-mislukt/", login_mislukt, name="login_mislukt"),
-        path("logout", OIDCLogoutView.as_view(), name="oidc_logout"),
         path("oidc/", include("mozilla_django_oidc.urls")),
     ]
 

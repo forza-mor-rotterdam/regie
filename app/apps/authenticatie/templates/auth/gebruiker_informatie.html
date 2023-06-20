@@ -16,10 +16,6 @@
 
     <p>Je kan naar de volgende beschermde content pagina: <a href="{% url 'login_verplicht' %}">Beschermde pagina</a></p>
 
-  {% comment %} <form action="{% url 'oidc_logout' %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Uitloggen">
-  </form> {% endcomment %}
   <a href="{% url 'oidc_logout' %}">Uitloggen</a>
 {% else %}
   <p>Je bent niet ingelogd.</p>

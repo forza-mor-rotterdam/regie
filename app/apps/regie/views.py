@@ -46,6 +46,7 @@ def http_500(request):
     )
 
 
+@login_required
 def overview(request):
     standaard_waardes = {
         "ordering": "-origineel_aangemaakt",
@@ -122,6 +123,7 @@ def overview(request):
     )
 
 
+@login_required
 def detail(request, id):
     melding = service_instance.get_melding(id)
     taaktypes = get_taaktypes(melding)
@@ -171,6 +173,7 @@ def detail(request, id):
     )
 
 
+@login_required
 def melding_afhandelen(request, id):
     melding = service_instance.get_melding(id)
     afhandel_reden_opties = [(s, s) for s in melding.get("volgende_statussen", ())]
@@ -219,6 +222,7 @@ def melding_afhandelen(request, id):
     )
 
 
+@login_required
 def taak_starten(request, id):
     melding = service_instance.get_melding(id)
     taaktypes = get_taaktypes(melding)
@@ -246,6 +250,7 @@ def taak_starten(request, id):
     )
 
 
+@login_required
 def taak_afronden(request, melding_uuid, taakopdracht_uuid):
     melding = service_instance.get_melding(melding_uuid)
     taakopdrachten = {
@@ -282,6 +287,7 @@ def taak_afronden(request, melding_uuid, taakopdracht_uuid):
     )
 
 
+@login_required
 def informatie_toevoegen(request, id):
     melding = service_instance.get_melding(id)
     tijdlijn_data = melding_naar_tijdlijn(melding)
@@ -317,6 +323,7 @@ def root(request):
     return redirect(reverse("melding_lijst"))
 
 
+@login_required
 def melding_lijst(request):
 
     return render(
@@ -328,6 +335,7 @@ def melding_lijst(request):
     )
 
 
+@login_required
 def melding_pdf_download(request, id):
     melding = service_instance.get_melding(id)
     base_url = request.build_absolute_uri()
@@ -354,6 +362,7 @@ def melding_pdf_download(request, id):
     )
 
 
+@login_required
 def meldingen_bestand(request):
     url = f"{settings.MELDINGEN_URL}{request.path}"
     headers = {"Authorization": f"Token {get_meldingen_token()}"}
@@ -388,8 +397,10 @@ def login_mislukt(request):
     )
 
 
-def provider_logout(request):
-    # See your provider's documentation for details on if and how this is
-    # supported
-    redirect_url = settings.OIDC_OP_LOGOUT_ENDPOINT
-    return redirect_url
+def sso_logout(request):
+    print("sso_logout")
+    print(request)
+    return render(
+        request,
+        "auth/login_mislukt.html",
+    )

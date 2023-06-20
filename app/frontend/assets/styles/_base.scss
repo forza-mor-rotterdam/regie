@@ -384,6 +384,10 @@ section {
     color: $invalid-color !important;
 }
 
+.border-green {
+    border-top: 8px solid $green-tint01;
+}
+
 .bar {
     background-color: $gray-tint01;
     &--top {

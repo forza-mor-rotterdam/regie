@@ -7,6 +7,8 @@
 
 {% block body %}
 <turbo-frame id="overview" data-turbo-action="advance">
+<div class="border-green print-only"></div>
+
 <div class="page__detail">
     <div>
         <a href="{% url 'melding_lijst' %}?{{overview_querystring}}" class="link--back">
@@ -43,7 +45,6 @@
             <div class="grid-item">
                 <section class="section--seperated section--imageslider" data-testid="detailPhotoviewer" {% if melding.bijlagen|length < 2 %}style="border: 0;"{% endif %}>
                     <div class="">
-
                     {% with bijlagen_aantal=melding.bijlagen|length bijlagen_extra_aantal=bijlagen_extra|length %}
                     {% if melding.bijlagen|length > 0 or bijlagen_extra|length != 0 %}
                         <div class="container__imageslider" data-detail-target="imageSliderContainer" data-action="scroll->detail#onScrollSlider">
@@ -95,6 +96,42 @@
                     {% endwith %}
                     </div>
                 </section>
+                {% if melding.bijlagen|length > 0 %}
+                <section class="section--seperated section--imagelist print-only">
+                    <div class="container__details">
+                        {% comment %} <ul class="list-clean">
+                            {% for bijlage in melding.bijlagen %}
+                            <li class="container__image">
+                                <img src="{{bijlage.afbeelding_relative_url}}" alt=""/>
+                            </li>
+                            {% endfor %}
+                        </ul> {% endcomment %}
+                        {% with bijlagen_aantal=melding.bijlagen|length bijlagen_extra_aantal=bijlagen_extra|length %}
+                        {% if melding.bijlagen|length > 0 or bijlagen_extra|length != 0 %}
+                        <ul class="list-clean">
+                            {% for bijlage in melding.bijlagen %}
+                            <li class="container__image" id="{{ bijlage.afbeelding_relative_url }}">
+                                <div class="image">
+                                    <img src="{{bijlage.afbeelding_relative_url}}" alt=""/>
+                                    <span>Foto van melder</span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                            {% for b in bijlagen_extra %}
+                            <li class="container__image" id="{{ b.afbeelding_relative_url }}">
+                                <div class="image">
+                                    <img src="{{b.afbeelding_relative_url}}" alt=""/>
+                                    <span>Foto toegevoegd door medewerker</span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        {%endif%}
+                        {%endwith%}
+                    </div>
+                </section>
+                {% endif %}
 
                 <section class="section--seperated" data-testid="detailMelding">
                     <div class="container__details">
@@ -135,7 +172,7 @@
                                         </p>
                                     </li>
                                     <li>
-                                        <h3 class="h5">Wie heeft het verzoek aangenomen?</h3>
+                                        <h3 class="h5">Aangenomen door</h3>
                                         <p>
                                             {% if melding.meta.aannemer %}
                                                 {{ melding.meta.aannemer }}
@@ -286,31 +323,14 @@
 
                         </div>
                     </section>
-                    <section class="section--seperated print-only">
-                        <div class="container__details">
-                            <h2>Opmerkingen</h2>
-                        </div>
-                    </section>
-                    {% if melding.bijlagen|length > 0 %}
-                    <section class="section--seperated section--imagelist print-only">
-                        <div class="container__details">
-                            <h2>Afbeeldingen</h2>
-                            <ul class="list-clean">
-                                {% for bijlage in melding.bijlagen %}
-                                <li class="container__image">
-                                    <img src="{{bijlage.afbeelding_relative_url}}" alt=""/>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </section>
-                    {% endif %}
+
+                    <div class="border-green print-only"></div>
                 </div>
                 <div class="grid-item aside">
 
                     <div class="container__actions">
                         <p>
-                            {% if taaktypes %}
+                            {% if taaktypes and melding.status.naam != 'afgehandeld' %}
                             <button type="button" class="btn btn-action" data-action="detail#openModal" data-detail-action-param="{% url 'taak_starten' melding.uuid %}"><span>Start taak</span></button>
                             {% endif %}
                             {% if not melding.afgesloten_op %}
@@ -346,6 +366,7 @@
                         </turbo-frame>
                     </section>
                 </div>
+
             </div>
         </div>
     </div>

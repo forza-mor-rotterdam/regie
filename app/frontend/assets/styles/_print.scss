@@ -56,10 +56,14 @@
     }
 
     .section--imagelist {
-        clear: both;
-        break-before: always;
         display: block;
-
+        ul {
+            &:after {
+                content:"";
+                display:block;
+                clear:both;
+               }
+        }
         li {
             float: left;
             width: 45%;

@@ -22,7 +22,7 @@ VERTALINGEN = {
     "graf": "Graf",
     "vak": "Vak",
     "fotos": "Foto's",
-    "aannemer": "Wie heeft het verzoek aangenomen?",
+    "aannemer": "Aangenomen door",
     "no_email": "De melder beschikt niet over een e-mailadres.",
     "grafnummer": "Grafnummer",
     "naam_melder": "Naam",

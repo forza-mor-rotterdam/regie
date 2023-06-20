@@ -125,12 +125,21 @@ def overview(request):
 def detail(request, id):
     melding = service_instance.get_melding(id)
     taaktypes = get_taaktypes(melding)
-    meldinggebeurtenissen = melding["meldinggebeurtenissen"]
-    bijlagen_extra = []
-    for b in meldinggebeurtenissen:
-        if len(b["bijlagen"]) > 0:
-            for f in b["bijlagen"]:
-                bijlagen_extra.append(f)
+    melding_bijlagen = [
+        [bijlage for bijlage in meldinggebeurtenis.get("bijlagen", [])]
+        + [
+            b
+            for b in (
+                meldinggebeurtenis.get("taakgebeurtenis", {}).get("bijlagen", [])
+                if meldinggebeurtenis.get("taakgebeurtenis")
+                else []
+            )
+        ]
+        for meldinggebeurtenis in melding.get("meldinggebeurtenissen", [])
+    ]
+    bijlagen_flat = [b for bl in melding_bijlagen for b in bl]
+    print("= = = > bijlagen_flat")
+    print(bijlagen_flat)
     form = InformatieToevoegenForm()
     overview_querystring = request.session.get("overview_querystring", "")
     if request.POST:
@@ -156,7 +165,7 @@ def detail(request, id):
             "melding": melding,
             "form": form,
             "overview_querystring": overview_querystring,
-            "bijlagen_extra": bijlagen_extra,
+            "bijlagen_extra": bijlagen_flat,
             "taaktypes": taaktypes,
         },
     )
@@ -165,8 +174,18 @@ def detail(request, id):
 def melding_afhandelen(request, id):
     melding = service_instance.get_melding(id)
     afhandel_reden_opties = [(s, s) for s in melding.get("volgende_statussen", ())]
-    # bijlagen = melding["bijlagen"]
-    # form = MeldingAfhandelenForm(bijlagen=bijlagen)
+    melding_bijlagen = [
+        [
+            b
+            for b in (
+                meldinggebeurtenis.get("taakgebeurtenis", {}).get("bijlagen", [])
+                if meldinggebeurtenis.get("taakgebeurtenis")
+                else []
+            )
+        ]
+        for meldinggebeurtenis in melding.get("meldinggebeurtenissen", [])
+    ]
+    bijlagen_flat = [b for bl in melding_bijlagen for b in bl]
     form = MeldingAfhandelenForm()
     if request.POST:
         form = MeldingAfhandelenForm(request.POST)
@@ -195,6 +214,7 @@ def melding_afhandelen(request, id):
             "melding": melding,
             "afhandel_reden_opties": afhandel_reden_opties,
             "standaard_afhandel_teksten": {bo[0]: bo[2] for bo in BEHANDEL_OPTIES},
+            "bijlagen": bijlagen_flat,
         },
     )
 

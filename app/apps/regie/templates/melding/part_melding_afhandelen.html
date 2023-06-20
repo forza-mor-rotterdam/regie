@@ -23,6 +23,7 @@
                         <h2>
                             Behandeling melding
                         </h2>
+                        {{melding}}
                         <div class="wrapper">
                             <dl>
                                 {% if melding.onderwerpen %}
@@ -36,20 +37,13 @@
                                 </div>
                                 {% endif %}
 
-                                {% if melding.bijlagen %}
+                                {% if bijlagen %}
                                 <div>
                                     <dt>Foto's</dt>
                                     <dd>
                                         <div class="container__thumbs no-slides">
                                             <ul data-detail-target="thumbList">
-                                                {% for bijlage in melding.bijlagen %}
-                                                <li>
-                                                    <div class="container__image">
-                                                        <div class="image" style="background-image:url('{{bijlage.afbeelding_relative_url}}');"></div>
-                                                    </div>
-                                                </li>
-                                                {% endfor %}
-                                                {% for b in bijlagen_extra reversed %}
+                                                {% for b in bijlagen reversed %}
                                                 <li>
                                                     <div class="container__image">
                                                         <div class="image" style="background-image:url('{{b.afbeelding_relative_url}}');"></div>
@@ -92,9 +86,18 @@
                         </div>
 
                         {% if melding.meta.terugkoppeling_gewenst == "Ja" %}
+                            {% if melding.meta.email_melder %}
                             <div class="form-control__with-helptext">
                                 {{ form.omschrijving_extern|render_rotterdam_formulier }}
                             </div>
+                            {% else %}
+                            <div>
+                                <p>
+                                    <strong>Terugkoppeling is gewenst.</strong><br>
+                                    Er is geen e-mailadres bekend. Bel de melder op het volgende nummer: <a href="tel:{{melding.meta.telefoon_melder}}">{{melding.meta.telefoon_melder}}</a>
+                                </p>
+                            </div>
+                            {% endif %}
                         {% endif %}
 
                         {% comment %} {% if form.bijlagen %}

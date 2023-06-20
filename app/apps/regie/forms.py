@@ -185,16 +185,6 @@ class TaakAfrondenForm(forms.Form):
 
 
 class MeldingAfhandelenForm(forms.Form):
-    status = forms.ChoiceField(
-        widget=RadioSelect(
-            attrs={
-                "class": "list--form-radio-input",
-            }
-        ),
-        label="Is het probleem opgelost?",
-        choices=[[x[0], x[1]] for x in BEHANDEL_OPTIES],
-        required=True,
-    )
 
     omschrijving_extern = forms.CharField(
         label="Bericht voor de melder",
@@ -209,16 +199,6 @@ class MeldingAfhandelenForm(forms.Form):
         ),
         required=False,
     )
-
-    # bijlagen = forms.MultipleChoiceField(
-    #     widget=CheckboxSelectMultipleThumb(
-    #         attrs={
-    #             "class": "form-check-input",
-    #         }
-    #     ),
-    #     label="Welke foto's mogen worden verzonden naar de melder?",
-    #     required=False,
-    # )
 
     omschrijving_intern = forms.CharField(
         label="Interne opmerking",

@@ -72,11 +72,13 @@ class MeldingenService:
         bijlagen=[],
         omschrijving_intern=None,
         omschrijving_extern=None,
+        gebruiker=None,
     ):
         data = {
             "bijlagen": bijlagen,
             "omschrijving_intern": omschrijving_intern,
             "omschrijving_extern": omschrijving_extern,
+            "gebruiker": gebruiker,
         }
         response = self.do_request(
             f"{self._api_path}/melding/{id}/gebeurtenis-toevoegen/",
@@ -97,11 +99,13 @@ class MeldingenService:
         bijlagen=[],
         omschrijving_extern=None,
         omschrijving_intern=None,
+        gebruiker=None,
     ):
         data = {
             "bijlagen": bijlagen,
             "omschrijving_extern": omschrijving_extern,
             "omschrijving_intern": omschrijving_intern,
+            "gebruiker": gebruiker,
         }
         if status:
             data.update(
@@ -128,12 +132,19 @@ class MeldingenService:
         )
 
     def taak_aanmaken(
-        self, melding_uuid, taaktype_url, titel, bericht=None, additionele_informatie={}
+        self,
+        melding_uuid,
+        taaktype_url,
+        titel,
+        bericht=None,
+        gebruiker=None,
+        additionele_informatie={},
     ):
         data = {
             "taaktype": taaktype_url,
             "titel": titel,
             "bericht": bericht,
+            "gebruiker": gebruiker,
             "additionele_informatie": additionele_informatie,
         }
         return self.do_request(
@@ -150,6 +161,7 @@ class MeldingenService:
         resolutie=None,
         omschrijving_intern=None,
         bijlagen=None,
+        gebruiker=None,
     ):
         data = {
             "taakstatus": {
@@ -158,6 +170,7 @@ class MeldingenService:
             "resolutie": resolutie,
             "omschrijving_intern": omschrijving_intern,
             "bijlagen": bijlagen,
+            "gebruiker": gebruiker,
         }
         return self.do_request(
             f"{taakopdracht_url}status-aanpassen/",

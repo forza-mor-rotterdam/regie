@@ -157,6 +157,7 @@ def detail(request, id):
                 id,
                 omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
                 bijlagen=bijlagen_base64,
+                gebruiker=request.user.email,
             )
             return redirect("detail", id=id)
 
@@ -206,6 +207,7 @@ def melding_afhandelen(request, id):
                 omschrijving_extern=form.cleaned_data.get("omschrijving_extern"),
                 omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
                 bijlagen=bijlagen_base64,
+                gebruiker=request.user.email,
             )
             return redirect("detail", id=id)
 
@@ -237,6 +239,7 @@ def taak_starten(request, id):
                 taaktype_url=data.get("taaktype"),
                 titel=taaktypes_dict.get(data.get("taaktype"), data.get("taaktype")),
                 bericht=data.get("bericht"),
+                gebruiker=request.user.email,
             )
             return redirect("detail", id=id)
 
@@ -272,6 +275,7 @@ def taak_afronden(request, melding_uuid, taakopdracht_uuid):
                 resolutie=TAAK_BEHANDEL_RESOLUTIE.get(form.cleaned_data.get("status")),
                 omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
                 bijlagen=bijlagen_base64,
+                gebruiker=request.user.email,
             )
 
             return redirect("detail", id=melding_uuid)
@@ -305,6 +309,7 @@ def informatie_toevoegen(request, id):
                 id,
                 bijlagen=bijlagen_base64,
                 omschrijving_intern=form.cleaned_data.get("opmerking"),
+                gebruiker=request.user.email,
             )
             return redirect("detail", id=id)
 

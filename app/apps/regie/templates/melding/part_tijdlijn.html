@@ -2,6 +2,7 @@
 {% load to_date from date_tags %}
 {% load taakopdracht from melding_tags %}
 {% load multiply previous next from list_tags %}
+{% load gebruiker_middels_email from gebruikers_tags %}
 {% load rotterdam_formulier_html %}
 
                 <ul class="list__mutations">
@@ -53,6 +54,10 @@
                                     <dd>{{ row_data.mg.taakgebeurtenis.taakstatus.naam }}</dd>
                                     <dt>Datum</dt>
                                     <dd>{{ row_data.mg.taakgebeurtenis.aangemaakt_op|to_date }}</dd>
+                                    {% if row_data.mg.taakgebeurtenis.gebruiker %}
+                                    <dt>Gebruiker</dt>
+                                    <dd>{{ row_data.mg.taakgebeurtenis.gebruiker|gebruiker_middels_email }}</dd>
+                                    {% endif %}
                                 {% else %}
                                     {% if row_data.mg.status %}
                                     <dt>Status</dt>
@@ -64,6 +69,10 @@
                                     {% endif %}
                                     <dt>Datum</dt>
                                     <dd>{{ row_data.mg.aangemaakt_op|to_date }}</dd>
+                                    {% if row_data.mg.gebruiker %}
+                                    <dt>Gebruiker</dt>
+                                    <dd>{{ row_data.mg.gebruiker|gebruiker_middels_email }}</dd>
+                                    {% endif %}
                                 {% endif %}
 
                             </dl>

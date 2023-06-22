@@ -200,6 +200,10 @@ CSRF_COOKIE_SAMESITE = "Strict" if not DEBUG else "Lax"
 # Settings for Content-Security-Policy header
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_FRAME_ANCESTORS = ("'self'",)
+CSP_FRAME_SRC = (
+    "'self'",
+    "iam.forzamor.nl",
+)
 CSP_SCRIPT_SRC = (
     ("'self'", "'unsafe-eval'", "unpkg.com")
     if not DEBUG
@@ -218,7 +222,7 @@ CSP_IMG_SRC = [
 ]
 
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "data:", "unpkg.com")
-CSP_CONNECT_SRC = ("'self'", "ws:")
+CSP_CONNECT_SRC = ("'self'",) if not DEBUG else ("'self'", "ws:")
 
 TEMPLATES = [
     {
@@ -355,7 +359,7 @@ OIDC_OP_LOGOUT_URL_METHOD = "apps.authenticatie.views.provider_logout"
 ALLOW_LOGOUT_GET_METHOD = True
 OIDC_STORE_ID_TOKEN = True
 
-LOGIN_REDIRECT_URL = "/gebruiker-informatie/"
-LOGIN_REDIRECT_URL_FAILURE = "/login-mislukt/"
-LOGOUT_REDIRECT_URL = "/gebruiker-informatie/"
+LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL_FAILURE = "/"
+LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "/oidc/authenticate/"

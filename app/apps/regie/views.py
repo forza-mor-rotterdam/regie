@@ -202,8 +202,6 @@ def melding_afhandelen(request, id):
 
             service_instance.melding_status_aanpassen(
                 id,
-                status=BEHANDEL_STATUS.get(form.cleaned_data.get("status")),
-                resolutie=BEHANDEL_RESOLUTIE.get(form.cleaned_data.get("status")),
                 omschrijving_extern=form.cleaned_data.get("omschrijving_extern"),
                 omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
                 bijlagen=bijlagen_base64,

@@ -13,6 +13,8 @@ export default class extends Controller {
         const minutes = dateObject.getMinutes() < 10 ? `0${dateObject.getMinutes()}` : dateObject.getMinutes();
         const time = `${dateObject.getHours()}:${minutes}`
 
-        this.timeHoursMinutesTarget.textContent = time
+        if(this.hasTimeHoursMinutesTarget) {
+            this.timeHoursMinutesTarget.textContent = time
+        }
     }
 }

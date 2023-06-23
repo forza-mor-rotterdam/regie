@@ -43,7 +43,9 @@ main {
     gap: 32px;
 
     .page__detail & {
-        grid-template-columns: 66fr 34fr;
+        @media (min-width: map-get($grid-breakpoints, md)) {
+            grid-template-columns: 66fr 34fr;
+        }
 
         .grid-item {
 

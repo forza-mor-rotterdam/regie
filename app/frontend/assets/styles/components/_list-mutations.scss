@@ -28,6 +28,25 @@
             }
         }
 
+
+        &:first-child {
+
+            details {
+                .line {
+                    &.line-melding{
+                        width: 0;
+                        background-color: transparent;
+                        border-left: 2px dashed $green-tint01;
+                    }
+                    &.line-taak {
+                        width: 0;
+                        background-color: transparent;
+                        border-left: 2px dashed $magenta-tint01;
+                    }
+                }
+            }
+        }
+
     }
     .line {
         width: 2px;
@@ -46,15 +65,23 @@
             left: 6px;
             top: 23px;
             background-color: $gray-tint11;
+            &.line-melding {
+                background-color: $green-tint01;
+            }
+            &.line-taak {
+                background-color: $magenta-tint01;
+            }
         }
-        .line-melding,
-        .event-melding {
-            background-color: $green-tint01 !important;
+
+        .event {
+            &.event-melding {
+                background-color: $green-tint01;
+            }
+            &.event-taak {
+                background-color: $magenta-tint01;
+            }
         }
-        .line-taak,
-        .event-taak {
-            background-color: $magenta-tint01 !important;
-        }
+
 
         position: relative;
 
@@ -130,4 +157,5 @@
             cursor: initial;
         }
     }
+
 }

@@ -365,7 +365,6 @@ def melding_pdf_download(request, id):
     )
 
 
-@login_required
 def meldingen_bestand(request):
     url = f"{settings.MELDINGEN_URL}{request.path}"
     headers = {"Authorization": f"Token {get_meldingen_token()}"}

@@ -206,6 +206,8 @@ def melding_afhandelen(request, id):
                 omschrijving_intern=form.cleaned_data.get("omschrijving_intern"),
                 bijlagen=bijlagen_base64,
                 gebruiker=request.user.email,
+                status="afgehandeld",
+                resolutie="opgelost",
             )
             return redirect("detail", id=id)
 

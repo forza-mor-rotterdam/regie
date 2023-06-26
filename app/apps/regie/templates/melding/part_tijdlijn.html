@@ -15,7 +15,8 @@
                             {% if not melding.afgesloten_op or not forloop.first %}
                             {% for cel in next_row_data.row %}
                             {% if cel == 1 or cel == 0 %}
-                            <span class="line {% if forloop.counter0 == 0 %}line-melding{% else %}line-taak{% endif %}" style="left: {{ forloop.counter|multiply:20|add:6 }}px"></span>
+                            <span class="line {% if forloop.counter0 == 0 %}line-melding{% else %}line-taak{% endif %} {% if not row_data.afgesloten %}line--dashed{%endif%}"
+                                style="left: {{ forloop.counter|multiply:20|add:6 }}px"></span>
                             {% endif %}
                             {% endfor %}
                             {% endif %}
@@ -25,7 +26,7 @@
                                 {% if not melding.afgesloten_op or not forloop.first %}
                                 {% for cel in next_row_data.row %}
                                 {% if cel == 1 or cel == 0 %}
-                                <span class="line {% if forloop.counter0 == 0 %}line-melding{% else %}line-taak{% endif %}" style="left: {{ forloop.counter|multiply:20|add:6 }}px"></span>
+                                <span class="line {% if forloop.counter0 == 0 %}line-melding{% else %}line-taak{% endif %} {% if not row_data.afgesloten %}line--dashed{%endif%}" style="left: {{ forloop.counter|multiply:20|add:6 }}px"></span>
                                 {% endif %}
                                 {% endfor %}
                                 {% endif %}
@@ -57,6 +58,10 @@
                                     {% if row_data.mg.taakgebeurtenis.gebruiker %}
                                     <dt>Gebruiker</dt>
                                     <dd>{{ row_data.mg.taakgebeurtenis.gebruiker|gebruiker_middels_email }}</dd>
+                                    {% endif %}
+                                    {% if row_data.mg.taakgebeurtenis.omschrijving_intern %}
+                                    <dt>Interne opmerking</dt>
+                                    <dd>{{ row_data.mg.taakgebeurtenis.omschrijving_intern }}</dd>
                                     {% endif %}
                                 {% else %}
                                     {% if row_data.mg.status %}

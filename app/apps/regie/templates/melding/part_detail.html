@@ -96,16 +96,9 @@
                     {% endwith %}
                     </div>
                 </section>
-                {% if melding.bijlagen|length > 0 %}
+                {% if melding.bijlagen|length > 0 or bijlagen_extra|length != 0%}
                 <section class="section--seperated section--imagelist print-only">
                     <div class="container__details">
-                        {% comment %} <ul class="list-clean">
-                            {% for bijlage in melding.bijlagen %}
-                            <li class="container__image">
-                                <img src="{{bijlage.afbeelding_relative_url}}" alt=""/>
-                            </li>
-                            {% endfor %}
-                        </ul> {% endcomment %}
                         {% with bijlagen_aantal=melding.bijlagen|length bijlagen_extra_aantal=bijlagen_extra|length %}
                         {% if melding.bijlagen|length > 0 or bijlagen_extra|length != 0 %}
                         <ul class="list-clean">

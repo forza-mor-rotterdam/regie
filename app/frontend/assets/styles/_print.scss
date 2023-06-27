@@ -66,7 +66,7 @@
         }
         li {
             float: left;
-            width: 45%;
+            width: 48%;
             margin-bottom: 20px;
 
             &:nth-child(odd) {
@@ -75,6 +75,20 @@
             img {
                 width: 100%;
                 max-width: 100%;
+            }
+            .image {
+                position: relative;
+
+                span {
+                    position: absolute;
+                    bottom: 4px;
+                    left: 0;
+                    display: inline-block;
+                    padding: 2px 8px;
+                    background-color: $blue-light;
+                    color: $white;
+                    font-size: 12px;
+                }
             }
 
             &::after {

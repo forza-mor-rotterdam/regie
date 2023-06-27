@@ -140,8 +140,6 @@ def detail(request, id):
         for meldinggebeurtenis in melding.get("meldinggebeurtenissen", [])
     ]
     bijlagen_flat = [b for bl in melding_bijlagen for b in bl]
-    print("= = = > bijlagen_flat")
-    print(bijlagen_flat)
     form = InformatieToevoegenForm()
     overview_querystring = request.session.get("overview_querystring", "")
     if request.POST:
@@ -347,8 +345,22 @@ def melding_pdf_download(request, id):
     path_to_css_file = (
         "/app/frontend/public/build/app.css" if settings.DEBUG else "/static/app.css"
     )
+    melding_bijlagen = [
+        [bijlage for bijlage in meldinggebeurtenis.get("bijlagen", [])]
+        + [
+            b
+            for b in (
+                meldinggebeurtenis.get("taakgebeurtenis", {}).get("bijlagen", [])
+                if meldinggebeurtenis.get("taakgebeurtenis")
+                else []
+            )
+        ]
+        for meldinggebeurtenis in melding.get("meldinggebeurtenissen", [])
+    ]
+    bijlagen_flat = [b for bl in melding_bijlagen for b in bl]
     context = {
         "melding": melding,
+        "bijlagen_extra": bijlagen_flat,
         "base_url": f"{request.scheme}://{request.get_host()}",
     }
     context.update(general_settings(request))

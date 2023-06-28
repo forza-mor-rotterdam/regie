@@ -118,10 +118,12 @@
         }
         .content {
             position: relative;
-            padding: 17px;
+            padding: 8px;
             background-color: $gray-tint02;
             margin-bottom: 20px;
             margin-left: 5px;
+            font-size: 16px;
+            text-align: right;
         }
 
         &[open] {

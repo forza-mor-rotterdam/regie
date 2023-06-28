@@ -69,7 +69,6 @@ def melding_naar_tijdlijn(melding: dict):
         row_dict = {
             "mg": mg,
             "row": row,
-            "afgesloten": False,
         }
         tijdlijn_data.append(row_dict)
 

@@ -134,6 +134,8 @@ DATABASES.update(
     if ENVIRONMENT == "test"
     else {}
 )
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+AUTH_USER_MODEL = "authenticatie.Gebruiker"
 
 SITE_ID = 1
 SITE_NAME = os.getenv("SITE_NAME", "Regie")

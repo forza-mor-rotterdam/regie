@@ -389,34 +389,3 @@ def meldingen_bestand(request):
         status=response.status_code,
         reason=response.reason,
     )
-
-
-def gebruiker_informatie(request):
-    return render(
-        request,
-        "auth/gebruiker_informatie.html",
-    )
-
-
-@login_required
-def login_verplicht(request):
-    return render(
-        request,
-        "auth/login_verplicht.html",
-    )
-
-
-def login_mislukt(request):
-    return render(
-        request,
-        "auth/login_mislukt.html",
-    )
-
-
-def sso_logout(request):
-    print("sso_logout")
-    print(request)
-    return render(
-        request,
-        "auth/login_mislukt.html",
-    )

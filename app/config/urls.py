@@ -1,18 +1,14 @@
 from apps.regie.views import (
     detail,
-    gebruiker_informatie,
     http_404,
     http_500,
     informatie_toevoegen,
-    login_mislukt,
-    login_verplicht,
     melding_afhandelen,
     melding_lijst,
     melding_pdf_download,
     meldingen_bestand,
     overview,
     root,
-    sso_logout,
     taak_afronden,
     taak_starten,
 )
@@ -20,11 +16,30 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
+from django.views.generic import RedirectView
 from rest_framework.authtoken import views
 
 urlpatterns = [
     path("", root, name="root"),
     path("api-token-auth/", views.obtain_auth_token),
+    path(
+        "admin/login/",
+        RedirectView.as_view(
+            url="/oidc/authenticate/?next=/admin/",
+            permanent=False,
+        ),
+        name="admin_login",
+    ),
+    path(
+        "admin/logout/",
+        RedirectView.as_view(
+            url="/oidc/logout/?next=/admin/",
+            permanent=False,
+        ),
+        name="admin_logout",
+    ),
+    path("oidc/", include("mozilla_django_oidc.urls")),
+    path("admin/", admin.site.urls),
     path("melding/", melding_lijst, name="melding_lijst"),
     path("health/", include("health_check.urls")),
     path("part/melding/", overview, name="overview"),
@@ -54,21 +69,8 @@ urlpatterns = [
         melding_pdf_download,
         name="melding_pdf_download",
     ),
-    path("admin/", admin.site.urls),
     re_path(r"media/", meldingen_bestand, name="meldingen_bestand"),
 ]
-
-if settings.OIDC_RP_CLIENT_ID:
-    urlpatterns += [
-        path(
-            "gebruiker-informatie/", gebruiker_informatie, name="gebruiker_informatie"
-        ),
-        path("login-verplicht/", login_verplicht, name="login_verplicht"),
-        path("login-mislukt/", login_mislukt, name="login_mislukt"),
-        path("sso-logout/", sso_logout, name="sso_logout"),
-        path("oidc/", include("mozilla_django_oidc.urls")),
-    ]
-
 
 if settings.DEBUG:
     urlpatterns += [

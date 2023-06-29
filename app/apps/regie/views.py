@@ -158,6 +158,13 @@ def detail(request, id):
                 gebruiker=request.user.email,
             )
             return redirect("detail", id=id)
+    aantal_actieve_taken = len(
+        [
+            to
+            for to in melding.get("taakopdrachten_voor_melding", [])
+            if to.get("status", {}).get("naam") != "voltooid"
+        ]
+    )
 
     return render(
         request,
@@ -168,6 +175,7 @@ def detail(request, id):
             "overview_querystring": overview_querystring,
             "bijlagen_extra": bijlagen_flat,
             "taaktypes": taaktypes,
+            "aantal_actieve_taken": aantal_actieve_taken,
         },
     )
 

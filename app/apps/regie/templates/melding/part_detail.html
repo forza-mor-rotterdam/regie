@@ -33,10 +33,10 @@
             <div class="grid-item bottom-left">
                 <div class="">
                     {% if melding.status %}
-                    <span class="badge badge--{% if melding.status.naam == 'afgehandeld'%}green{% elif melding.status.naam == 'controle' %}yellow{% else %}darkblue{% endif %}">{{melding.status.naam|vertaal}}{% if melding.status.naam is 'afgehandeld'%} ({{melding.resolutie}}){% endif %}</span>
+                    <span class="badge badge--{% if melding.status.naam == 'afgehandeld'%}green{% elif melding.status.naam == 'controle' %}yellow{% elif melding.status.naam == 'in_behandeling' %}darkblue{% else %}lightblue{% endif %}">{{melding.status.naam|vertaal}}{% if melding.status.naam is 'afgehandeld'%} ({{melding.resolutie}}){% endif %}</span>
                     {% endif %}
-                    {% if melding.taakopdrachten_voor_melding|length %}
-                        <span class="badge badge--darkblue">Taak actief</span>
+                    {% if aantal_actieve_taken %}
+                        <span class="badge badge--darkblue">{{aantal_actieve_taken}} {% if aantal_actieve_taken > 1 %}Taken{%else%}Taak{%endif%} actief</span>
                     {% endif %}
                 </div>
             </div>

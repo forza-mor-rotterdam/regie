@@ -1,7 +1,7 @@
 @import "./theme";
 @import "./base";
 @import "./components/fonts";
-@import "./components/full-page-view";
+@import "./components/tables";
 @import "./components/buttons";
 @import "./components/pageHeader";
 @import "./components/forms";
@@ -11,4 +11,10 @@
 @import "./components/filters";
 @import "./components/incident-details";
 @import "./components/spinner";
-@import "./components/alert"
+@import "./components/alert";
+@import "./components/pagination";
+@import "./components/badges";
+@import "./components/details-summary";
+@import "./components/imageSlider";
+@import "./components/navigation";
+@import "./print";

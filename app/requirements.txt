@@ -1,5 +1,7 @@
 Django==3.2.16
+django-filter==22.1
 djangorestframework==3.13.1
+drf-spectacular==0.26.0
 uWSGI==2.0.20
 django-webpack-loader==1.7.0
 requests
@@ -9,3 +11,7 @@ django_redis
 django-permissions-policy==4.14.0
 django-cors-headers==3.13.0
 django-csp==3.6
+weasyprint==52.5
+psycopg2-binary==2.9.5
+mozilla-django-oidc==3.0.0
+PyJWT<2.4.0

@@ -126,6 +126,17 @@ $form-search-indicator-position: left 10px center !default;
     background-position: $form-search-indicator-position;
   }
 }
+
+.form-control__with-helptext {
+    .form-control {
+        margin-bottom: 0.25em;
+    }
+    .helptext {
+        display: inline-block;
+        margin-bottom: 1em;
+    }
+}
+
 .form-select {
     background-image: url("data:image/svg+xml, <svg width=%2724%27 height=%2724%27 viewBox=%270 0 24 24%27 fill=%27none%27 xmlns=%27http://www.w3.org/2000/svg%27> <path fill-rule=%27evenodd%27 clip-rule=%27evenodd%27 d=%27M15.75 9.75L12 4.5L8.25 9.75H15.75ZM15.75 14.25L12 19.5L8.25 14.25H15.75Z%27 fill=%27%2365757B%27/> </svg>");
     background-repeat: no-repeat;
@@ -232,6 +243,9 @@ textarea {
     input {
         @include form-check-input();
     }
+    label {
+        font-weight: 400;
+    }
 }
 
 .list--form-check-input {
@@ -252,6 +266,74 @@ textarea {
 .form-title-muted {
   color: $gray-tint08;
 }
+
+// start switch
+.form-switch {
+    position: relative;
+    display: inline-block;
+    display: flex;
+    margin: 0;
+
+    .form-switch-label {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Hide default HTML checkbox */
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .container__slider {
+        display: inline-block;
+        position: relative;
+        width: 44px;
+        height: 24px;
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $gray-tint08;
+        -webkit-transition: .4s;
+        transition: .4s;
+        flex: 1;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .container__slider .slider {
+        background-color: $green-tint01;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px $green-tint01;
+    }
+
+    input:checked + .container__slider .slider:before {
+        -webkit-transform: translateX(20px);
+        -ms-transform: translateX(20px);
+        transform: translateX(20px);
+    }
+}
+
+// end switch
 
 .file-upload {
     position: relative;
@@ -288,8 +370,7 @@ textarea {
             padding-right: 56px;
 
             img {
-                height: 116px;
-                width: 100%;
+                max-height: 116px;
                 max-width: 155px;
                 vertical-align: middle;
                 margin-right: $input-padding-x;
@@ -314,12 +395,11 @@ textarea {
     }
 }
 
-#buttonFile {
+.btn-files {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 
 .form-row {
     position: relative;
@@ -353,6 +433,35 @@ textarea {
     &.container__button {
         padding: $alert-padding-y 0;
     }
+
+    .form--horizontal & {
+
+        display: flex;
+        flex-direction: row;
+        margin-top: 1rem;
+
+        >.label,
+        >label {
+            flex: 1 1 40%;
+            margin-top: 0;
+        }
+        > div{
+            flex: 1 1 60%;
+        }
+
+        &.btn-row {
+            justify-content: end;
+            .btn {
+                margin-left: 16px;
+                width: auto;
+                white-space: nowrap;
+            }
+        }
+
+        ul {
+            margin: 0;
+        }
+    }
 }
 
 .wrapper-horizontal {
@@ -372,5 +481,38 @@ textarea {
         svg {
             margin-right: 12px;
         }
+    }
+}
+
+.form--aside {
+    margin-top: 22px;
+
+    .btn-files {
+        display: none !important;
+    }
+    .file-upload.hidden {
+        height: auto;
+        overflow: visible;
+    }
+
+    .btn {
+        margin-right: 16px;
+    }
+
+    textarea {
+        margin-bottom: 1rem;
+    }
+
+    .label--file {
+        display: inline-block;
+        position: absolute;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        pointer-events: none;
     }
 }

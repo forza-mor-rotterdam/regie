@@ -1,45 +1,11 @@
 {% extends "base.html" %}
 {% load is_list from list_tags %}
-{% block body %}
-<ul>
-{% for melding in meldingen %}
-    <li>
-        <dl>
-        {% for k, v in melding.items %}
-        <dt>
-            <strong>{{k}}</strong>:
-        </dt>
-        <dd>
-            {% if v.items %}
-            <ul>
-            {% for kk, vv in v.items %}
-            <li><strong>{{kk}}: </strong>{{vv}}</li>
-            {% endfor %}
-            </ul>
-            {% elif v|is_list %}
-            <ul>
-            {% for vv in v %}
-                <li>
-                {% if vv.items %}
-                <ul>
-                {% for kkk, vvv in vv.items %}
-                <li><strong>{{kkk}}: </strong>{{vvv}}
-                {% endfor %}
-                </ul>
-                {% else %}
-                {{vv}}
-                {%endif%}
-                </li>
-            {% endfor %}
-            </ul>
-            {% else %}
-            {{v}}
-            {%endif%}
+{% load to_date from date_tags %}
 
-        </dd>
-        {% endfor %}
-        </dl>
-    </li>
-{% endfor %}
-</ul>
+{% block body %}
+<div data-controller="overview">
+    <turbo-frame id="overvieww" data-turbo-action="advance" src="{% url 'overview' %}?{{request.META.QUERY_STRING}}">
+
+    </turbo-frame>
+</div>
 {% endblock%}

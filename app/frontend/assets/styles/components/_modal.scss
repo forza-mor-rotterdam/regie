@@ -7,6 +7,12 @@
     opacity: 1;
     visibility: visible;
 
+    &.modal-right {
+        .modal-content {
+            right: 0;
+        }
+    }
+
     .modal-backdrop {
         display: block;
         opacity: 0.5;
@@ -33,12 +39,18 @@ body.show-modal--first-filter {
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: all 1.3s ease;
     top: 0;
     left: 0;
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 2100;
+
+    .turboframe-container {
+        display: flex;
+        align-items: center;
+        min-height: 100%;
+    }
 
     &-dialog {
         display: flex;
@@ -46,8 +58,12 @@ body.show-modal--first-filter {
         min-height: calc(100% - 3rem);
         position: relative;
         width: 90%;
-        max-width: $modal-md;
+        max-width: map-get($container-max-widths , lg );
         margin: 1.5rem auto;
+
+        &--small {
+            max-width: map-get($container-max-widths , md );
+        }
     }
 
     &-content {
@@ -56,6 +72,7 @@ body.show-modal--first-filter {
         display: flex;
         flex-direction: column;
         width: 100%;
+        min-height: 100%;
         z-index: 20;
     }
 

@@ -23,7 +23,7 @@ header {
 
     > .container {
         display: block;
-        max-width: map-get($container-max-widths , sm );
+        max-width: map-get($container-max-widths , xxl );
         margin: 0 auto;
     }
 }
@@ -31,6 +31,35 @@ header {
 main,
 header {
     padding: 0 map-get($container-margin, s) 16px;
+}
+
+main {
+    margin-bottom: 100px;
+}
+
+.grid-container {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 32px;
+
+    .page__detail & {
+        @media (min-width: map-get($grid-breakpoints, md)) {
+            grid-template-columns: 66fr 34fr;
+        }
+
+        .grid-item {
+
+            &.bottom-left {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+
+                >* {
+                    align-self: flex-start;
+                }
+            }
+        }
+    }
 }
 
 // HEADINGS
@@ -69,6 +98,40 @@ h6, .h6 {
         }
     }
 }
+// TABLES
+table {
+    font-size: 16px;
+    border-collapse: collapse;
+    width: 100%;
+
+    tr:nth-child(even) {
+        background-color: $gray-tint01;
+    }
+    th, td {
+        padding: 10px 5px 10px 0;
+    }
+    thead {
+
+        th {
+            text-align: left;
+        }
+    }
+    tbody {
+
+        td {
+            vertical-align: middle;
+
+            &:first-child {
+                padding: 0;
+            }
+
+            p {
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+}
 
 a,
 .link {
@@ -85,11 +148,14 @@ a,
         @include has-icon();
     }
 
-    &.link--email {
-        @include has-icon();
-    }
+    &.link--email,
     &.link--phone {
-        @include has-icon();
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin-right: 4px;
+        }
     }
 
     &.link--next {
@@ -98,12 +164,13 @@ a,
 
     &.link--back {
         @include has-icon();
-        margin: 0 0 20px 20px;
+        padding-left: 10px;
+        font-size: 16px;
+        font-weight: 700;
         > svg {
             left: -20px;
-            path {
-                fill: $black;
-            }
+            top: 3px;
+            padding-right: 20px;
         }
     }
 
@@ -127,7 +194,12 @@ button {
 
 p {
     &.text--person {
-        @include has-icon();
+        display: flex;
+        align-items: center;
+
+        svg {
+            margin-right: 4px;
+        }
     }
 
     &.text--close {
@@ -162,6 +234,14 @@ ul {
         @include list-clean();
     }
 
+    &.list-horizontal {
+        @include list-clean();
+        margin: 0;
+        display: flex;
+        li:not(:last-child) {
+            margin-right: 12px;
+        }
+    }
     &.list-flex {
         @media (min-width: map-get($grid-breakpoints, sm)) {
             display: flex;
@@ -181,9 +261,25 @@ dl {
         dt {
             margin: 0 0 .5rem;
         }
-        dt {
-            margin-right: .5rem;
+        dd {
+            flex: 1 1 60%;
+            max-width: 60%;
         }
+        dt {
+            flex: 1 1 40%;
+            box-sizing: border-box;
+            padding-right: .5rem;
+        }
+    }
+}
+
+dl {
+    dt {
+        font-weight: 700;
+    }
+    dd {
+        margin: 0 0 0.5rem;
+        font-weight: 400;
     }
 }
 
@@ -192,7 +288,6 @@ dl {
 section {
     &.section--seperated {
         padding: 1rem 0 0.75rem;
-        border-bottom: 1px solid $gray-tint04;
 
         &__no-border-bottom {
             border-bottom: 0;
@@ -219,6 +314,7 @@ section {
 }
 
 // HELPER-CLASSES
+
 .foldout {
     height: auto;
     overflow: hidden;
@@ -239,6 +335,11 @@ section {
     &.container__sorting {
         max-height: 100px;
     }
+}
+
+.help-text {
+    font-size: 16px;
+    color: $gray-tint09;
 }
 
 .hidden-vertical {
@@ -265,10 +366,34 @@ section {
     pointer-events: none;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
+
+.display--flex {
+    display: flex;
+}
+.display--flex--center {
+    display: flex;
+    align-items: center;
+}
+
 .wrapper-horizontal {
     display: flex;
 }
 
 .invalid-text {
     color: $invalid-color !important;
+}
+
+.border-green {
+    border-top: 8px solid $green-tint01;
+}
+
+.bar {
+    background-color: $gray-tint01;
+    &--top {
+        height: 48px;
+        width: 100%;
+    }
 }

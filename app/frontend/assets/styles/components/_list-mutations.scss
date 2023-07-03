@@ -1,12 +1,12 @@
 .list__mutations {
     @include list-clean;
-    border-top: 1px solid $gray-tint04;
     >li {
         margin: 0 calc(-1 * (map-get($container-margin, md)));
         padding: 0 map-get($container-margin, md);
-        &:nth-child(even) {
-            background-color: $gray-tint02;
-        }
+        position: relative;
+        // &:nth-child(even) {
+        //     background-color: $gray-tint02;
+        // }
 
         p {
             margin: 8px 0 0;
@@ -18,28 +18,97 @@
                     height: 0;
                 }
             }
-        }
-    }
 
+        }
+        &:first-child {
+            summary {
+                &::before {
+                    display: none;
+                }
+            }
+        }
+
+
+        &:first-child {
+
+            details {
+                .line {
+                    &.line-melding{
+                        width: 0;
+                        background-color: transparent;
+                        border-left: 2px dashed $green-tint01;
+                    }
+                    &.line-taak {
+                        width: 0;
+                        background-color: transparent;
+                        border-left: 2px dashed $magenta-tint01;
+                    }
+                }
+            }
+        }
+
+    }
+    .line {
+        width: 2px;
+        height: 100%;
+        position: absolute;
+        left: 6px;
+        top: 23px;
+        background-color: $gray-tint11;
+    }
     details {
-        position: relative;
-        &::before {
+        .line {
             content: "";
             width: 2px;
-            height: 100%;
+            height: calc(100% + 20px);
             position: absolute;
             left: 6px;
             top: 23px;
             background-color: $gray-tint11;
+            &.line-melding {
+                background-color: $green-tint01;
+            }
+            &.line-taak {
+                background-color: $magenta-tint01;
+            }
         }
 
+        .event {
+            &.event-melding {
+                background-color: $green-tint01;
+            }
+            &.event-taak {
+                background-color: $magenta-tint01;
+            }
+        }
+
+
+        position: relative;
+
         summary {
-            padding: 16px 0 16px 24px;
+            padding: 12px 18px 12px 74px;
             border: 0;
+            font-size: $small-font-size;
+            text-align: right;
 
             &::before {
-                content: "";
-                top: 17px;
+                // display: none;
+                right: 0;
+                left: auto;
+                top: calc(50% - 8px);
+            }
+            .line {
+                width: 2px;
+                height: 100%;
+                position: absolute;
+                left: 6px;
+                top: 23px;
+                background-color: $gray-tint11;
+            }
+            .event {
+                position: absolute;
+                display: block;
+                top: 13px;
                 left: 0;
                 width: 14px;
                 height: 14px;
@@ -47,17 +116,21 @@
                 background-color: $gray-tint11;
             }
         }
-
-        dl {
-            margin-top: 0;
-            margin-bottom: 0;
-            padding-bottom: 16px;
+        .content {
+            position: relative;
+            padding: 8px;
+            background-color: $gray-tint02;
+            margin-bottom: 20px;
+            margin-left: 5px;
+            font-size: 16px;
+            text-align: right;
         }
 
         &[open] {
             > summary {
                 &::before {
-                    left: 0;
+                    right: 0;
+                    left: auto;
                 }
             }
         }
@@ -79,4 +152,12 @@
             margin-bottom: .5rem;
         }
     }
+
+    .container__thumbs {
+        .container__image {
+            opacity: 1;
+            cursor: initial;
+        }
+    }
+
 }

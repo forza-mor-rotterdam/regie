@@ -1,3 +1,4 @@
+from apps.regie.forms import CheckboxSelectMultipleThumb
 from django import forms, template
 from django.forms.fields import DateField, DateTimeField
 from django.http import QueryDict
@@ -120,6 +121,10 @@ def _is_multiple_checkbox_widget(widget):
     return isinstance(widget, forms.CheckboxSelectMultiple)
 
 
+def _is_multiple_checkbox_thumbs_widget(widget):
+    return isinstance(widget, CheckboxSelectMultipleThumb)
+
+
 def _is_radio_widget(widget):
     return isinstance(widget, forms.RadioSelect)
 
@@ -145,6 +150,11 @@ def is_textarea(field):
 @register.filter
 def is_multiple_checkbox(field):
     return isinstance(field.field.widget, forms.CheckboxSelectMultiple)
+
+
+@register.filter
+def is_multiple_checkbox_thumb(field):
+    return isinstance(field.field.widget, CheckboxSelectMultipleThumb)
 
 
 @register.filter

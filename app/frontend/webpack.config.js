@@ -4,9 +4,57 @@ const BundleTracker = require('webpack-bundle-tracker');
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const Dotenv = require('dotenv-webpack');
+const WebSocket = require('ws');
+
+require('dotenv').config({ path: '../../.env.local' })
 
 const devMode = process.env.NODE_ENV !== "production";
 const git_sha = process.env.GITHUB_SHA;
+
+class CustomPlugin {
+  constructor(name, port = 9000, stage = 'afterEmit') {
+    this.name = name;
+    this.stage = stage;
+    try {
+      this.server = new WebSocket.Server({
+        port: port
+      });
+      let sockets = [];
+      this.server.on('connection', function(socket) {
+        sockets.push(socket);
+
+        // When you receive a message, send that message to every socket.
+        socket.on('message', function(msg) {
+          sockets.forEach(s => s.send(msg));
+        });
+
+        // When a socket closes, or disconnects, remove it from the array.
+        socket.on('close', function() {
+          sockets = sockets.filter(s => s !== socket);
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  apply(compiler) {
+    if (this.server.clients) {
+      compiler.hooks[this.stage].tap(this.name, () => {
+        try {
+          this.server.clients.forEach(function each(client) {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send("reload");
+            }
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    }
+  }
+}
+
 
 let config = {
     context: __dirname,
@@ -38,28 +86,6 @@ let config = {
     },
     module: {
         rules: [
-            // {
-            //     test: /\.css$/i,
-            //     use: [MiniCssExtractPlugin.loader, "css-loader"],
-            //   },
-            // {
-            //     test: /\.s[ac]ss$/i,
-            //     use: [
-            //         // Creates `style` nodes from JS strings
-            //         //   "style-loader",
-            //       // Translates CSS into CommonJS
-            //         "css-loader",
-            //       "sass-loader",
-            //       // Compiles Sass to CSS
-            //     //   {
-            //     //     loader: "sass-loader",
-            //     //     options: {
-            //     //       // Prefer `dart-sass`
-            //     //       implementation: require("dart-sass"),
-            //     //     },
-            //     //   },
-            //     ],
-            // },
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
@@ -83,56 +109,38 @@ let config = {
           }
         ]
     },
-    // plugins: [
-    //     new MiniCssExtractPlugin(),
-    //     new CopyPlugin({
-    //         patterns: [
-    //             {
-    //                 from: './assets/images/*.*',
-    //                 globOptions: {
-    //                     patterns: "*.+(png|jpg|jpeg|svg)",
-    //                 },
-    //                 to: 'images/[path][name][ext]'
-    //             },
-    //             {
-    //                 from: './assets/icons/*.svg',
-    //                 to: 'icons/[path][name][ext]'
-    //             }
-    //         ],
-    //     }),
-    //     new Dotenv(),
-    //     new BundleTracker({filename: (argv.mode === 'production') ? '../static/webpack-stats.json' : './public/build/webpack-stats.json'})
-    // ],
-
 }
 
 module.exports = (env, argv) => {
-    if (argv.mode === 'development') {
+    if (argv.nodeEnv === 'development') {
       config.output.path = path.resolve('./public/build/')
       config.devtool = 'source-map';
       config.output.filename = "[name].js";
     }
+
     config.plugins = [
       new MiniCssExtractPlugin(),
       new CopyPlugin({
-          patterns: [
-              {
-                  from: './assets/images/*.*',
-                  globOptions: {
-                      patterns: "*.+(png|jpg|jpeg|svg)",
+        patterns: [
+            {
+                from: './assets/images/*.*',
+                globOptions: {
+                    patterns: "*.+(png|jpg|jpeg|svg)",
                   },
-                  to: 'images/[path][name][ext]'
-              },
-              {
-                  from: './assets/icons/*.svg',
-                  to: 'icons/[path][name][ext]'
-              }
+                to: 'images/[path][name][ext]'
+            },
+            {
+              from: './assets/icons/*.svg',
+              to: 'icons/[path][name][ext]'
+            }
           ],
-      }),
-      new Dotenv(),
-      new BundleTracker({filename: './public/build/webpack-stats.json'})
-  ]
-console.log(argv)
+        }),
+        new Dotenv({ path: '../../.env.local' }),
+        new BundleTracker({filename: './public/build/webpack-stats.json'}),
+      ]
+      if (argv.nodeEnv === 'development') {
+        config.plugins.push(new CustomPlugin('Reloader', process.env.DEV_SOCKET_PORT, 'done'))
+      }
 
 
     return config;

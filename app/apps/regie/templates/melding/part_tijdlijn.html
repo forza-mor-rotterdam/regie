@@ -67,9 +67,10 @@
                                     {% if row_data.mg.gebruiker %}
                                     <dt>Afgehandeld door</dt>
                                     <dd>{{ row_data.mg.gebruiker|gebruiker_middels_email }}</dd>
-                                    {% endif %}{% if row_data.mg.omschrijving_extern %}
+                                    {% endif %}
                                     <dt>Datum</dt>
                                     <dd>{{ row_data.mg.aangemaakt_op|to_date }}</dd>
+                                    {% if row_data.mg.omschrijving_extern %}
                                     <dt>Bericht voor de melder</dt>
                                     <dd>{{ row_data.mg.omschrijving_extern }}</dd>
                                     {% endif %}
